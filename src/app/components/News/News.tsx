@@ -1,14 +1,15 @@
 import styles from './News.module.css';
 import { Tweet } from 'react-twitter-widgets';
 import { useEffect, useState } from 'react';
+import { fetchJSON } from '../../utils/api';
+
+type Tweet = { id: number; sourceId: string };
 
 function News(): JSX.Element {
-  const [tweets, setTweets] = useState<{ id: number; sourceId: string }[]>([]);
+  const [tweets, setTweets] = useState<Tweet[]>([]);
 
   useEffect(() => {
-    fetch('/api/tweets')
-      .then((response) => response.json())
-      .then(setTweets);
+    fetchJSON<Tweet[]>('/api/tweets').then(setTweets);
   }, []);
 
   return (

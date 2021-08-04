@@ -1,4 +1,5 @@
 import { useState, FormEvent } from 'react';
+import { fetchJSON } from '../../utils/api';
 import styles from './AddComment.module.css';
 
 type AddCommentProps = {
@@ -11,7 +12,7 @@ function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    fetch(`/api/markers/${markerId}/comments`, {
+    fetchJSON(`/api/markers/${markerId}/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -20,9 +21,7 @@ function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
         username: '[Coach] Leon',
         message: message,
       }),
-    })
-      .then((response) => response.json())
-      .then(() => onAdd());
+    }).then(() => onAdd());
 
     console.log(markerId, message);
   }

@@ -1,4 +1,5 @@
 import { FormEvent, Fragment, useState } from 'react';
+import { fetchJSON } from '../../utils/api';
 import { mapFilters } from '../MapFilter/MapFilter';
 import Modal from '../Modal/Modal';
 import styles from './NewMarkerModal.module.css';
@@ -25,7 +26,7 @@ function NewMarkerModal({
     event.preventDefault();
 
     const position = [y, x];
-    fetch('/api/markers', {
+    fetchJSON('/api/markers', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

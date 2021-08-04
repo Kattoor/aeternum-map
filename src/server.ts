@@ -19,6 +19,13 @@ if (typeof MONGODB_URI !== 'string') {
 
 const app = express();
 
+// Middleware to set CORS headers
+app.use((_req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 // Middleware that parses json and looks at requests where the Content-Type header matches the type option.
 app.use(express.json());
 

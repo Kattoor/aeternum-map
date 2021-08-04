@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { fetchJSON } from './utils/api';
 
 export type Marker = {
   type: string;
@@ -9,9 +10,7 @@ function useMarkers(): { markers: Marker[]; refresh: () => void } {
   const [markers, setMarkers] = useState<Marker[]>([]);
 
   const refresh = useCallback(() => {
-    fetch('/api/markers')
-      .then((response) => response.json())
-      .then(setMarkers);
+    fetchJSON<Marker[]>('/api/markers').then(setMarkers);
   }, []);
 
   useEffect(() => {

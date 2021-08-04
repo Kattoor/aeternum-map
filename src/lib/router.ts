@@ -3,7 +3,7 @@ import { Double, ObjectId } from 'mongodb';
 import { Comment, Marker } from '../types';
 import { getCommentsCollection } from './comments';
 import { getMarkersCollection } from './markers';
-import fetch from 'isomorphic-unfetch';
+import fetch from 'node-fetch';
 
 const router = express.Router();
 

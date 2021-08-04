@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { fetchJSON } from '../../utils/api';
 
 export type Comment = {
   _id: string;
@@ -18,8 +19,7 @@ function useComments(markerId: string): {
 
   const refresh = useCallback(() => {
     setLoading(true);
-    fetch(`/api/markers/${markerId}/comments`)
-      .then((response) => response.json())
+    fetchJSON<Comment[]>(`/api/markers/${markerId}/comments`)
       .then((comments) =>
         comments.map((comment: Comment) => ({
           ...comment,
