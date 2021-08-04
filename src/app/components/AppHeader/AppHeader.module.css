@@ -1,0 +1,33 @@
+.header {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  background-color: var(--color-shade-one);
+  user-select: none;
+}
+
+.title {
+  margin: 0;
+  padding: 0.2em 0.5em;
+  font-size: 0.8em;
+  color: var(--color-text);
+  font-family: var(--font-family-primary);
+}
+
+.button {
+  cursor: default;
+  background: none;
+  height: 2em;
+  width: 2em;
+  padding: 0.6em;
+  color: var(--color-text);
+}
+
+.button:hover {
+  background-color: var(--color-shade-three);
+}
+
+.button--danger:hover {
+  background-color: var(--color-alert);
+}

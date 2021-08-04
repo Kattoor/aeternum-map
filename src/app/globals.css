@@ -1,0 +1,78 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text);
+  opacity: 0.5;
+}
+
+:root {
+  --color-primary: #04af4b;
+  --color-text: #fefefe;
+  --color-trivial: #ababab;
+  --color-shade-one: #222;
+  --color-shade-two: #555;
+  --color-shade-three: #333;
+  --color-shade-four: #efefef;
+  --color-alert: #b61313;
+  --border-radius: 1em;
+  --font-family-primary: 'Roboto', sans-serif;
+  --font-family-secondary: 'Segoe UI', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-secondary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-text);
+}
+
+a {
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+input,
+textarea,
+select {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 1em;
+  outline: none;
+}
+
+button,
+input[type='submit'] {
+  outline: none;
+  cursor: pointer;
+  border: none;
+  background: var(--color-shade-four);
+  color: var(--color-shade-one);
+  transition: all 0.1s ease-in;
+}

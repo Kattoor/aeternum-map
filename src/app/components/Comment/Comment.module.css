@@ -1,0 +1,28 @@
+.container {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  column-gap: 1em;
+  text-align: left;
+  align-items: baseline;
+  padding: 1em;
+}
+
+.container:hover {
+  background-color: var(--color-shade-three);
+}
+
+.container > img {
+  align-self: self-start;
+  grid-row: 1 / 3;
+}
+
+.container > :last-child {
+  grid-column: 2 / 4;
+}
+
+.message img {
+  display: block;
+  max-height: 256px;
+  max-width: 100%;
+  margin: 0.5em 0;
+}

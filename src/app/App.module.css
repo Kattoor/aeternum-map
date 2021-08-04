@@ -1,0 +1,22 @@
+.container {
+  height: 100vh;
+  max-height: 100vh;
+  background: var(--color-shade-one);
+  color: #fff;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 26px calc(100vh - 26px);
+}
+
+.container > header {
+  grid-column: 1 / 4;
+}
+
+.more {
+  background-color: var(--color-shade-three);
+  padding: 1em;
+  display: grid;
+  gap: 1em;
+  grid-template-rows: auto 1fr auto;
+  align-items: baseline;
+}

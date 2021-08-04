@@ -1,0 +1,32 @@
+.modal {
+  grid-template-rows: auto auto 1fr auto;
+}
+
+.headline {
+  margin: 0.5em;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 128px 1fr;
+  padding-right: 128px;
+  border-bottom: 1px solid var(--color-shade-two);
+}
+
+.header h2 {
+  align-self: end;
+}
+
+.header img {
+  grid-row: 1 / 3;
+}
+
+.main {
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.empty {
+  margin: auto;
+}
