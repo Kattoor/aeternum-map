@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import { Marker } from '../../useMarkers';
 import { FilterItem, mapFilters } from '../MapFilter/mapFilters';
@@ -29,48 +29,56 @@ function useLayerGroups({
     filterItem: FilterItem;
   }) => void;
 }): void {
+  const layerGroupByFilterRef = useRef<{
+    [filterType: string]: leaflet.LayerGroup;
+  }>({});
+
   useEffect(() => {
     if (!leafletMap || !leafletMap.getPane('markerPane') || !markers.length) {
       return;
     }
 
-    const layerGroups: leaflet.LayerGroup[] = [];
-    filters.map((filter) => {
+    const newFilters = [...filters];
+    Object.entries(layerGroupByFilterRef.current).forEach(
+      ([filterType, layerGroup]) => {
+        if (!newFilters.includes(filterType)) {
+          leafletMap.removeLayer(layerGroup);
+          delete layerGroupByFilterRef.current[filterType];
+        } else {
+          newFilters.splice(newFilters.indexOf(filterType), 1);
+        }
+      }
+    );
+
+    newFilters.map((filter) => {
       const mapFilter = mapFilters.find(
-        (mapFilter) => mapFilter.value === filter
+        (mapFilter) => mapFilter.type === filter
       );
       if (!mapFilter) {
         console.warn(`No markers for filter ${filter}`);
         return;
       }
-      mapFilter.items.map((filterItem) => {
-        const markersOfType = markers.filter(
-          (marker) => marker.type === filterItem.type
-        );
-        const icon = new LeafIcon({ iconUrl: filterItem.iconUrl });
+      const markersOfType = markers.filter(
+        (marker) => marker.type === mapFilter.type
+      );
+      const icon = new LeafIcon({ iconUrl: mapFilter.iconUrl });
 
-        const layerGroup = new leaflet.LayerGroup(
-          markersOfType.map((markerOfType) => {
-            const marker = leaflet
-              .marker(markerOfType.position, {
-                icon,
-              })
-              .bindTooltip(filterItem.title, { direction: 'top' });
-            marker.on('click', () => {
-              onMarkerClick({ marker: markerOfType, filterItem: filterItem });
-            });
-            return marker;
-          })
-        );
-        layerGroups.push(layerGroup);
-      });
+      const layerGroup = new leaflet.LayerGroup(
+        markersOfType.map((markerOfType) => {
+          const marker = leaflet
+            .marker(markerOfType.position, {
+              icon,
+            })
+            .bindTooltip(mapFilter.title, { direction: 'top' });
+          marker.on('click', () => {
+            onMarkerClick({ marker: markerOfType, filterItem: mapFilter });
+          });
+          return marker;
+        })
+      );
+      layerGroup.addTo(leafletMap);
+      layerGroupByFilterRef.current[mapFilter.type] = layerGroup;
     });
-
-    layerGroups.forEach((marker) => marker.addTo(leafletMap));
-
-    return () => {
-      layerGroups.forEach((marker) => leafletMap.removeLayer(marker));
-    };
   }, [filters, leafletMap, markers]);
 }
 

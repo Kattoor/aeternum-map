@@ -13,7 +13,11 @@ import WorldMap from './components/WorldMap/WorldMap';
 import useMarkers, { Marker } from './useMarkers';
 
 function App(): JSX.Element {
-  const [mapFilters, setMapFilters] = useState<string[]>(['fishing']);
+  const [mapFilters, setMapFilters] = useState<string[]>([
+    'fish_hotspot1',
+    'fish_hotspot2',
+    'fish_hotspot3',
+  ]);
   const [mapTarget, setMapTarget] = useState<{
     marker: Marker;
     filterItem: FilterItem;

@@ -1,5 +1,5 @@
 import styles from './MapFilter.module.css';
-import { mapFilters } from './mapFilters';
+import { mapFiltersCategories, MapFiltersCategory } from './mapFilters';
 
 type MapFilterProps = {
   filters: string[];
@@ -11,26 +11,39 @@ function MapFilter({
   onFiltersChange,
   onNewFilterClick,
 }: MapFilterProps): JSX.Element {
-  function handleToggle(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleToggle(
+    mapFilterCategory: MapFiltersCategory,
+    checked: boolean
+  ) {
     const newFilters = [...filters];
-    if (event.target.checked) {
-      newFilters.push(event.target.value);
+    if (checked) {
+      newFilters.push(
+        ...mapFilterCategory.filters.map((filter) => filter.type)
+      );
     } else {
-      newFilters.splice(newFilters.indexOf(event.target.value), 1);
+      mapFilterCategory.filters.forEach((filter) => {
+        newFilters.splice(newFilters.indexOf(filter.type), 1);
+      });
     }
     onFiltersChange(newFilters);
   }
   return (
     <aside className={styles.container}>
-      {mapFilters.map((mapFilter) => (
-        <label className={styles.filter} key={mapFilter.value}>
+      {mapFiltersCategories.map((mapFilterCategory) => (
+        <label className={styles.filter} key={mapFilterCategory.value}>
           <input
             type="checkbox"
-            value={mapFilter.value}
-            onChange={handleToggle}
-            checked={filters.includes(mapFilter.value)}
+            value={mapFilterCategory.value}
+            onChange={(event) =>
+              handleToggle(mapFilterCategory, event.target.checked)
+            }
+            checked={filters.some((filter) =>
+              mapFilterCategory.filters.some(
+                (categoryFilter) => categoryFilter.type === filter
+              )
+            )}
           />
-          <img src={mapFilter.imgSrc} alt={mapFilter.title} />
+          <img src={mapFilterCategory.imgSrc} alt={mapFilterCategory.title} />
         </label>
       ))}
       <button className={styles.add} onClick={onNewFilterClick}>

@@ -1,6 +1,6 @@
 import { FormEvent, Fragment, useState } from 'react';
 import { fetchJSON } from '../../utils/api';
-import { mapFilters } from '../MapFilter/MapFilter';
+import { mapFiltersCategories } from '../MapFilter/mapFilters';
 import Modal from '../Modal/Modal';
 import styles from './NewMarkerModal.module.css';
 
@@ -50,14 +50,14 @@ function NewMarkerModal({
             <option value="" disabled>
               --Please select a type --
             </option>
-            {mapFilters.map((mapFilter) => (
-              <Fragment key={mapFilter.value}>
+            {mapFiltersCategories.map((mapFilterCategory) => (
+              <Fragment key={mapFilterCategory.value}>
                 <option value="" disabled>
-                  --{mapFilter.title}--
+                  --{mapFilterCategory.title}--
                 </option>
-                {mapFilter.items.map((item) => (
-                  <option key={item.type} value={item.type}>
-                    {item.title}
+                {mapFilterCategory.filters.map((filter) => (
+                  <option key={filter.type} value={filter.type}>
+                    {filter.title}
                   </option>
                 ))}
               </Fragment>
