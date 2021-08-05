@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { classNames } from '../../utils/styles';
 import AddIcon from './AddIcon';
+import AreasView from './AreasView';
 import styles from './MapFilter.module.css';
 import MapIcon from './MapIcon';
 import MarkerIcon from './MarkerIcon';
@@ -21,7 +22,7 @@ function MapFilter({
   onNewFilterClick,
 }: MapFilterProps): JSX.Element {
   const [view, setView] = useState<View>('markers');
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   function handleViewClick(view: View) {
     setView(view);
@@ -34,6 +35,7 @@ function MapFilter({
         {view === 'markers' && (
           <MarkersView filters={filters} onFiltersChange={onFiltersChange} />
         )}
+        {view === 'areas' && <AreasView />}
       </div>
       <nav className={styles.nav}>
         <button
