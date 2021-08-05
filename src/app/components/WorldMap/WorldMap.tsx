@@ -2,7 +2,7 @@ import styles from './WorldMap.module.css';
 import useWorldMap from './useWorldMap';
 import { Marker } from '../../useMarkers';
 import useLayerGroups from './useLayerGroups';
-import { FilterItem } from '../MapFilter/MapFilter';
+import { FilterItem } from '../MapFilter/mapFilters';
 
 type WorldMapProps = {
   filters: string[];

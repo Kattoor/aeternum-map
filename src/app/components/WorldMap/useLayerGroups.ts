@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import leaflet from 'leaflet';
 import { Marker } from '../../useMarkers';
-import { mapFilters, FilterItem } from '../MapFilter/MapFilter';
+import { FilterItem, mapFilters } from '../MapFilter/mapFilters';
 
 const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   leaflet.Icon.extend({

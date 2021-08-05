@@ -3,7 +3,7 @@ import AddComment from '../AddComment/AddComment';
 import Comment from '../Comment/Comment';
 import useComments from '../Comment/useComments';
 import Loading from '../Loading/Loading';
-import { FilterItem } from '../MapFilter/MapFilter';
+import { FilterItem } from '../MapFilter/mapFilters';
 import Modal from '../Modal/Modal';
 import styles from './MarkerModal.module.css';
 
