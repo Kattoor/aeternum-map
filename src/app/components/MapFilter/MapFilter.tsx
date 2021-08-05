@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { classNames } from '../../utils/styles';
+import AddIcon from './AddIcon';
 import styles from './MapFilter.module.css';
 import { mapFiltersCategories, MapFiltersCategory } from './mapFilters';
 import MapIcon from './MapIcon';
 import MarkerIcon from './MarkerIcon';
+import MarkersView from './MarkersView';
 import SearchIcon from './SearchIcon';
 
 type View = 'markers' | 'areas' | 'search';
@@ -20,58 +22,32 @@ function MapFilter({
 }: MapFilterProps): JSX.Element {
   const [view, setView] = useState<View>('markers');
 
-  function handleToggle(
-    mapFilterCategory: MapFiltersCategory,
-    checked: boolean
-  ) {
-    const newFilters = [...filters];
-    if (checked) {
-      newFilters.push(
-        ...mapFilterCategory.filters.map((filter) => filter.type)
-      );
-    } else {
-      mapFilterCategory.filters.forEach((filter) => {
-        newFilters.splice(newFilters.indexOf(filter.type), 1);
-      });
-    }
-    onFiltersChange(newFilters);
-  }
   return (
     <aside className={styles.container}>
-      {mapFiltersCategories.map((mapFilterCategory) => (
-        <label className={styles.filter} key={mapFilterCategory.value}>
-          <input
-            type="checkbox"
-            value={mapFilterCategory.value}
-            onChange={(event) =>
-              handleToggle(mapFilterCategory, event.target.checked)
-            }
-            checked={filters.some((filter) =>
-              mapFilterCategory.filters.some(
-                (categoryFilter) => categoryFilter.type === filter
-              )
-            )}
-          />
-          <img src={mapFilterCategory.imgSrc} alt={mapFilterCategory.title} />
-        </label>
-      ))}
-      <button className={styles.add} onClick={onNewFilterClick}>
-        <svg viewBox="0 0 10 10" stroke="currentColor">
-          <line x1="0" y1="5" x2="10" y2="5" />
-          <line x1="5" y1="0" x2="5" y2="10" />
-        </svg>
-      </button>
+      {view === 'markers' && (
+        <MarkersView filters={filters} onFiltersChange={onFiltersChange} />
+      )}
       <nav className={styles.nav}>
         <button
           className={classNames(view === 'markers' && styles.nav__active)}
+          onClick={() => setView('markers')}
         >
           <MarkerIcon />
         </button>
-        <button className={classNames(view === 'areas' && styles.nav__active)}>
+        <button
+          className={classNames(view === 'areas' && styles.nav__active)}
+          onClick={() => setView('areas')}
+        >
           <MapIcon />
         </button>
-        <button className={classNames(view === 'search' && styles.nav__active)}>
+        <button
+          className={classNames(view === 'search' && styles.nav__active)}
+          onClick={() => setView('search')}
+        >
           <SearchIcon />
+        </button>
+        <button onClick={onNewFilterClick}>
+          <AddIcon />
         </button>
       </nav>
     </aside>

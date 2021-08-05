@@ -1,0 +1,29 @@
+.filter {
+  display: grid;
+  grid-template-columns: 1.5em 1fr;
+  grid-gap: 0.25em;
+  position: relative;
+  transition: background-color 0.1s ease-in;
+  padding: 0.25em 1em;
+  filter: grayscale() brightness(0.5);
+}
+
+.checked {
+  filter: none;
+}
+
+.filter:hover {
+  background-color: var(--color-shade-two);
+}
+
+.filter input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.filter img {
+  width: 1.5em;
+  height: 1.5em;
+}
