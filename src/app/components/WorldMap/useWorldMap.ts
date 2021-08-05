@@ -55,6 +55,7 @@ function useWorldMap(): {
       maxZoom: 6,
       minZoom: 0,
       attributionControl: false,
+      zoomControl: false,
     });
     leafletMap.current = map;
     map.fitBounds(bounds);
@@ -63,6 +64,8 @@ function useWorldMap(): {
     function handleMouseMove(event: leaflet.LeafletMouseEvent) {
       divElement.innerHTML = `<span>[${event.latlng.lng}, ${event.latlng.lat}]</span>`;
     }
+    leaflet.control.zoom({ position: 'topright' }).addTo(map);
+
     const CoordinatesControl = leaflet.Control.extend({
       onAdd(map: leaflet.Map) {
         map.on('mousemove', handleMouseMove);
@@ -73,7 +76,7 @@ function useWorldMap(): {
       },
     });
 
-    const coordinates = new CoordinatesControl({ position: 'topright' });
+    const coordinates = new CoordinatesControl({ position: 'bottomright' });
     coordinates.addTo(map);
 
     const worldTiles = new WorldTiles();

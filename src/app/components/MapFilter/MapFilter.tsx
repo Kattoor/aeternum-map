@@ -1,5 +1,12 @@
+import { useState } from 'react';
+import { classNames } from '../../utils/styles';
 import styles from './MapFilter.module.css';
 import { mapFiltersCategories, MapFiltersCategory } from './mapFilters';
+import MapIcon from './MapIcon';
+import MarkerIcon from './MarkerIcon';
+import SearchIcon from './SearchIcon';
+
+type View = 'markers' | 'areas' | 'search';
 
 type MapFilterProps = {
   filters: string[];
@@ -11,6 +18,8 @@ function MapFilter({
   onFiltersChange,
   onNewFilterClick,
 }: MapFilterProps): JSX.Element {
+  const [view, setView] = useState<View>('markers');
+
   function handleToggle(
     mapFilterCategory: MapFiltersCategory,
     checked: boolean
@@ -52,6 +61,19 @@ function MapFilter({
           <line x1="5" y1="0" x2="5" y2="10" />
         </svg>
       </button>
+      <nav className={styles.nav}>
+        <button
+          className={classNames(view === 'markers' && styles.nav__active)}
+        >
+          <MarkerIcon />
+        </button>
+        <button className={classNames(view === 'areas' && styles.nav__active)}>
+          <MapIcon />
+        </button>
+        <button className={classNames(view === 'search' && styles.nav__active)}>
+          <SearchIcon />
+        </button>
+      </nav>
     </aside>
   );
 }

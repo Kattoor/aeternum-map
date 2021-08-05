@@ -1,6 +1,8 @@
 .container {
   display: grid;
   align-content: start;
+  position: relative;
+  width: 64px;
 }
 
 .filter {
@@ -48,4 +50,31 @@
 .add:hover {
   background-color: var(--color-primary);
   color: var(--color-text);
+}
+
+.nav {
+  position: absolute;
+  left: 64px;
+  top: calc(50% - 48px);
+  z-index: 9000;
+  background: var(--color-shade-one);
+}
+
+.nav button {
+  padding: 0.5em;
+  background: none;
+}
+
+.nav .nav__active {
+  background: var(--color-shade-two);
+}
+
+.nav button:hover {
+  background: var(--color-shade-two);
+}
+
+.nav svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--color-text);
 }

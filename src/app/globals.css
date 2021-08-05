@@ -76,3 +76,7 @@ input[type='submit'] {
   color: var(--color-shade-one);
   transition: all 0.1s ease-in;
 }
+
+svg {
+  fill: currentColor;
+}
