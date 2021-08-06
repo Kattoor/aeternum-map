@@ -24,10 +24,10 @@ const WorldTiles = leaflet.TileLayer.extend({
     const y = (-coords.y - 1) * multiplicators[zoom - 1];
 
     if (x < 0 || y < 0 || y >= 64 || x >= 64) {
-      return '/map/empty.webp';
+      return './map/empty.webp';
     }
     // return `/map/map_l1_y000_x024.webp`;
-    return `/map/map_l${zoom}_y${toThreeDigits(y)}_x${toThreeDigits(x)}.webp`;
+    return `./map/map_l${zoom}_y${toThreeDigits(y)}_x${toThreeDigits(x)}.webp`;
   },
   getTileSize() {
     return { x: 1024, y: 1024 };
@@ -59,12 +59,12 @@ function useWorldMap(): {
     });
     leafletMap.current = map;
     map.fitBounds(bounds);
+    leaflet.control.zoom({ position: 'topright' }).addTo(map);
 
     const divElement = leaflet.DomUtil.create('div');
     function handleMouseMove(event: leaflet.LeafletMouseEvent) {
       divElement.innerHTML = `<span>[${event.latlng.lng}, ${event.latlng.lat}]</span>`;
     }
-    leaflet.control.zoom({ position: 'topright' }).addTo(map);
 
     const CoordinatesControl = leaflet.Control.extend({
       onAdd(map: leaflet.Map) {

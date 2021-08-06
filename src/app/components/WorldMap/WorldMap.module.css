@@ -3,3 +3,17 @@
   width: 100%;
   background: black !important;
 }
+
+.follow {
+  position: absolute;
+  z-index: 9999;
+  bottom: 12px;
+  left: 12px;
+  border-radius: var(--border-radius);
+  padding: 0.5em 1em;
+}
+
+.follow--active {
+  background: var(--color-primary);
+  color: var(--text-color);
+}
