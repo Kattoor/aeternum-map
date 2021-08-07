@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { classNames } from '../../utils/styles';
+import { useRouter } from '../Router/Router';
 import AddIcon from './AddIcon';
 import AreasView from './AreasView';
 import styles from './MapFilter.module.css';
@@ -12,29 +13,24 @@ import SearchIcon from './SearchIcon';
 type View = 'markers' | 'areas' | 'search';
 
 type MapFilterProps = {
-  filters: string[];
-  onFiltersChange: (filters: string[]) => void;
   onNewFilterClick: () => void;
 };
-function MapFilter({
-  filters,
-  onFiltersChange,
-  onNewFilterClick,
-}: MapFilterProps): JSX.Element {
-  const [view, setView] = useState<View>('markers');
+function MapFilter({ onNewFilterClick }: MapFilterProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(true);
+  const { url, search } = useRouter();
 
   function handleViewClick(view: View) {
-    setView(view);
     setIsOpen(true);
+    search({
+      filterCategory: view,
+    });
   }
+  const view = url.searchParams.get('filterCategory') || 'markers';
 
   return (
     <aside className={classNames(styles.container, isOpen && styles.open)}>
       <div className={styles.content}>
-        {view === 'markers' && (
-          <MarkersView filters={filters} onFiltersChange={onFiltersChange} />
-        )}
+        {view === 'markers' && <MarkersView />}
         {view === 'areas' && <AreasView />}
       </div>
       <nav className={styles.nav}>

@@ -2,16 +2,13 @@ import styles from './MarkersView.module.css';
 import { mapFiltersCategories } from './mapFilters';
 import CategoryTitle from './CategoryTitle';
 import Checkbox from './Checkbox';
+import { useRouter, useURL } from '../Router/Router';
 
-type MarkersViewProps = {
-  filters: string[];
-  onFiltersChange: (filters: string[]) => void;
-};
+function MarkersView(): JSX.Element {
+  const router = useRouter();
+  const url = useURL();
 
-function MarkersView({
-  filters,
-  onFiltersChange,
-}: MarkersViewProps): JSX.Element {
+  const filters = (url.searchParams.get('mapFilters') || '').split(',');
   function handleToggle(filterTypes: string[], checked: boolean) {
     const newFilters = [...filters];
     if (checked) {
@@ -21,7 +18,9 @@ function MarkersView({
         newFilters.splice(newFilters.indexOf(filterType), 1);
       });
     }
-    onFiltersChange(newFilters);
+    router.search({
+      mapFilters: newFilters.join(','),
+    });
   }
 
   return (

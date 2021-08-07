@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useRouter } from '../Router/Router';
 
 function toThreeDigits(number: number): string {
   if (number < 10) {
@@ -40,6 +41,7 @@ function useWorldMap(): {
 } {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const leafletMap = useRef<leaflet.Map | null>(null);
+  const { url, search } = useRouter();
 
   useEffect(() => {
     const mapElement = elementRef.current;
@@ -58,7 +60,15 @@ function useWorldMap(): {
       zoomControl: false,
     });
     leafletMap.current = map;
-    map.fitBounds(bounds);
+
+    const lat = url.searchParams.get('lat');
+    const lng = url.searchParams.get('lng');
+    const zoom = url.searchParams.get('zoom');
+    if (lat !== null && lng !== null && zoom !== null) {
+      map.setView([+lat, +lng], +zoom);
+    } else {
+      map.fitBounds(bounds);
+    }
     leaflet.control.zoom({ position: 'topright' }).addTo(map);
 
     const divElement = leaflet.DomUtil.create('div');
@@ -82,6 +92,14 @@ function useWorldMap(): {
     const worldTiles = new WorldTiles();
     worldTiles.addTo(map);
 
+    map.on('moveend', () => {
+      const center = map.getCenter();
+      search({
+        lat: center.lat.toString(),
+        lng: center.lng.toString(),
+        zoom: map.getZoom().toString(),
+      });
+    });
     return () => {
       leafletMap.current = null;
       map.remove();

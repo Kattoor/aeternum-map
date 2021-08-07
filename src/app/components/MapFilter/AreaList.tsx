@@ -1,4 +1,5 @@
 import { classNames } from '../../utils/styles';
+import { Link } from '../Router/Router';
 import styles from './AreaList.module.css';
 import { Area } from './areas';
 
@@ -10,7 +11,9 @@ type AreaListProps = {
 function AreaList({ area, root }: AreaListProps): JSX.Element {
   const listItem = (
     <li className={styles.item}>
-      <a className={styles.link}>{area.title}</a>
+      <Link className={styles.link} href={`/${area.title}`} preserveSearch>
+        {area.title}
+      </Link>
       {area.items && (
         <ul className={styles.list}>
           {area.items.map((item) => (

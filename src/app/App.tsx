@@ -8,15 +8,11 @@ import { FilterItem } from './components/MapFilter/mapFilters';
 import MarkerModal from './components/MarkerModal/MarkerModal';
 import NewMarkerModal from './components/NewMarkerModal/NewMarkerModal';
 import Profile from './components/Profile/Profile';
+import { RouterProvider } from './components/Router/Router';
 import WorldMap from './components/WorldMap/WorldMap';
 import useMarkers, { Marker } from './useMarkers';
 
 function App(): JSX.Element {
-  const [mapFilters, setMapFilters] = useState<string[]>([
-    'fish_hotspot1',
-    'fish_hotspot2',
-    'fish_hotspot3',
-  ]);
   const [mapTarget, setMapTarget] = useState<{
     marker: Marker;
     filterItem: FilterItem;
@@ -39,39 +35,33 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <AppHeader />
-      <MapFilter
-        filters={mapFilters}
-        onFiltersChange={setMapFilters}
-        onNewFilterClick={() => setOpenNewMarkerModal(true)}
-      />
-      <WorldMap
-        markers={markers}
-        filters={mapFilters}
-        onMarkerClick={setMapTarget}
-      />
-      <aside className={styles.more}>
-        <Profile />
-        <Ads />
-      </aside>
-      {mapTarget && (
-        <MarkerModal
-          marker={mapTarget.marker}
-          filterItem={mapTarget.filterItem}
-          onClose={() => setMapTarget(null)}
-        />
-      )}
-      {openNewMarkerModal && (
-        <NewMarkerModal
-          onClose={() => setOpenNewMarkerModal(false)}
-          onNewMarker={() => {
-            setOpenNewMarkerModal(false);
-            refresh();
-          }}
-        />
-      )}
-    </div>
+    <RouterProvider>
+      <div className={styles.container}>
+        <AppHeader />
+        <MapFilter onNewFilterClick={() => setOpenNewMarkerModal(true)} />
+        <WorldMap markers={markers} onMarkerClick={setMapTarget} />
+        <aside className={styles.more}>
+          <Profile />
+          <Ads />
+        </aside>
+        {mapTarget && (
+          <MarkerModal
+            marker={mapTarget.marker}
+            filterItem={mapTarget.filterItem}
+            onClose={() => setMapTarget(null)}
+          />
+        )}
+        {openNewMarkerModal && (
+          <NewMarkerModal
+            onClose={() => setOpenNewMarkerModal(false)}
+            onNewMarker={() => {
+              setOpenNewMarkerModal(false);
+              refresh();
+            }}
+          />
+        )}
+      </div>
+    </RouterProvider>
   );
 }
 

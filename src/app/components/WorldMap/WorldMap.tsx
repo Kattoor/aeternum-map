@@ -8,18 +8,13 @@ import { classNames } from '../../utils/styles';
 import { getPosition } from '../../utils/ocr';
 
 type WorldMapProps = {
-  filters: string[];
   markers: Marker[];
   onMarkerClick: (props: { marker: Marker; filterItem: FilterItem }) => void;
 };
 
-function WorldMap({
-  filters,
-  markers,
-  onMarkerClick,
-}: WorldMapProps): JSX.Element {
+function WorldMap({ markers, onMarkerClick }: WorldMapProps): JSX.Element {
   const { leafletMap, elementRef } = useWorldMap();
-  useLayerGroups({ filters, markers, leafletMap, onMarkerClick });
+  useLayerGroups({ markers, leafletMap, onMarkerClick });
   const [follow, setFollow] = useState(false);
 
   useEffect(() => {

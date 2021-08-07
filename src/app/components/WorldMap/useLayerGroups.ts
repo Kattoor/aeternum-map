@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import { Marker } from '../../useMarkers';
 import { FilterItem, mapFilters } from '../MapFilter/mapFilters';
+import { useURL } from '../Router/Router';
 
 const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   leaflet.Icon.extend({
@@ -13,12 +14,10 @@ const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   });
 
 function useLayerGroups({
-  filters,
   leafletMap,
   markers,
   onMarkerClick,
 }: {
-  filters: string[];
   leafletMap: leaflet.Map | null;
   markers: Marker[];
   onMarkerClick: ({
@@ -29,6 +28,9 @@ function useLayerGroups({
     filterItem: FilterItem;
   }) => void;
 }): void {
+  const url = useURL();
+
+  const filters = (url.searchParams.get('mapFilters') || '').split(',');
   const layerGroupByFilterRef = useRef<{
     [filterType: string]: leaflet.LayerGroup;
   }>({});
