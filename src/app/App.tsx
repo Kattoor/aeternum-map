@@ -7,7 +7,6 @@ import MapFilter from './components/MapFilter/MapFilter';
 import { FilterItem } from './components/MapFilter/mapFilters';
 import MarkerModal from './components/MarkerModal/MarkerModal';
 import NewMarkerModal from './components/NewMarkerModal/NewMarkerModal';
-import News from './components/News/News';
 import Profile from './components/Profile/Profile';
 import WorldMap from './components/WorldMap/WorldMap';
 import useMarkers, { Marker } from './useMarkers';
@@ -54,7 +53,6 @@ function App(): JSX.Element {
       />
       <aside className={styles.more}>
         <Profile />
-        <News />
         <Ads />
       </aside>
       {mapTarget && (

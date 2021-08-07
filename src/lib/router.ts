@@ -3,7 +3,6 @@ import { Double, ObjectId } from 'mongodb';
 import { Comment, Marker } from '../types';
 import { getCommentsCollection } from './comments';
 import { getMarkersCollection } from './markers';
-import fetch from 'node-fetch';
 
 const router = express.Router();
 
@@ -100,27 +99,4 @@ router.post('/markers/:markerId/comments', async (req, res, next) => {
   }
 });
 
-router.get('/tweets', async (_req, res, next) => {
-  try {
-    const tweets = await fetch(
-      'https://newworldfans.com/api/v1/dev_tracker?source=twitter'
-    )
-      .then((response) => response.json())
-      .then(
-        (result: {
-          dev_posts: {
-            id: number;
-            source_id: string;
-          }[];
-        }) =>
-          result.dev_posts.map((post) => ({
-            id: post.id,
-            sourceId: post.source_id,
-          }))
-      );
-    res.status(200).json(tweets);
-  } catch (error) {
-    next(error);
-  }
-});
 export default router;
