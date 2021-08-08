@@ -26,7 +26,7 @@ router.post('/markers', async (req, res, next) => {
 
     const marker: Marker = {
       type,
-      position: position.map((p) => new Double(p)) as [Double, Double],
+      position: position.map((p) => new Double(p)) as [Double, Double, Double],
       createdAt: new Date(),
     };
 

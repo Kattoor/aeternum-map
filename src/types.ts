@@ -2,7 +2,7 @@ import { Double, ObjectId } from 'mongodb';
 
 export type Marker = {
   type: string;
-  position: [Double, Double];
+  position: [Double, Double, Double];
   createdAt: Date;
 };
 

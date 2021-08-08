@@ -68,7 +68,7 @@ function useLayerGroups({
       const layerGroup = new leaflet.LayerGroup(
         markersOfType.map((markerOfType) => {
           const marker = leaflet
-            .marker(markerOfType.position, {
+            .marker([markerOfType.position[1], markerOfType.position[0]], {
               icon,
             })
             .bindTooltip(mapFilter.title, { direction: 'top' });

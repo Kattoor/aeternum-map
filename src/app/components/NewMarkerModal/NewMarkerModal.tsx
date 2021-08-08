@@ -2,6 +2,7 @@ import { FormEvent, Fragment, useState } from 'react';
 import { fetchJSON } from '../../utils/api';
 import { mapFiltersCategories } from '../MapFilter/mapFilters';
 import Modal from '../Modal/Modal';
+import { useURL } from '../Router/Router';
 import styles from './NewMarkerModal.module.css';
 
 type NewMarkerModalProps = {
@@ -13,19 +14,22 @@ function NewMarkerModal({
   onClose,
   onNewMarker,
 }: NewMarkerModalProps): JSX.Element {
+  const url = useURL();
   const [type, setType] = useState('');
-  const [x, setX] = useState<number>(0);
-  const [y, setY] = useState<number>(0);
+  const [x, setX] = useState<number>(+(url.searchParams.get('x') || 0));
+  const [y, setY] = useState<number>(+(url.searchParams.get('y') || 0));
+  const [z, setZ] = useState<number>(0);
 
   const typeIsValid = type.length > 0;
   const xIsValid = x && x > 0 && x <= 14336;
   const yIsValid = y && y > 0 && y <= 14336;
-  const isValid = typeIsValid && xIsValid && yIsValid;
+  const zIsValid = z && z > 0 && z <= 2000;
+  const isValid = typeIsValid && xIsValid && yIsValid && zIsValid;
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
-    const position = [y, x];
+    const position = [x, y, z];
     fetchJSON('/api/markers', {
       method: 'POST',
       headers: {
@@ -87,6 +91,19 @@ function NewMarkerModal({
             step={0.001}
             value={y}
             onChange={(event) => setY(+event.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Position Z
+          <input
+            type="number"
+            placeholder="e.g. 120.02"
+            min={0}
+            max={2000}
+            step={0.001}
+            value={z}
+            onChange={(event) => setZ(+event.target.value)}
             required
           />
         </label>

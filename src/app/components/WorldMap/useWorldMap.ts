@@ -61,8 +61,8 @@ function useWorldMap(): {
     });
     leafletMap.current = map;
 
-    const lat = url.searchParams.get('lat');
-    const lng = url.searchParams.get('lng');
+    const lat = url.searchParams.get('y');
+    const lng = url.searchParams.get('x');
     const zoom = url.searchParams.get('zoom');
     if (lat !== null && lng !== null && zoom !== null) {
       map.setView([+lat, +lng], +zoom);
@@ -95,8 +95,8 @@ function useWorldMap(): {
     map.on('moveend', () => {
       const center = map.getCenter();
       search({
-        lat: center.lat.toString(),
-        lng: center.lng.toString(),
+        x: center.lng.toString(),
+        y: center.lat.toString(),
         zoom: map.getZoom().toString(),
       });
     });

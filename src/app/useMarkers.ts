@@ -3,7 +3,7 @@ import { fetchJSON } from './utils/api';
 
 export type Marker = {
   type: string;
-  position: [number, number];
+  position: [number, number, number];
   _id: string;
 };
 function useMarkers(): { markers: Marker[]; refresh: () => void } {
