@@ -2,23 +2,17 @@ import styles from './WorldMap.module.css';
 import useWorldMap from './useWorldMap';
 import { Marker } from '../../useMarkers';
 import useLayerGroups from './useLayerGroups';
-import { FilterItem } from '../MapFilter/mapFilters';
 import { useEffect, useState } from 'react';
 import { classNames } from '../../utils/styles';
 import { getPosition } from '../../utils/ocr';
 
 type WorldMapProps = {
   markers: Marker[];
-  onMarkerClick: (
-    props: { marker: Marker; filterItem: FilterItem } | null
-  ) => void;
 };
 
-function WorldMap({ markers, onMarkerClick }: WorldMapProps): JSX.Element {
-  const { leafletMap, elementRef } = useWorldMap({
-    onMapClick: () => onMarkerClick(null),
-  });
-  useLayerGroups({ markers, leafletMap, onMarkerClick });
+function WorldMap({ markers }: WorldMapProps): JSX.Element {
+  const { leafletMap, elementRef } = useWorldMap();
+  useLayerGroups({ markers, leafletMap });
   const [follow, setFollow] = useState(false);
 
   useEffect(() => {

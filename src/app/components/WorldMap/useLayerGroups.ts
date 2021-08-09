@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef } from 'react';
 import leaflet from 'leaflet';
 import { Marker } from '../../useMarkers';
-import { FilterItem, mapFilters } from '../MapFilter/mapFilters';
-import { useURL } from '../Router/Router';
+import { mapFilters } from '../MapFilter/mapFilters';
+import { useRouter } from '../Router/Router';
 
 const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   leaflet.Icon.extend({
@@ -16,19 +16,11 @@ const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
 function useLayerGroups({
   leafletMap,
   markers,
-  onMarkerClick,
 }: {
   leafletMap: leaflet.Map | null;
   markers: Marker[];
-  onMarkerClick: ({
-    marker,
-    filterItem,
-  }: {
-    marker: Marker;
-    filterItem: FilterItem;
-  }) => void;
 }): void {
-  const url = useURL();
+  const { url, go } = useRouter();
 
   const searchParam = url.searchParams.get('mapFilters');
   const filters = useMemo(
@@ -81,7 +73,7 @@ function useLayerGroups({
             })
             .bindTooltip(mapFilter.title, { direction: 'top' });
           marker.on('click', () => {
-            onMarkerClick({ marker: markerOfType, filterItem: mapFilter });
+            go(`/${markerOfType._id}`, true);
           });
           return marker;
         })

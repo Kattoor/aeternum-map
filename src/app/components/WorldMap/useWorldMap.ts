@@ -35,17 +35,13 @@ const WorldTiles = leaflet.TileLayer.extend({
   },
 });
 
-type UseWorldMapProps = {
-  onMapClick: () => void;
-};
-
-function useWorldMap({ onMapClick }: UseWorldMapProps): {
+function useWorldMap(): {
   elementRef: React.MutableRefObject<HTMLDivElement | null>;
   leafletMap: leaflet.Map | null;
 } {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const leafletMap = useRef<leaflet.Map | null>(null);
-  const { url, search } = useRouter();
+  const { url, search, go } = useRouter();
 
   useEffect(() => {
     const mapElement = elementRef.current;
@@ -97,7 +93,7 @@ function useWorldMap({ onMapClick }: UseWorldMapProps): {
     worldTiles.addTo(map);
 
     map.on('click', () => {
-      onMapClick();
+      go('/', true);
     });
 
     map.on('moveend', () => {

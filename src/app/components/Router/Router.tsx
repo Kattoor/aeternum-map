@@ -28,6 +28,9 @@ export function RouterProvider({ children }: RouterProviderProps): JSX.Element {
     if (preserveSearch) {
       fullHref += `?${url.searchParams.toString()}`;
     }
+    if (fullHref.startsWith('/')) {
+      fullHref = url.origin + fullHref;
+    }
     setURL(new URL(fullHref));
     history.pushState({}, '', fullHref);
   }
