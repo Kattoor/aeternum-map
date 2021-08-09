@@ -85,6 +85,30 @@ export const mapFilters: FilterItem[] = [
     iconUrl: './pois/lore_note.webp',
     hasName: true,
   },
+  {
+    category: 'chests',
+    type: 'chests_ancient',
+    title: 'Ancient',
+    iconUrl: './pois/chests_ancient.webp',
+  },
+  {
+    category: 'chests',
+    type: 'chests_alchemy',
+    title: 'Alchemy',
+    iconUrl: './pois/chests_alchemy.webp',
+  },
+  {
+    category: 'chests',
+    type: 'chests_provisions',
+    title: 'Provisions',
+    iconUrl: './pois/chests_provisions.webp',
+  },
+  {
+    category: 'chests',
+    type: 'chests_supplies',
+    title: 'Supplies',
+    iconUrl: './pois/chests_supplies.webp',
+  },
 ];
 
 export type MapFiltersCategory = {
@@ -138,5 +162,11 @@ export const mapFiltersCategories: MapFiltersCategory[] = [
     title: 'Lore',
     imgSrc: './filters/lore.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'lore'),
+  },
+  {
+    value: 'chests',
+    title: 'Chests',
+    imgSrc: './filters/chests.webp',
+    filters: mapFilters.filter((mapFilter) => mapFilter.category === 'chests'),
   },
 ];
