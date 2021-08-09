@@ -78,6 +78,13 @@ export const mapFilters: FilterItem[] = [
     iconUrl: './pois/npc_syndicate.webp',
     hasName: true,
   },
+  {
+    category: 'lore',
+    type: 'lore_note',
+    title: 'Lore Note',
+    iconUrl: './pois/lore_note.webp',
+    hasName: true,
+  },
 ];
 
 export type MapFiltersCategory = {
@@ -125,5 +132,11 @@ export const mapFiltersCategories: MapFiltersCategory[] = [
     title: 'NPC',
     imgSrc: './filters/npc.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'npc'),
+  },
+  {
+    value: 'lore',
+    title: 'Lore',
+    imgSrc: './filters/lore.webp',
+    filters: mapFilters.filter((mapFilter) => mapFilter.category === 'lore'),
   },
 ];

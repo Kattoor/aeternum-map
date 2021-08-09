@@ -33,21 +33,23 @@ function MarkersView(): JSX.Element {
       <CategoryTitle>Markers</CategoryTitle>
       {mapFiltersCategories.map((mapFilterCategory) => (
         <section key={mapFilterCategory.value} className={styles.category}>
-          <Checkbox
-            onChange={(checked) =>
-              handleToggle(
-                mapFilterCategory.filters.map((filter) => filter.type),
-                checked
-              )
-            }
-            checked={filters.some((filter) =>
-              mapFilterCategory.filters.some(
-                (categoryFilter) => categoryFilter.type === filter
-              )
-            )}
-            imgSrc={mapFilterCategory.imgSrc}
-            title={mapFilterCategory.title}
-          />
+          {mapFilterCategory.filters.length > 1 && (
+            <Checkbox
+              onChange={(checked) =>
+                handleToggle(
+                  mapFilterCategory.filters.map((filter) => filter.type),
+                  checked
+                )
+              }
+              checked={filters.some((filter) =>
+                mapFilterCategory.filters.some(
+                  (categoryFilter) => categoryFilter.type === filter
+                )
+              )}
+              imgSrc={mapFilterCategory.imgSrc}
+              title={mapFilterCategory.title}
+            />
+          )}
           {mapFilterCategory.filters.map((filter) => (
             <Checkbox
               key={filter.type}
