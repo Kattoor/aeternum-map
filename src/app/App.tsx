@@ -29,7 +29,6 @@ function App(): JSX.Element {
     router.url.pathname !== '/'
       ? markers.find((marker) => marker._id === router.url.pathname.slice(1))
       : undefined;
-  console.log(router.url);
   return (
     <div className={styles.container}>
       <AppHeader />

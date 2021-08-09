@@ -4,6 +4,7 @@ import { fetchJSON } from './utils/api';
 export type Marker = {
   type: string;
   position: [number, number, number];
+  name?: string;
   _id: string;
 };
 function useMarkers(): { markers: Marker[]; refresh: () => void } {

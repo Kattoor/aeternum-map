@@ -17,7 +17,7 @@ router.get('/markers', async (_req, res, next) => {
 
 router.post('/markers', async (req, res, next) => {
   try {
-    const { type, position } = req.body;
+    const { type, position, name } = req.body;
 
     if (typeof type !== 'string' || !Array.isArray(position)) {
       res.status(400).send('Invalid payload');
@@ -29,6 +29,9 @@ router.post('/markers', async (req, res, next) => {
       position: position.map((p) => new Double(p)) as [Double, Double, Double],
       createdAt: new Date(),
     };
+    if (name) {
+      marker.name = name;
+    }
 
     const existingMarker = await getMarkersCollection().findOne({
       type: marker.type,

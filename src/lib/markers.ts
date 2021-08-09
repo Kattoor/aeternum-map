@@ -35,6 +35,9 @@ export function ensureMarkersSchema(): Promise<Document> {
               bsonType: 'double',
             },
           },
+          name: {
+            bsonType: 'string',
+          },
           createdAt: {
             bsonType: 'date',
           },

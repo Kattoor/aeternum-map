@@ -1,6 +1,6 @@
 import { FormEvent, Fragment, useState } from 'react';
 import { fetchJSON } from '../../utils/api';
-import { mapFiltersCategories } from '../MapFilter/mapFilters';
+import { mapFilters, mapFiltersCategories } from '../MapFilter/mapFilters';
 import { useRouter } from '../Router/Router';
 import styles from './NewMarker.module.css';
 
@@ -11,6 +11,8 @@ type NewMarkerProps = {
 function NewMarker({ onNewMarker }: NewMarkerProps): JSX.Element {
   const router = useRouter();
   const [type, setType] = useState('');
+  const [name, setName] = useState('');
+
   const x = +(router.url.searchParams.get('x') || 0);
   const y = +(router.url.searchParams.get('y') || 0);
   const [z, setZ] = useState<number>(0);
@@ -21,6 +23,8 @@ function NewMarker({ onNewMarker }: NewMarkerProps): JSX.Element {
   const zIsValid = z >= 0 && z <= 2000;
   const isValid = typeIsValid && xIsValid && yIsValid && zIsValid;
 
+  const filterItem = mapFilters.find((filter) => filter.type === type);
+
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
@@ -30,7 +34,7 @@ function NewMarker({ onNewMarker }: NewMarkerProps): JSX.Element {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ type, position }),
+      body: JSON.stringify({ type, position, name }),
     }).then(onNewMarker);
   }
 
@@ -99,6 +103,18 @@ function NewMarker({ onNewMarker }: NewMarkerProps): JSX.Element {
             ))}
           </select>
         </label>
+        {filterItem?.hasName && (
+          <label>
+            Name
+            <input
+              type="text"
+              placeholder="e.g. Nora Linch"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              required
+            />
+          </label>
+        )}
         <input type="submit" value="Add marker" disabled={!isValid} />
       </form>
       <aside>Near by</aside>

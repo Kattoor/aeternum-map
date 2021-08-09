@@ -3,6 +3,7 @@ export type FilterItem = {
   category: string;
   title: string;
   iconUrl: string;
+  hasName?: boolean;
 };
 
 export const mapFilters: FilterItem[] = [
@@ -41,6 +42,41 @@ export const mapFilters: FilterItem[] = [
     type: 'wyrdwood',
     title: 'Wyrdwood Tree',
     iconUrl: './pois/wyrdwood_compass.webp',
+  },
+  {
+    category: 'npc',
+    type: 'npc_generic',
+    title: 'Generic',
+    iconUrl: './pois/npc_generic.webp',
+    hasName: true,
+  },
+  {
+    category: 'npc',
+    type: 'npc_inn',
+    title: 'Inn',
+    iconUrl: './pois/npc_inn.webp',
+    hasName: true,
+  },
+  {
+    category: 'npc',
+    type: 'npc_convenant',
+    title: 'Convenant',
+    iconUrl: './pois/npc_convenant.webp',
+    hasName: true,
+  },
+  {
+    category: 'npc',
+    type: 'npc_marauder',
+    title: 'Marauder',
+    iconUrl: './pois/npc_marauder.webp',
+    hasName: true,
+  },
+  {
+    category: 'npc',
+    type: 'npc_syndicate',
+    title: 'Syndicate',
+    iconUrl: './pois/npc_syndicate.webp',
+    hasName: true,
   },
 ];
 
@@ -83,5 +119,11 @@ export const mapFiltersCategories: MapFiltersCategory[] = [
     filters: mapFilters.filter(
       (mapFilter) => mapFilter.category === 'skinning'
     ),
+  },
+  {
+    value: 'npc',
+    title: 'NPC',
+    imgSrc: './filters/npc.webp',
+    filters: mapFilters.filter((mapFilter) => mapFilter.category === 'npc'),
   },
 ];

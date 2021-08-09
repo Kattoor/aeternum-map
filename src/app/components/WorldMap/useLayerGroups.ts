@@ -71,7 +71,14 @@ function useLayerGroups({
             .marker([markerOfType.position[1], markerOfType.position[0]], {
               icon,
             })
-            .bindTooltip(mapFilter.title, { direction: 'top' });
+            .bindTooltip(
+              markerOfType.name
+                ? `${markerOfType.name} (${mapFilter.title})`
+                : mapFilter.title,
+              {
+                direction: 'top',
+              }
+            );
           marker.on('click', () => {
             go(`/${markerOfType._id}`, true);
           });
