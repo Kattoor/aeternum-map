@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import leaflet from 'leaflet';
 import { Marker } from '../../useMarkers';
 import { FilterItem, mapFilters } from '../MapFilter/mapFilters';
@@ -30,16 +30,19 @@ function useLayerGroups({
 }): void {
   const url = useURL();
 
-  const filters = (url.searchParams.get('mapFilters') || '').split(',');
+  const searchParam = url.searchParams.get('mapFilters');
+  const filters = useMemo(
+    () => (searchParam?.length ? searchParam.split(',') : []),
+    [searchParam]
+  );
   const layerGroupByFilterRef = useRef<{
     [filterType: string]: leaflet.LayerGroup;
   }>({});
 
-  useEffect(() => {
-    if (!leafletMap || !leafletMap.getPane('markerPane') || !markers.length) {
-      return;
+  const newFilters = useMemo(() => {
+    if (!leafletMap || !leafletMap.getPane('markerPane')) {
+      return [];
     }
-
     const newFilters = [...filters];
     Object.entries(layerGroupByFilterRef.current).forEach(
       ([filterType, layerGroup]) => {
@@ -51,6 +54,13 @@ function useLayerGroups({
         }
       }
     );
+    return newFilters;
+  }, [typeof leafletMap, filters]);
+
+  useEffect(() => {
+    if (!leafletMap || !leafletMap.getPane('markerPane') || !markers.length) {
+      return;
+    }
 
     newFilters.map((filter) => {
       const mapFilter = mapFilters.find(
@@ -65,6 +75,10 @@ function useLayerGroups({
       );
       const icon = new LeafIcon({ iconUrl: mapFilter.iconUrl });
 
+      const existingLayerGroup = layerGroupByFilterRef.current[mapFilter.type];
+      if (existingLayerGroup) {
+        leafletMap.removeLayer(existingLayerGroup);
+      }
       const layerGroup = new leaflet.LayerGroup(
         markersOfType.map((markerOfType) => {
           const marker = leaflet
@@ -81,7 +95,7 @@ function useLayerGroups({
       layerGroup.addTo(leafletMap);
       layerGroupByFilterRef.current[mapFilter.type] = layerGroup;
     });
-  }, [filters, leafletMap, markers]);
+  }, [newFilters, typeof leafletMap, markers]);
 }
 
 export default useLayerGroups;

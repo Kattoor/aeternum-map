@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { classNames } from '../../utils/styles';
 import { useRouter } from '../Router/Router';
-import AddIcon from './AddIcon';
 import AreasView from './AreasView';
 import styles from './MapFilter.module.css';
 import MapIcon from './MapIcon';
@@ -12,10 +11,7 @@ import SearchIcon from './SearchIcon';
 
 type View = 'markers' | 'areas' | 'search';
 
-type MapFilterProps = {
-  onNewFilterClick: () => void;
-};
-function MapFilter({ onNewFilterClick }: MapFilterProps): JSX.Element {
+function MapFilter(): JSX.Element {
   const [isOpen, setIsOpen] = useState(true);
   const { url, search } = useRouter();
 
@@ -51,9 +47,6 @@ function MapFilter({ onNewFilterClick }: MapFilterProps): JSX.Element {
           onClick={() => handleViewClick('search')}
         >
           <SearchIcon />
-        </button>
-        <button onClick={onNewFilterClick}>
-          <AddIcon />
         </button>
         <button onClick={() => setIsOpen(!isOpen)}>
           <MenuOpenIcon />

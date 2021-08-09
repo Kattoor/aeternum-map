@@ -17,6 +17,5 @@
   padding: 1em;
   display: grid;
   gap: 1em;
-  grid-template-rows: auto 1fr auto;
-  align-items: baseline;
+  grid-template-rows: 1fr auto;
 }

@@ -22,8 +22,6 @@ function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
         message: message,
       }),
     }).then(() => onAdd());
-
-    console.log(markerId, message);
   }
 
   return (

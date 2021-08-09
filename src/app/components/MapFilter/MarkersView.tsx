@@ -3,12 +3,17 @@ import { mapFiltersCategories } from './mapFilters';
 import CategoryTitle from './CategoryTitle';
 import Checkbox from './Checkbox';
 import { useRouter, useURL } from '../Router/Router';
+import { useMemo } from 'react';
 
 function MarkersView(): JSX.Element {
   const router = useRouter();
   const url = useURL();
 
-  const filters = (url.searchParams.get('mapFilters') || '').split(',');
+  const searchParam = url.searchParams.get('mapFilters');
+  const filters = useMemo(
+    () => (searchParam?.length ? searchParam.split(',') : []),
+    [searchParam]
+  );
   function handleToggle(filterTypes: string[], checked: boolean) {
     const newFilters = [...filters];
     if (checked) {

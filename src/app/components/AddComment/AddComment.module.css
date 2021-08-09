@@ -1,7 +1,7 @@
 .form {
   display: grid;
   grid-template-columns: 1fr auto;
-  background: var(--color-shade-three);
+  background: var(--color-shade-two);
   border-radius: var(--border-radius);
 }
 
@@ -10,20 +10,17 @@
 }
 
 .form input[type='submit'] {
-  background: none;
   color: inherit;
   grid-column: 2;
   grid-row: 1 / 3;
   padding: 1em;
   border-bottom-right-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
-}
-
-.form input[type='submit']:hover {
   background: var(--color-primary);
 }
 
 .form small {
+  text-align: center;
   margin-bottom: 0.5em;
   color: var(--color-trivial);
 }

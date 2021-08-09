@@ -1,9 +1,11 @@
-.header {
-  border-bottom: 1px solid var(--color-shade-two);
-  padding-bottom: 1em;
+.container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1em;
 }
 
 .form {
+  border-bottom: 1px solid var(--color-shade-two);
   display: grid;
   gap: 1em;
 }

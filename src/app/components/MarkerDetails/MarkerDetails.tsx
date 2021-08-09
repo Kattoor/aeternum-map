@@ -4,24 +4,21 @@ import Comment from '../Comment/Comment';
 import useComments from '../Comment/useComments';
 import Loading from '../Loading/Loading';
 import { FilterItem } from '../MapFilter/mapFilters';
-import Modal from '../Modal/Modal';
-import styles from './MarkerModal.module.css';
+import styles from './MarkerDetails.module.css';
 
-type MarkerModalProps = {
+type MarkerDetailsProps = {
   marker: Marker;
   filterItem: FilterItem;
-  onClose: () => void;
 };
 
-function MarkerModal({
+function MarkerDetails({
   marker,
   filterItem,
-  onClose,
-}: MarkerModalProps): JSX.Element {
+}: MarkerDetailsProps): JSX.Element {
   const { comments, loading, refresh } = useComments(marker._id);
 
   return (
-    <Modal onClose={onClose} fullHeight className={styles.modal}>
+    <section className={styles.container}>
       <header className={styles.header}>
         <img src={filterItem.iconUrl} alt="" />
         <h2>{filterItem.title}</h2>
@@ -43,8 +40,8 @@ function MarkerModal({
         {loading && <Loading />}
       </main>
       <AddComment markerId={marker._id} onAdd={refresh} />
-    </Modal>
+    </section>
   );
 }
 
-export default MarkerModal;
+export default MarkerDetails;

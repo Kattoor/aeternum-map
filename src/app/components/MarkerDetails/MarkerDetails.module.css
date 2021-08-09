@@ -1,15 +1,17 @@
-.modal {
+.container {
+  overflow: hidden;
+  display: grid;
   grid-template-rows: auto auto 1fr auto;
+  gap: 0.5em;
 }
 
 .headline {
-  margin: 0.5em;
+  text-align: center;
 }
 
 .header {
   display: grid;
   grid-template-columns: 128px 1fr;
-  padding-right: 128px;
   border-bottom: 1px solid var(--color-shade-two);
 }
 

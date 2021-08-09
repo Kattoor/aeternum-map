@@ -9,11 +9,15 @@ import { getPosition } from '../../utils/ocr';
 
 type WorldMapProps = {
   markers: Marker[];
-  onMarkerClick: (props: { marker: Marker; filterItem: FilterItem }) => void;
+  onMarkerClick: (
+    props: { marker: Marker; filterItem: FilterItem } | null
+  ) => void;
 };
 
 function WorldMap({ markers, onMarkerClick }: WorldMapProps): JSX.Element {
-  const { leafletMap, elementRef } = useWorldMap();
+  const { leafletMap, elementRef } = useWorldMap({
+    onMapClick: () => onMarkerClick(null),
+  });
   useLayerGroups({ markers, leafletMap, onMarkerClick });
   const [follow, setFollow] = useState(false);
 
