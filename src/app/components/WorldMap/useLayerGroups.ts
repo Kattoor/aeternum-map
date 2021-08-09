@@ -39,30 +39,21 @@ function useLayerGroups({
     [filterType: string]: leaflet.LayerGroup;
   }>({});
 
-  const newFilters = useMemo(() => {
-    if (!leafletMap || !leafletMap.getPane('markerPane')) {
-      return [];
-    }
-    const newFilters = [...filters];
-    Object.entries(layerGroupByFilterRef.current).forEach(
-      ([filterType, layerGroup]) => {
-        if (!newFilters.includes(filterType)) {
-          leafletMap.removeLayer(layerGroup);
-          delete layerGroupByFilterRef.current[filterType];
-        } else {
-          newFilters.splice(newFilters.indexOf(filterType), 1);
-        }
-      }
-    );
-    return newFilters;
-  }, [typeof leafletMap, filters]);
-
   useEffect(() => {
     if (!leafletMap || !leafletMap.getPane('markerPane') || !markers.length) {
       return;
     }
 
-    newFilters.map((filter) => {
+    Object.entries(layerGroupByFilterRef.current).forEach(
+      ([filterType, layerGroup]) => {
+        if (!filters.includes(filterType)) {
+          leafletMap.removeLayer(layerGroup);
+          delete layerGroupByFilterRef.current[filterType];
+        }
+      }
+    );
+
+    filters.forEach((filter) => {
       const mapFilter = mapFilters.find(
         (mapFilter) => mapFilter.type === filter
       );
@@ -77,6 +68,9 @@ function useLayerGroups({
 
       const existingLayerGroup = layerGroupByFilterRef.current[mapFilter.type];
       if (existingLayerGroup) {
+        if (existingLayerGroup.getLayers().length === markersOfType.length) {
+          return;
+        }
         leafletMap.removeLayer(existingLayerGroup);
       }
       const layerGroup = new leaflet.LayerGroup(
@@ -95,7 +89,7 @@ function useLayerGroups({
       layerGroup.addTo(leafletMap);
       layerGroupByFilterRef.current[mapFilter.type] = layerGroup;
     });
-  }, [newFilters, typeof leafletMap, markers]);
+  }, [filters, typeof leafletMap, markers]);
 }
 
 export default useLayerGroups;
