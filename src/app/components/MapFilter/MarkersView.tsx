@@ -29,39 +29,41 @@ function MarkersView(): JSX.Element {
   }
 
   return (
-    <section>
+    <>
       <CategoryTitle>Markers</CategoryTitle>
-      {mapFiltersCategories.map((mapFilterCategory) => (
-        <section key={mapFilterCategory.value} className={styles.category}>
-          {mapFilterCategory.filters.length > 1 && (
-            <Checkbox
-              onChange={(checked) =>
-                handleToggle(
-                  mapFilterCategory.filters.map((filter) => filter.type),
-                  checked
-                )
-              }
-              checked={filters.some((filter) =>
-                mapFilterCategory.filters.some(
-                  (categoryFilter) => categoryFilter.type === filter
-                )
-              )}
-              imgSrc={mapFilterCategory.imgSrc}
-              title={mapFilterCategory.title}
-            />
-          )}
-          {mapFilterCategory.filters.map((filter) => (
-            <Checkbox
-              key={filter.type}
-              onChange={(checked) => handleToggle([filter.type], checked)}
-              checked={filters.includes(filter.type)}
-              imgSrc={filter.iconUrl}
-              title={filter.title}
-            />
-          ))}
-        </section>
-      ))}
-    </section>
+      <div className={styles.list}>
+        {mapFiltersCategories.map((mapFilterCategory) => (
+          <section key={mapFilterCategory.value} className={styles.category}>
+            {mapFilterCategory.filters.length > 1 && (
+              <Checkbox
+                onChange={(checked) =>
+                  handleToggle(
+                    mapFilterCategory.filters.map((filter) => filter.type),
+                    checked
+                  )
+                }
+                checked={filters.some((filter) =>
+                  mapFilterCategory.filters.some(
+                    (categoryFilter) => categoryFilter.type === filter
+                  )
+                )}
+                imgSrc={mapFilterCategory.imgSrc}
+                title={mapFilterCategory.title}
+              />
+            )}
+            {mapFilterCategory.filters.map((filter) => (
+              <Checkbox
+                key={filter.type}
+                onChange={(checked) => handleToggle([filter.type], checked)}
+                checked={filters.includes(filter.type)}
+                imgSrc={filter.iconUrl}
+                title={filter.title}
+              />
+            ))}
+          </section>
+        ))}
+      </div>
+    </>
   );
 }
 

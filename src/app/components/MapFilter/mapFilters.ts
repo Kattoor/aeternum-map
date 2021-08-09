@@ -109,6 +109,132 @@ export const mapFilters: FilterItem[] = [
     title: 'Supplies',
     iconUrl: './pois/chests_supplies.webp',
   },
+  {
+    category: 'essences',
+    type: 'essences_shockbulb',
+    title: 'Shockbulb',
+    iconUrl: './pois/essences_shockbulb.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_shockspire',
+    title: 'Shockspire',
+    iconUrl: './pois/essences_shockspire.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_ligthning_beetle',
+    title: 'Ligthning Beetle',
+    iconUrl: './pois/essences_ligthning_beetle.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_blightroot',
+    title: 'Blightroot',
+    iconUrl: './pois/essences_blightroot.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_blightcrag',
+    title: 'Blightcrag',
+    iconUrl: './pois/essences_blightcrag.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_blightmoth',
+    title: 'Blightmoth',
+    iconUrl: './pois/essences_blightmoth.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_earthspine',
+    title: 'Earthspine',
+    iconUrl: './pois/essences_earthspine.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_earthcrag',
+    title: 'Earthcrag',
+    iconUrl: './pois/essences_earthcrag.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_earthshell_turtle',
+    title: 'Earthshell Turtle',
+    iconUrl: './pois/essences_earthshell_turtle.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_dragonglory',
+    title: 'Dragonglory',
+    iconUrl: './pois/essences_dragonglory.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_scorchstone',
+    title: 'Scorchstone',
+    iconUrl: './pois/essences_scorchstone.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_salamander_snail',
+    title: 'Salamander Snail',
+    iconUrl: './pois/essences_salamander_snail.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_lifebloom',
+    title: 'Lifebloom',
+    iconUrl: './pois/essences_lifebloom.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_lifejewel',
+    title: 'Lifejewel',
+    iconUrl: './pois/essences_lifejewel.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_lifemoth',
+    title: 'Lifemoth',
+    iconUrl: './pois/essences_lifemoth.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_soulsprout',
+    title: 'Soulsprout',
+    iconUrl: './pois/essences_soulsprout.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_soulspire',
+    title: 'Soulspire',
+    iconUrl: './pois/essences_soulspire.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_soulwyrm',
+    title: 'Soulwyrm',
+    iconUrl: './pois/essences_soulwyrm.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_rivercress',
+    title: 'Rivercress',
+    iconUrl: './pois/essences_rivercress.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_springstone',
+    title: 'Springstone',
+    iconUrl: './pois/essences_springstone.webp',
+  },
+  {
+    category: 'essences',
+    type: 'essences_floating_spinefish',
+    title: 'Floating Spinefish',
+    iconUrl: './pois/essences_floating_spinefish.webp',
+  },
 ];
 
 export type MapFiltersCategory = {
@@ -168,5 +294,13 @@ export const mapFiltersCategories: MapFiltersCategory[] = [
     title: 'Chests',
     imgSrc: './filters/chests.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'chests'),
+  },
+  {
+    value: 'essences',
+    title: 'Essences',
+    imgSrc: './filters/essences.webp',
+    filters: mapFilters.filter(
+      (mapFilter) => mapFilter.category === 'essences'
+    ),
   },
 ];

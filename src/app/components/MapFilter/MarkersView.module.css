@@ -1,3 +1,7 @@
 .category:not(:first-of-type) {
   border-top: 1px solid var(--color-shade-two);
 }
+
+.list {
+  overflow: auto;
+}
