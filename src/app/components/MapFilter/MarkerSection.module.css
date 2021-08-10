@@ -1,0 +1,9 @@
+.container:not(:first-of-type) {
+  border-top: 1px solid var(--color-shade-two);
+}
+
+.category {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
