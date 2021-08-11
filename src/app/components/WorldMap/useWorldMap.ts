@@ -96,15 +96,6 @@ function useWorldMap(): {
       go('/', true);
     });
 
-    map.on('moveend', () => {
-      const center = map.getCenter();
-
-      search({
-        x: center.lng.toString(),
-        y: center.lat.toString(),
-        zoom: map.getZoom().toString(),
-      });
-    });
     return () => {
       leafletMap.current = null;
       map.remove();
@@ -122,6 +113,27 @@ function useWorldMap(): {
       }
     }
   }, [leafletMap.current, x, y]);
+
+  useEffect(() => {
+    const map = leafletMap.current;
+    if (!map) {
+      return;
+    }
+    const handleMoveEnd = () => {
+      const center = map.getCenter();
+
+      search({
+        x: center.lng.toString(),
+        y: center.lat.toString(),
+        zoom: map.getZoom().toString(),
+      });
+    };
+    map.on('moveend', handleMoveEnd);
+
+    return () => {
+      map.off('moveend', handleMoveEnd);
+    };
+  }, [leafletMap.current, url]);
 
   return { elementRef, leafletMap: leafletMap.current };
 }
