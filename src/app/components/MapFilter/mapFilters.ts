@@ -29,6 +29,12 @@ export const mapFilters: FilterItem[] = [
   },
   {
     category: 'farming',
+    type: 'broccoli',
+    title: 'Broccoli',
+    iconUrl: './pois/broccoli.webp',
+  },
+  {
+    category: 'farming',
     type: 'azoth_spring',
     title: 'Azoth Spring',
     iconUrl: './pois/azoth_spring.webp',
@@ -215,7 +221,7 @@ export const mapFilters: FilterItem[] = [
   },
   {
     category: 'essences',
-    type: 'essences_ligthning_beetle',
+    type: 'essences_lightning_beetle',
     title: 'Ligthning Beetle',
     iconUrl: './pois/wind_boid.webp',
   },
@@ -495,6 +501,66 @@ export const mapFilters: FilterItem[] = [
     title: 'Other',
     iconUrl: './pois/other.webp',
   },
+  {
+    category: 'farming',
+    type: 'tendrilspine',
+    title: 'Tendrilspine',
+    iconUrl: './pois/tendrilspine.webp',
+  },
+  {
+    category: 'pigment',
+    type: 'pigment_black_primsabloom',
+    title: 'Black Prismabloom',
+    iconUrl: './pois/pigment_black.webp',
+  },
+  {
+    category: 'pigment',
+    type: 'pigment_blue_primsabloom',
+    title: 'Blue Prismabloom',
+    iconUrl: './pois/pigment_blue.webp',
+  },
+  {
+    category: 'pigment',
+    type: 'pigment_brown_primsabloom',
+    title: 'Brown Prismabloom',
+    iconUrl: './pois/pigment_brown.webp',
+  },
+  {
+    category: 'pigment',
+    type: 'pigment_green_primsabloom',
+    title: 'Green Prismabloom',
+    iconUrl: './pois/pigment_green.webp',
+  },
+  {
+    category: 'pigment',
+    type: 'pigment_orange_primsabloom',
+    title: 'Orange Prismabloom',
+    iconUrl: './pois/pigment_orange.webp',
+  },
+  {
+    category: 'pigment',
+    type: 'pigment_purple_primsabloom',
+    title: 'Purple Prismabloom',
+    iconUrl: './pois/pigment_purple.webp',
+  },
+  {
+    category: 'pigment',
+    type: 'pigment_red_primsabloom',
+    title: 'Red Prismabloom',
+    iconUrl: './pois/pigment_red.webp',
+  },
+  {
+    category: 'pigment',
+    type: 'pigment_white_primsabloom',
+    title: 'White Prismabloom',
+    iconUrl: './pois/pigment_white.webp',
+  },
+  {
+    category: 'pigment',
+    type: 'pigment_yellow_primsabloom',
+    title: 'Yellow Prismabloom',
+    iconUrl: './pois/pigment_yellow.webp',
+  },
 ];
 
 export type MapFiltersCategory = {
@@ -568,6 +634,12 @@ export const mapFiltersCategories: MapFiltersCategory[] = [
     title: 'Mobs',
     imgSrc: './filters/mobs.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'mobs'),
+  },
+  {
+    value: 'pigment',
+    title: 'Pigment',
+    imgSrc: './filters/pigment.webp',
+    filters: mapFilters.filter((mapFilter) => mapFilter.category === 'pigment'),
   },
   {
     value: 'other',
