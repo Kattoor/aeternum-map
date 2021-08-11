@@ -1,3 +1,5 @@
+import { i18n } from '../../i18n/i18n';
+
 export type FilterItem = {
   type: string;
   category: string;
@@ -10,7 +12,7 @@ export const mapFilters: FilterItem[] = [
   {
     category: 'fishing',
     type: 'fish_hotspot1',
-    title: 'Fish Hotspot (Broad)',
+    title: i18n('Fish Hotspot (Broad)'),
     iconUrl: './pois/fish_hotspot1.webp',
   },
   {
