@@ -23,6 +23,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - name: Build Overwolf App
+        env:
+          VITE_API_ENDPOINT: ${{ secrets.VITE_API_ENDPOINT }}
         run: npm run client:build
       - name: Archive Release
         uses: thedoctor0/zip-release@master
