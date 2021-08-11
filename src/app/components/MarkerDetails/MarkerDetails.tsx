@@ -19,7 +19,7 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
   return (
     <section className={styles.container}>
       <header className={styles.header}>
-        <img src={filterItem?.iconUrl} alt="" />
+        <img src={filterItem?.iconUrl} alt="" width={64} height={64} />
         <h2>{filterItem?.title}</h2>
         <p>[{marker.position.join(', ')}]</p>
       </header>

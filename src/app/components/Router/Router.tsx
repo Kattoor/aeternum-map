@@ -24,6 +24,7 @@ export function RouterProvider({ children }: RouterProviderProps): JSX.Element {
   const [url, setURL] = useState<URL>(() => new URL(location.href));
 
   function go(href: string, preserveSearch?: boolean): void {
+    const url = new URL(location.href);
     let fullHref = href;
     if (preserveSearch) {
       fullHref += `?${url.searchParams.toString()}`;
@@ -36,6 +37,7 @@ export function RouterProvider({ children }: RouterProviderProps): JSX.Element {
   }
 
   function search(params: { [key: string]: string }): void {
+    const url = new URL(location.href);
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.set(key, value);
     });

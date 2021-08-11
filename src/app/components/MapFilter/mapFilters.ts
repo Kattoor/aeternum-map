@@ -41,8 +41,8 @@ export const mapFilters: FilterItem[] = [
   },
   {
     category: 'farming',
-    type: 'herbs',
-    title: 'Herbs',
+    type: 'herb',
+    title: 'Herb',
     iconUrl: './pois/herbs.webp',
   },
   {
@@ -173,26 +173,32 @@ export const mapFilters: FilterItem[] = [
   },
   {
     category: 'chests',
-    type: 'chests_ancient',
-    title: 'Ancient',
+    type: 'chests_t1',
+    title: 'T1',
     iconUrl: './pois/chest.webp',
   },
   {
     category: 'chests',
-    type: 'chests_alchemy',
-    title: 'Alchemy',
+    type: 'chests_t2',
+    title: 'T2',
     iconUrl: './pois/chest.webp',
   },
   {
     category: 'chests',
-    type: 'chests_provisions',
-    title: 'Provisions',
+    type: 'chests_t3',
+    title: 'T3',
     iconUrl: './pois/chest.webp',
   },
   {
     category: 'chests',
-    type: 'chests_supplies',
-    title: 'Supplies',
+    type: 'chests_t4',
+    title: 'T4',
+    iconUrl: './pois/chest.webp',
+  },
+  {
+    category: 'chests',
+    type: 'chests_t5',
+    title: 'T5',
     iconUrl: './pois/chest.webp',
   },
   {
@@ -341,9 +347,9 @@ export const mapFilters: FilterItem[] = [
   },
   {
     category: 'mining',
-    type: 'lodstone',
-    title: 'Lodstone',
-    iconUrl: './pois/lodstone.webp',
+    type: 'lodestone',
+    title: 'Lodestone',
+    iconUrl: './pois/lodestone.webp',
   },
   {
     category: 'mining',
@@ -461,6 +467,12 @@ export const mapFilters: FilterItem[] = [
   },
   {
     category: 'skinning',
+    type: 'goat',
+    title: 'Goat',
+    iconUrl: './pois/sheep.webp',
+  },
+  {
+    category: 'skinning',
     type: 'alligator',
     title: 'Alligator',
     iconUrl: './pois/alligator.webp',
@@ -476,6 +488,12 @@ export const mapFilters: FilterItem[] = [
     type: 'named_mobs',
     title: 'Named Mobs',
     iconUrl: './pois/named_mobs.webp',
+  },
+  {
+    category: 'other',
+    type: 'other',
+    title: 'Other',
+    iconUrl: './pois/other.webp',
   },
 ];
 
@@ -550,5 +568,11 @@ export const mapFiltersCategories: MapFiltersCategory[] = [
     title: 'Mobs',
     imgSrc: './filters/mobs.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'mobs'),
+  },
+  {
+    value: 'other',
+    title: 'Other',
+    imgSrc: './filters/other.webp',
+    filters: mapFilters.filter((mapFilter) => mapFilter.category === 'other'),
   },
 ];

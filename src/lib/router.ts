@@ -3,6 +3,7 @@ import { Double, ObjectId } from 'mongodb';
 import { Comment, Marker } from '../types';
 import { getCommentsCollection } from './comments';
 import { getMarkersCollection } from './markers';
+import { mapFilters } from '../app/components/MapFilter/mapFilters';
 
 const router = express.Router();
 
@@ -33,6 +34,10 @@ router.post('/markers', async (req, res, next) => {
       marker.name = name;
     }
 
+    if (!mapFilters.some((filter) => filter.type === marker.type)) {
+      res.status(400).send(`Unknown type ${marker.type}`);
+      return;
+    }
     const existingMarker = await getMarkersCollection().findOne({
       type: marker.type,
       position: marker.position,

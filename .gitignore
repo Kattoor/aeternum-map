@@ -6,4 +6,4 @@ dist-ssr
 *.local
 .eslintcache
 .env
-initialData.js
+/data
