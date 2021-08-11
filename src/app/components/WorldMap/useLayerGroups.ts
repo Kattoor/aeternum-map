@@ -69,7 +69,24 @@ function useLayerGroups({
       }
       const layerGroup = leaflet.markerClusterGroup({
         iconCreateFunction: () => icon,
+        disableClusteringAtZoom: 5,
       });
+
+      layerGroup
+        .on('clustermouseover', (event) => {
+          event.propagatedFrom
+            .bindTooltip(
+              `${event.propagatedFrom.getChildCount()} ${mapFilter.title}`,
+              {
+                direction: 'top',
+                sticky: true,
+              }
+            )
+            .openTooltip();
+        })
+        .on('clustermouseout', (event) => {
+          event.propagatedFrom.unbindTooltip();
+        });
 
       markersOfType.forEach((markerOfType) => {
         const marker = leaflet
