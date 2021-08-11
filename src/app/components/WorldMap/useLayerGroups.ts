@@ -3,6 +3,8 @@ import leaflet from 'leaflet';
 import { Marker } from '../../useMarkers';
 import { mapFilters } from '../MapFilter/mapFilters';
 import { useRouter } from '../Router/Router';
+import 'leaflet.markercluster';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
 
 const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   leaflet.Icon.extend({
@@ -65,26 +67,29 @@ function useLayerGroups({
         }
         leafletMap.removeLayer(existingLayerGroup);
       }
-      const layerGroup = new leaflet.LayerGroup(
-        markersOfType.map((markerOfType) => {
-          const marker = leaflet
-            .marker([markerOfType.position[1], markerOfType.position[0]], {
-              icon,
-            })
-            .bindTooltip(
-              markerOfType.name
-                ? `${markerOfType.name} (${mapFilter.title})`
-                : mapFilter.title,
-              {
-                direction: 'top',
-              }
-            );
-          marker.on('click', () => {
-            go(`/${markerOfType._id}`, true);
-          });
-          return marker;
-        })
-      );
+      const layerGroup = leaflet.markerClusterGroup({
+        iconCreateFunction: () => icon,
+      });
+
+      markersOfType.forEach((markerOfType) => {
+        const marker = leaflet
+          .marker([markerOfType.position[1], markerOfType.position[0]], {
+            icon,
+          })
+          .bindTooltip(
+            markerOfType.name
+              ? `${markerOfType.name} (${mapFilter.title})`
+              : mapFilter.title,
+            {
+              direction: 'top',
+            }
+          );
+        marker.on('click', () => {
+          go(`/${markerOfType._id}`, true);
+        });
+        layerGroup.addLayer(marker);
+      });
+
       layerGroup.addTo(leafletMap);
       layerGroupByFilterRef.current[mapFilter.type] = layerGroup;
     });
