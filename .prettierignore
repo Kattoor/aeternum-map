@@ -5,3 +5,4 @@ dist/server
 dist-ssr
 *.local
 .eslintcache
+/data
