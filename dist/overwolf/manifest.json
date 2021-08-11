@@ -18,13 +18,13 @@
     "start_window": "background",
     "windows": {
       "background": {
-        "file": "build/background.html",
+        "file": "background.html",
         "debug_url": "http://localhost:3000/background.html",
         "is_background_page": true,
         "allow_local_file_access": true
       },
       "desktop": {
-        "file": "build/index.html",
+        "file": "index.html",
         "debug_url": "http://localhost:3000",
         "desktop_only": true,
         "native_window": true,

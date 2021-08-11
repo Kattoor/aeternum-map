@@ -1,6 +1,8 @@
 node_modules
 .DS_Store
-/dist/overwolf/build
+/dist/overwolf
+!/dist/overwolf/manifest.json
+!/dist/overwolf/icons
 /dist/server
 dist-ssr
 *.local

@@ -19,11 +19,10 @@ export default defineConfig({
     },
   },
   root: resolve(__dirname, 'src/app'),
-  base: './',
   publicDir: resolve(__dirname, 'src/app/public'),
   build: {
     target: 'esnext',
-    outDir: resolve(__dirname, 'dist/overwolf/build'),
+    outDir: resolve(__dirname, 'dist/overwolf'),
     rollupOptions: {
       input: {
         background: resolve(__dirname, 'src/app/background.html'),
