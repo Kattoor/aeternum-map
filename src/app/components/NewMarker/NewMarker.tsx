@@ -2,6 +2,7 @@ import { FormEvent, Fragment, useState } from 'react';
 import { fetchJSON } from '../../utils/api';
 import { mapFilters, mapFiltersCategories } from '../MapFilter/mapFilters';
 import { useRouter } from '../Router/Router';
+import useUser from '../User/useUser';
 import styles from './NewMarker.module.css';
 
 type NewMarkerProps = {
@@ -10,6 +11,7 @@ type NewMarkerProps = {
 
 function NewMarker({ onNewMarker }: NewMarkerProps): JSX.Element {
   const router = useRouter();
+  const { user } = useUser();
   const [type, setType] = useState('');
   const [name, setName] = useState('');
 
@@ -27,14 +29,16 @@ function NewMarker({ onNewMarker }: NewMarkerProps): JSX.Element {
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-
+    if (!user) {
+      return;
+    }
     const position = [x, y, z];
     fetchJSON('/api/markers', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ type, position, name }),
+      body: JSON.stringify({ type, position, name, username: user.username }),
     }).then(onNewMarker);
   }
 
@@ -115,9 +119,8 @@ function NewMarker({ onNewMarker }: NewMarkerProps): JSX.Element {
             />
           </label>
         )}
-        <input type="submit" value="Add marker" disabled={!isValid} />
+        <input type="submit" value="Add marker" disabled={!isValid || !user} />
       </form>
-      <aside>Near by</aside>
     </section>
   );
 }

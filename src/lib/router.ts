@@ -18,15 +18,20 @@ router.get('/markers', async (_req, res, next) => {
 
 router.post('/markers', async (req, res, next) => {
   try {
-    const { type, position, name } = req.body;
+    const { type, position, name, username } = req.body;
 
-    if (typeof type !== 'string' || !Array.isArray(position)) {
+    if (
+      typeof type !== 'string' ||
+      typeof username !== 'string' ||
+      !Array.isArray(position)
+    ) {
       res.status(400).send('Invalid payload');
       return;
     }
 
     const marker: Marker = {
       type,
+      username,
       position: position.map((p) => new Double(p)) as [Double, Double, Double],
       createdAt: new Date(),
     };
@@ -78,11 +83,13 @@ router.get('/markers/:markerId/comments', async (req, res) => {
 router.post('/markers/:markerId/comments', async (req, res, next) => {
   try {
     const { markerId } = req.params;
-    const { username, message } = req.body;
+    const { username, displayName, avatar, message } = req.body;
 
     if (
       typeof username !== 'string' ||
       typeof message !== 'string' ||
+      typeof displayName !== 'string' ||
+      typeof avatar !== 'string' ||
       !ObjectId.isValid(markerId)
     ) {
       res.status(400).send('Invalid payload');
@@ -92,6 +99,8 @@ router.post('/markers/:markerId/comments', async (req, res, next) => {
     const comment: Comment = {
       markerId: new ObjectId(markerId),
       username,
+      displayName,
+      avatar,
       message,
       createdAt: new Date(),
     };

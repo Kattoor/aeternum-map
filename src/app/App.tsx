@@ -6,6 +6,7 @@ import MapFilter from './components/MapFilter/MapFilter';
 import MarkerDetails from './components/MarkerDetails/MarkerDetails';
 import NewMarker from './components/NewMarker/NewMarker';
 import { useRouter } from './components/Router/Router';
+import User from './components/User/User';
 import WorldMap from './components/WorldMap/WorldMap';
 import useMarkers from './useMarkers';
 
@@ -38,11 +39,14 @@ function App(): JSX.Element {
         {router.url.pathname !== '/' && targetMarker ? (
           <MarkerDetails marker={targetMarker} />
         ) : (
-          <NewMarker
-            onNewMarker={() => {
-              refresh();
-            }}
-          />
+          <section>
+            <User />
+            <NewMarker
+              onNewMarker={() => {
+                refresh();
+              }}
+            />
+          </section>
         )}
         <Ads />
       </aside>

@@ -4,6 +4,8 @@ import { fetchJSON } from '../../utils/api';
 export type Comment = {
   _id: string;
   markerId: string;
+  displayName: string;
+  avatar: string;
   createdAt: Date;
   username: string;
   message: string;

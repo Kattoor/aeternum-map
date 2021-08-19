@@ -38,6 +38,9 @@ export function ensureMarkersSchema(): Promise<Document> {
           name: {
             bsonType: 'string',
           },
+          username: {
+            bsonType: 'string',
+          },
           createdAt: {
             bsonType: 'date',
           },

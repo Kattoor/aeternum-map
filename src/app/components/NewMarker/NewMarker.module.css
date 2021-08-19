@@ -5,9 +5,7 @@
 }
 
 .form {
-  border-bottom: 1px solid var(--color-shade-two);
   display: grid;
-  gap: 1em;
 }
 
 .form label {

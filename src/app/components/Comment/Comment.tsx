@@ -4,16 +4,22 @@ import Markdown from 'markdown-to-jsx';
 import Avatar from '../Avatar/Avatar';
 
 type CommentProps = {
-  username: string;
+  displayName: string;
+  avatar: string;
   createdAt: Date;
   message: string;
 };
 
-function Comment({ username, createdAt, message }: CommentProps): JSX.Element {
+function Comment({
+  displayName,
+  avatar,
+  createdAt,
+  message,
+}: CommentProps): JSX.Element {
   return (
     <article className={styles.container}>
-      <Avatar src="https://placekitten.com/64/64" alt="" />
-      <h4>{username}</h4>
+      <Avatar src={avatar} alt="" />
+      <h4>{displayName}</h4>
       <small>{toTimeAgo(createdAt)}</small>
       <main className={styles.message}>
         <Markdown>{message}</Markdown>

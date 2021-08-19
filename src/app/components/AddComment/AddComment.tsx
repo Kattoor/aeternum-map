@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { fetchJSON } from '../../utils/api';
+import useUser from '../User/useUser';
 import styles from './AddComment.module.css';
 
 type AddCommentProps = {
@@ -8,17 +9,24 @@ type AddCommentProps = {
 };
 
 function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
+  const { user } = useUser();
   const [message, setMessage] = useState('');
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
+    if (!user) {
+      return;
+    }
+
     fetchJSON(`/api/markers/${markerId}/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: '[Coach] Leon',
+        username: user.username,
+        displayName: user.displayName,
+        avatar: user.avatar,
         message: message,
       }),
     }).then(() => onAdd());
@@ -29,11 +37,17 @@ function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
       <textarea
         value={message}
         onChange={(event) => setMessage(event.target.value)}
-        placeholder="Add a comment"
-        rows={3}
+        placeholder={
+          !user ? 'You need to login to add a comment' : 'Add a comment'
+        }
+        rows={1}
       />
-      <input type="submit" value="Send" />
-      <small>
+      <input
+        type="submit"
+        value="Send"
+        disabled={message.trim().length === 0 || !user}
+      />
+      <small className={styles.hint}>
         <a
           href="https://www.markdownguide.org/cheat-sheet/"
           target="_blank"
