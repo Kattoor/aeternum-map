@@ -5,6 +5,7 @@ import useLayerGroups from './useLayerGroups';
 import { useEffect, useState } from 'react';
 import { classNames } from '../../utils/styles';
 import { getPosition } from '../../utils/ocr';
+import useGeoman from './useGeoman';
 
 type WorldMapProps = {
   markers: Marker[];
@@ -13,6 +14,7 @@ type WorldMapProps = {
 function WorldMap({ markers }: WorldMapProps): JSX.Element {
   const { leafletMap, elementRef } = useWorldMap();
   useLayerGroups({ markers, leafletMap });
+  useGeoman({ leafletMap });
   const [follow, setFollow] = useState(false);
 
   useEffect(() => {

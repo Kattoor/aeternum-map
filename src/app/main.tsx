@@ -5,14 +5,17 @@ import App from './App';
 import { waitForOverwolf } from './utils/overwolf';
 import { RouterProvider } from './components/Router/Router';
 import { UserProvider } from './contexts/UserContext';
+import { ModalProvider } from './contexts/ModalContext';
 
 waitForOverwolf().then(() => {
   ReactDOM.render(
     <StrictMode>
       <RouterProvider>
-        <UserProvider>
-          <App />
-        </UserProvider>
+        <ModalProvider>
+          <UserProvider>
+            <App />
+          </UserProvider>
+        </ModalProvider>
       </RouterProvider>
     </StrictMode>,
     document.querySelector('#root')
