@@ -1,8 +1,8 @@
 import { FormEvent, Fragment, useState } from 'react';
+import { useUser } from '../../contexts/UserContext';
 import { fetchJSON } from '../../utils/api';
 import { mapFilters, mapFiltersCategories } from '../MapFilter/mapFilters';
 import { useRouter } from '../Router/Router';
-import useUser from '../User/useUser';
 import styles from './NewMarker.module.css';
 
 type NewMarkerProps = {
@@ -11,7 +11,7 @@ type NewMarkerProps = {
 
 function NewMarker({ onNewMarker }: NewMarkerProps): JSX.Element {
   const router = useRouter();
-  const { user } = useUser();
+  const user = useUser();
   const [type, setType] = useState('');
   const [name, setName] = useState('');
 

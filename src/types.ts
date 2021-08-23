@@ -16,3 +16,11 @@ export type Comment = {
   message: string;
   createdAt: Date;
 };
+
+export type User = {
+  username: string;
+  displayName: string;
+  avatar: string;
+  hiddenMarkerIds: ObjectId[];
+  createdAt: Date;
+};

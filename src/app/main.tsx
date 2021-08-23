@@ -4,12 +4,15 @@ import './globals.css';
 import App from './App';
 import { waitForOverwolf } from './utils/overwolf';
 import { RouterProvider } from './components/Router/Router';
+import { UserProvider } from './contexts/UserContext';
 
 waitForOverwolf().then(() => {
   ReactDOM.render(
     <StrictMode>
       <RouterProvider>
-        <App />
+        <UserProvider>
+          <App />
+        </UserProvider>
       </RouterProvider>
     </StrictMode>,
     document.querySelector('#root')

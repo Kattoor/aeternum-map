@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
+import { useUser } from '../../contexts/UserContext';
 import { fetchJSON } from '../../utils/api';
-import useUser from '../User/useUser';
 import styles from './AddComment.module.css';
 
 type AddCommentProps = {
@@ -9,7 +9,7 @@ type AddCommentProps = {
 };
 
 function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
-  const { user } = useUser();
+  const user = useUser();
   const [message, setMessage] = useState('');
 
   function handleSubmit(event: FormEvent) {

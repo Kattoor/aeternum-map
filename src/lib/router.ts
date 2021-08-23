@@ -4,6 +4,7 @@ import { Comment, Marker } from '../types';
 import { getCommentsCollection } from './comments';
 import { getMarkersCollection } from './markers';
 import { mapFilters } from '../app/components/MapFilter/mapFilters';
+import { getUsersCollection } from './users';
 
 const router = express.Router();
 
@@ -116,4 +117,83 @@ router.post('/markers/:markerId/comments', async (req, res, next) => {
   }
 });
 
+router.post('/users', async (req, res, next) => {
+  try {
+    const { username, displayName, avatar } = req.body;
+
+    if (
+      typeof username !== 'string' ||
+      typeof displayName !== 'string' ||
+      typeof avatar !== 'string'
+    ) {
+      res.status(400).send('Invalid payload');
+      return;
+    }
+
+    const result = await getUsersCollection().findOneAndUpdate(
+      { username },
+      {
+        $set: {
+          displayName,
+          avatar,
+        },
+        $setOnInsert: {
+          username,
+          hiddenMarkerIds: [],
+          createdAt: new Date(),
+        },
+      },
+      { upsert: true, returnDocument: 'after' }
+    );
+    res.status(200).json(result.value);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/users/:username', async (req, res, next) => {
+  try {
+    const { username } = req.params;
+    if (typeof username !== 'string') {
+      res.status(400).send('Invalid payload');
+      return;
+    }
+
+    const user = await getUsersCollection().findOne({ username });
+    if (!user) {
+      res.status(404).end(`No user found for username ${username}`);
+      return;
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch('/users/:username', async (req, res, next) => {
+  try {
+    const { username } = req.params;
+    const { hiddenMarkerIds } = req.body;
+    if (typeof username !== 'string' || !Array.isArray(hiddenMarkerIds)) {
+      res.status(400).send('Invalid payload');
+      return;
+    }
+
+    const result = await getUsersCollection().updateOne(
+      { username },
+      {
+        $set: {
+          hiddenMarkerIds,
+        },
+      }
+    );
+    if (!result.modifiedCount) {
+      res.status(404).end(`No user found for username ${username}`);
+      return;
+    }
+    res.status(200).json(hiddenMarkerIds);
+  } catch (error) {
+    next(error);
+  }
+});
 export default router;

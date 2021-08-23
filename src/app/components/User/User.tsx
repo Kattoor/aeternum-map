@@ -1,15 +1,15 @@
+import { useUser } from '../../contexts/UserContext';
 import { openLoginDialog } from '../../utils/profile';
 import Avatar from '../Avatar/Avatar';
 import styles from './User.module.css';
-import useUser from './useUser';
 
 function User(): JSX.Element {
-  const { user, isLoading } = useUser();
+  const user = useUser();
 
   let content: JSX.Element | null = null;
-  if (!isLoading && user) {
+  if (user) {
     content = <h3>{user.displayName}</h3>;
-  } else if (!isLoading) {
+  } else {
     content = (
       <p>
         For full functionality, please{' '}
