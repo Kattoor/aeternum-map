@@ -4,6 +4,8 @@ import {
   dragMoveWindow,
   minimizeWindow,
 } from '../../utils/windows';
+import CloseIcon from '../icons/CloseIcon';
+import MinimizeIcon from '../icons/MinimizeIcon';
 import classes from './AppHeader.module.css';
 
 type AppHeaderProps = {
@@ -17,18 +19,13 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
         New World Companion
       </h1>
       <button className={classes.button} onClick={minimizeWindow}>
-        <svg viewBox="0 0 10 10" stroke="currentColor">
-          <line x1="0" y1="9" x2="10" y2="9" />
-        </svg>
+        <MinimizeIcon />
       </button>
       <button
         className={`${classes.button} ${classes['button--danger']}`}
         onClick={closeMainWindow}
       >
-        <svg viewBox="0 0 10 10" stroke="currentColor">
-          <line x1="0" y1="0" x2="10" y2="10" />
-          <line x1="10" y1="0" x2="0" y2="10" />
-        </svg>
+        <CloseIcon />
       </button>
     </header>
   );

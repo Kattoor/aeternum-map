@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import CloseIcon from '../icons/CloseIcon';
 import styles from './Modal.module.css';
 
 type ModalProps = {
@@ -8,11 +9,16 @@ type ModalProps = {
 };
 function Modal({ children, title, onClose }: ModalProps): JSX.Element {
   return (
-    <section className={styles.container} onClick={onClose}>
-      <div className={styles.content}>
-        <header>
+    <section className={styles.backdrop} onClick={onClose}>
+      <div
+        className={styles.content}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <header className={styles.header}>
           <h3>{title}</h3>
-          <button onClick={onClose}>X</button>
+          <button onClick={onClose} className={styles.close}>
+            <CloseIcon />
+          </button>
         </header>
         <main>{children}</main>
       </div>

@@ -1,17 +1,21 @@
 import { useState } from 'react';
+import { useModal } from '../../contexts/ModalContext';
 import { classNames } from '../../utils/styles';
+import NewMarker from '../NewMarker/NewMarker';
 import { useRouter } from '../Router/Router';
+import AddIcon from '../icons/AddIcon';
 import AreasView from './AreasView';
 import styles from './MapFilter.module.css';
-import MapIcon from './MapIcon';
-import MarkerIcon from './MarkerIcon';
+import MapIcon from '../icons/MapIcon';
+import MarkerIcon from '../icons/MarkerIcon';
 import MarkersView from './MarkersView';
-import MenuOpenIcon from './MenuOpenIcon';
-import SearchIcon from './SearchIcon';
+import MenuOpenIcon from '../icons/MenuOpenIcon';
+import SearchIcon from '../icons/SearchIcon';
 
 type View = 'markers' | 'areas' | 'search';
 
 function MapFilter(): JSX.Element {
+  const { addModal } = useModal();
   const [isOpen, setIsOpen] = useState(true);
   const { url, search } = useRouter();
 
@@ -30,6 +34,16 @@ function MapFilter(): JSX.Element {
         {view === 'areas' && <AreasView />}
       </div>
       <nav className={styles.nav}>
+        <button
+          onClick={() =>
+            addModal({
+              title: 'Add a resource',
+              children: <NewMarker />,
+            })
+          }
+        >
+          <AddIcon />
+        </button>
         <button
           className={classNames(view === 'markers' && styles.nav__active)}
           onClick={() => handleViewClick('markers')}
