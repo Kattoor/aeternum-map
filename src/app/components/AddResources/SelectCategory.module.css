@@ -1,0 +1,10 @@
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.category {
+  border: 1px solid var(--color-shade-one);
+  padding: 0.5em;
+  flex: 1 1 calc(25% - 1em);
+}

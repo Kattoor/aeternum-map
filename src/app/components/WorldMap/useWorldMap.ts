@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRouter } from '../Router/Router';
@@ -35,12 +35,15 @@ const WorldTiles = leaflet.TileLayer.extend({
   },
 });
 
-function useWorldMap(): {
+type UseWorldMapProps = {
+  selectMode: boolean;
+};
+function useWorldMap({ selectMode }: UseWorldMapProps): {
   elementRef: React.MutableRefObject<HTMLDivElement | null>;
   leafletMap: leaflet.Map | null;
 } {
   const elementRef = useRef<HTMLDivElement | null>(null);
-  const leafletMap = useRef<leaflet.Map | null>(null);
+  const [leafletMap, setLeafletMap] = useState<leaflet.Map | null>(null);
   const { url, search, go } = useRouter();
 
   useEffect(() => {
@@ -59,7 +62,7 @@ function useWorldMap(): {
       attributionControl: false,
       zoomControl: false,
     });
-    leafletMap.current = map;
+    setLeafletMap(map);
 
     const lat = url.searchParams.get('y');
     const lng = url.searchParams.get('x');
@@ -73,7 +76,9 @@ function useWorldMap(): {
 
     const divElement = leaflet.DomUtil.create('div');
     function handleMouseMove(event: leaflet.LeafletMouseEvent) {
-      divElement.innerHTML = `<span>[${event.latlng.lng}, ${event.latlng.lat}]</span>`;
+      divElement.innerHTML = `<span>[${event.latlng.lng.toFixed(
+        2
+      )}, ${event.latlng.lat.toFixed(2)}]</span>`;
     }
 
     const CoordinatesControl = leaflet.Control.extend({
@@ -97,45 +102,46 @@ function useWorldMap(): {
     });
 
     return () => {
-      leafletMap.current = null;
+      setLeafletMap(null);
       map.remove();
     };
   }, [elementRef]);
 
-  const x = +(url.searchParams.get('x') || 0);
-  const y = +(url.searchParams.get('y') || 0);
+  if (!selectMode) {
+    const x = +(url.searchParams.get('x') || 0);
+    const y = +(url.searchParams.get('y') || 0);
 
-  useEffect(() => {
-    if (leafletMap.current && x && y) {
-      const center = leafletMap.current.getCenter();
-      if (Math.abs(center.lat - y) > 0.5 || Math.abs(center.lng - x) > 0.5) {
-        leafletMap.current.setView([y, x]);
+    useEffect(() => {
+      if (leafletMap && x && y) {
+        const center = leafletMap.getCenter();
+        if (Math.abs(center.lat - y) > 0.5 || Math.abs(center.lng - x) > 0.5) {
+          leafletMap.setView([y, x]);
+        }
       }
-    }
-  }, [leafletMap.current, x, y]);
+    }, [leafletMap, x, y]);
 
-  useEffect(() => {
-    const map = leafletMap.current;
-    if (!map) {
-      return;
-    }
-    const handleMoveEnd = () => {
-      const center = map.getCenter();
+    useEffect(() => {
+      if (!leafletMap) {
+        return;
+      }
+      const handleMoveEnd = () => {
+        const center = leafletMap.getCenter();
 
-      search({
-        x: center.lng.toString(),
-        y: center.lat.toString(),
-        zoom: map.getZoom().toString(),
-      });
-    };
-    map.on('moveend', handleMoveEnd);
+        search({
+          x: center.lng.toString(),
+          y: center.lat.toString(),
+          zoom: leafletMap.getZoom().toString(),
+        });
+      };
+      leafletMap.on('moveend', handleMoveEnd);
 
-    return () => {
-      map.off('moveend', handleMoveEnd);
-    };
-  }, [leafletMap.current, url]);
+      return () => {
+        leafletMap.off('moveend', handleMoveEnd);
+      };
+    }, [leafletMap, url]);
+  }
 
-  return { elementRef, leafletMap: leafletMap.current };
+  return { elementRef, leafletMap };
 }
 
 export default useWorldMap;

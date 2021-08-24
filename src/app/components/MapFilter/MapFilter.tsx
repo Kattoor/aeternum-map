@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useModal } from '../../contexts/ModalContext';
 import { classNames } from '../../utils/styles';
-import NewMarker from '../NewMarker/NewMarker';
 import { useRouter } from '../Router/Router';
 import AddIcon from '../icons/AddIcon';
 import AreasView from './AreasView';
@@ -11,6 +10,7 @@ import MarkerIcon from '../icons/MarkerIcon';
 import MarkersView from './MarkersView';
 import MenuOpenIcon from '../icons/MenuOpenIcon';
 import SearchIcon from '../icons/SearchIcon';
+import AddResources from '../AddResources/AddResources';
 
 type View = 'markers' | 'areas' | 'search';
 
@@ -37,8 +37,8 @@ function MapFilter(): JSX.Element {
         <button
           onClick={() =>
             addModal({
-              title: 'Add a resource',
-              children: <NewMarker />,
+              title: 'Add resources',
+              children: <AddResources />,
             })
           }
         >

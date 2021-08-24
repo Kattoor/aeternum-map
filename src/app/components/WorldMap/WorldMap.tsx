@@ -1,20 +1,18 @@
 import styles from './WorldMap.module.css';
 import useWorldMap from './useWorldMap';
-import { Marker } from '../../useMarkers';
 import useLayerGroups from './useLayerGroups';
 import { useEffect, useState } from 'react';
 import { classNames } from '../../utils/styles';
 import { getPosition } from '../../utils/ocr';
-import useGeoman from './useGeoman';
+import { Marker } from '../../contexts/MarkersContext';
 
 type WorldMapProps = {
   markers: Marker[];
 };
 
 function WorldMap({ markers }: WorldMapProps): JSX.Element {
-  const { leafletMap, elementRef } = useWorldMap();
+  const { leafletMap, elementRef } = useWorldMap({ selectMode: false });
   useLayerGroups({ markers, leafletMap });
-  useGeoman({ leafletMap });
   const [follow, setFollow] = useState(false);
 
   useEffect(() => {

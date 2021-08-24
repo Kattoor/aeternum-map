@@ -1,16 +1,15 @@
 import { useEffect, useMemo, useRef } from 'react';
 import leaflet from 'leaflet';
-import { Marker } from '../../useMarkers';
 import { mapFilters } from '../MapFilter/mapFilters';
 import { useRouter } from '../Router/Router';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
+import type { Marker } from '../../contexts/MarkersContext';
 
-const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
+export const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   leaflet.Icon.extend({
     options: {
       iconSize: [64, 64],
-      iconAnchor: [32, 32],
       tooltipAnchor: [0, -32],
     },
   });

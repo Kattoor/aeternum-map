@@ -1,4 +1,4 @@
-import { Marker } from '../../useMarkers';
+import type { Marker } from '../../contexts/MarkersContext';
 import AddComment from '../AddComment/AddComment';
 import Comment from '../Comment/Comment';
 import useComments from '../Comment/useComments';

@@ -12,7 +12,7 @@ import { useMarkers } from './contexts/MarkersContext';
 
 function App(): JSX.Element {
   const router = useRouter();
-  const { markers, refresh } = useMarkers();
+  const { markers } = useMarkers();
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
