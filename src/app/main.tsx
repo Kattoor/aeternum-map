@@ -6,6 +6,7 @@ import { waitForOverwolf } from './utils/overwolf';
 import { RouterProvider } from './components/Router/Router';
 import { UserProvider } from './contexts/UserContext';
 import { ModalProvider } from './contexts/ModalContext';
+import { MarkersProvider } from './contexts/MarkersContext';
 
 waitForOverwolf().then(() => {
   ReactDOM.render(
@@ -13,7 +14,9 @@ waitForOverwolf().then(() => {
       <RouterProvider>
         <ModalProvider>
           <UserProvider>
-            <App />
+            <MarkersProvider>
+              <App />
+            </MarkersProvider>
           </UserProvider>
         </ModalProvider>
       </RouterProvider>

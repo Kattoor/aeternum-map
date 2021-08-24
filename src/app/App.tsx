@@ -8,7 +8,7 @@ import NewMarker from './components/NewMarker/NewMarker';
 import { useRouter } from './components/Router/Router';
 import User from './components/User/User';
 import WorldMap from './components/WorldMap/WorldMap';
-import useMarkers from './useMarkers';
+import { useMarkers } from './contexts/MarkersContext';
 
 function App(): JSX.Element {
   const router = useRouter();
@@ -41,11 +41,7 @@ function App(): JSX.Element {
         ) : (
           <section>
             <User />
-            <NewMarker
-              onNewMarker={() => {
-                refresh();
-              }}
-            />
+            <NewMarker />
           </section>
         )}
         <Ads />

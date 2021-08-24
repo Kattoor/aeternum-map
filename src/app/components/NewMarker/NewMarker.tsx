@@ -1,15 +1,13 @@
 import { FormEvent, Fragment, useState } from 'react';
+import { useMarkers } from '../../contexts/MarkersContext';
 import { useUser } from '../../contexts/UserContext';
 import { fetchJSON } from '../../utils/api';
 import { mapFilters, mapFiltersCategories } from '../MapFilter/mapFilters';
 import { useRouter } from '../Router/Router';
 import styles from './NewMarker.module.css';
 
-type NewMarkerProps = {
-  onNewMarker: () => void;
-};
-
-function NewMarker({ onNewMarker }: NewMarkerProps): JSX.Element {
+function NewMarker(): JSX.Element {
+  const { refresh } = useMarkers();
   const router = useRouter();
   const user = useUser();
   const [type, setType] = useState('');
@@ -39,7 +37,7 @@ function NewMarker({ onNewMarker }: NewMarkerProps): JSX.Element {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ type, position, name, username: user.username }),
-    }).then(onNewMarker);
+    }).then(refresh);
   }
 
   return (
