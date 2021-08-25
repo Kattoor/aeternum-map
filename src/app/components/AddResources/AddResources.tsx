@@ -5,6 +5,7 @@ import styles from './AddResources.module.css';
 import FishingDetails from './FishingDetails';
 import SelectCategory from './SelectCategory';
 import SelectPosition from './SelectPosition';
+import StepIcon from './StepIcon';
 
 function AddResources(): JSX.Element {
   const [step, setStep] = useState(0);
@@ -17,35 +18,41 @@ function AddResources(): JSX.Element {
   return (
     <section className={styles.container}>
       <aside className={styles.stepper}>
-        <button
-          onClick={() => setStep(0)}
-          className={classNames(styles.step, step === 0 && styles.active)}
-        >
-          <span className={styles.number}>1</span>{' '}
-          {category ? category.title : 'Select category'}
+        <button onClick={() => setStep(0)} className={styles.step}>
+          <StepIcon step={1} done={Boolean(category)} disabled={false} />{' '}
+          <span className={classNames(step === 0 && styles.active)}>
+            {category ? category.title : 'Select category'}
+          </span>
         </button>
         <button
           onClick={() => setStep(1)}
-          className={classNames(styles.step, step === 1 && styles.active)}
+          className={styles.step}
           disabled={!category}
         >
-          <span className={styles.number}>2</span>{' '}
-          {filter ? filter.title : 'Enter details'}
+          <StepIcon step={2} done={Boolean(filter)} disabled={!category} />{' '}
+          <span className={classNames(step === 1 && styles.active)}>
+            {filter ? filter.title : 'Enter details'}
+          </span>
         </button>
         <button
           onClick={() => setStep(2)}
-          className={classNames(styles.step, step === 2 && styles.active)}
+          className={styles.step}
           disabled={!filter}
         >
-          <span className={styles.number}>3</span>{' '}
-          {position ? `[${position.join(', ')}]` : 'Set position'}
+          <StepIcon step={3} done={Boolean(position)} disabled={!filter} />{' '}
+          <span className={classNames(step === 2 && styles.active)}>
+            {position ? `[${position.join(', ')}]` : 'Set position'}
+          </span>
         </button>
         <button
           onClick={() => setStep(3)}
-          className={classNames(styles.step, step === 3 && styles.active)}
+          className={styles.step}
           disabled={!position}
         >
-          <span className={styles.number}>4</span> Upload screenshot
+          <StepIcon step={4} done={false} disabled={!position} />{' '}
+          <span className={classNames(step === 3 && styles.active)}>
+            Upload screenshot
+          </span>
         </button>
       </aside>
       {step === 0 && (
@@ -74,7 +81,6 @@ function AddResources(): JSX.Element {
       )}
       {step === 2 && category && filter && (
         <SelectPosition
-          category={category}
           filter={filter}
           onSelect={(position) => {
             setPosition(position);

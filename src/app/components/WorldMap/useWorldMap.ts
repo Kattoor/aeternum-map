@@ -71,6 +71,12 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
       map.setView([+lat, +lng], +zoom);
     } else {
       map.fitBounds(bounds);
+      const center = map.getCenter();
+      search({
+        x: center.lng.toString(),
+        y: center.lat.toString(),
+        zoom: map.getZoom().toString(),
+      });
     }
     leaflet.control.zoom({ position: 'topright' }).addTo(map);
 

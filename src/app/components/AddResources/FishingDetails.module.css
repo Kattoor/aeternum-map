@@ -1,21 +1,21 @@
-.categories {
-  display: flex;
-  flex-wrap: wrap;
+.container {
+  display: grid;
+  grid-auto-flow: column;
+  place-content: center;
 }
 
-.category {
+.filter {
   color: var(--color-text);
   background: var(--color-shade-two);
   border: 1px solid var(--color-shade-one);
-  padding: 0.5em;
-  flex: 1 1 calc(25% - 1em);
+  padding: 1em;
   display: grid;
   place-items: center;
   align-content: center;
   gap: 1em;
 }
 
-.category:hover {
+.filter:hover {
   background: var(--color-shade-three);
 }
 

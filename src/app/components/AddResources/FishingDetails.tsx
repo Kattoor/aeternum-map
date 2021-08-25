@@ -1,4 +1,5 @@
 import { FilterItem, MapFiltersCategory } from '../MapFilter/mapFilters';
+import styles from './FishingDetails.module.css';
 
 type FishingDetailsProps = {
   category: MapFiltersCategory;
@@ -10,9 +11,14 @@ function FishingDetails({
   onFilterChange,
 }: FishingDetailsProps): JSX.Element {
   return (
-    <div>
+    <div className={styles.container}>
       {category.filters.map((filter) => (
-        <button key={filter.type} onClick={() => onFilterChange(filter)}>
+        <button
+          key={filter.type}
+          onClick={() => onFilterChange(filter)}
+          className={styles.filter}
+        >
+          <img className={styles.image} src={filter.iconUrl} alt="" />
           {filter.title}
         </button>
       ))}

@@ -14,3 +14,9 @@
   display: grid;
   grid-auto-flow: column;
 }
+
+.save {
+  padding: 1em;
+  background: var(--color-primary);
+  color: var(--color-text);
+}

@@ -24,16 +24,3 @@
 .active {
   text-decoration: underline;
 }
-
-.number {
-  display: inline-block;
-  background: var(--color-primary);
-  border-radius: 50%;
-  width: 1.4em;
-  height: 1.4em;
-  padding: 0.2em;
-}
-
-.step:disabled .number {
-  background: var(--color-shade-two);
-}

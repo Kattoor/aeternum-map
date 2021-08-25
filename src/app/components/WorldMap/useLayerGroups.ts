@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import { mapFilters } from '../MapFilter/mapFilters';
-import { useRouter } from '../Router/Router';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import type { Marker } from '../../contexts/MarkersContext';
@@ -17,17 +16,14 @@ export const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
 function useLayerGroups({
   leafletMap,
   markers,
+  filters,
+  onMarkerClick,
 }: {
   leafletMap: leaflet.Map | null;
   markers: Marker[];
+  filters: string[];
+  onMarkerClick?: (marker: Marker) => void;
 }): void {
-  const { url, go } = useRouter();
-
-  const searchParam = url.searchParams.get('mapFilters');
-  const filters = useMemo(
-    () => (searchParam?.length ? searchParam.split(',') : []),
-    [searchParam]
-  );
   const layerGroupByFilterRef = useRef<{
     [filterType: string]: leaflet.LayerGroup;
   }>({});
@@ -91,6 +87,7 @@ function useLayerGroups({
         const marker = leaflet
           .marker([markerOfType.position[1], markerOfType.position[0]], {
             icon,
+            pmIgnore: true,
           })
           .bindTooltip(
             markerOfType.name
@@ -100,9 +97,11 @@ function useLayerGroups({
               direction: 'top',
             }
           );
-        marker.on('click', () => {
-          go(`/${markerOfType._id}`, true);
-        });
+        if (onMarkerClick) {
+          marker.on('click', () => {
+            onMarkerClick(markerOfType);
+          });
+        }
         layerGroup.addLayer(marker);
       });
 

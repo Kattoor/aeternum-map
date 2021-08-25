@@ -12,13 +12,13 @@ waitForOverwolf().then(() => {
   ReactDOM.render(
     <StrictMode>
       <RouterProvider>
-        <ModalProvider>
-          <UserProvider>
-            <MarkersProvider>
+        <UserProvider>
+          <MarkersProvider>
+            <ModalProvider>
               <App />
-            </MarkersProvider>
-          </UserProvider>
-        </ModalProvider>
+            </ModalProvider>
+          </MarkersProvider>
+        </UserProvider>
       </RouterProvider>
     </StrictMode>,
     document.querySelector('#root')

@@ -29,7 +29,6 @@ export function MarkersProvider({
   children,
 }: MarkersProviderProps): JSX.Element {
   const [markers, setMarkers] = useState<Marker[]>([]);
-
   const refresh = useCallback(() => {
     fetchJSON<Marker[]>('/api/markers').then(setMarkers);
   }, []);

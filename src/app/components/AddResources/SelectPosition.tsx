@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useState } from 'react';
 import { useMarkers } from '../../contexts/MarkersContext';
 import { useRouter } from '../Router/Router';
@@ -6,23 +5,14 @@ import useGeoman from './useGeoman';
 import useLayerGroups from '../WorldMap/useLayerGroups';
 import useWorldMap from '../WorldMap/useWorldMap';
 import styles from './SelectPosition.module.css';
-import { FilterItem, MapFiltersCategory } from '../MapFilter/mapFilters';
+import { FilterItem } from '../MapFilter/mapFilters';
 
 type SelectPositionType = {
-  category: MapFiltersCategory;
   filter: FilterItem;
   onSelect: (position: [number, number, number]) => void;
 };
-function SelectPosition({
-  category,
-  filter,
-  onSelect,
-}: SelectPositionType): JSX.Element {
+function SelectPosition({ filter, onSelect }: SelectPositionType): JSX.Element {
   const { markers } = useMarkers();
-  const sameTypeMarkers = useMemo(
-    () => markers.filter((marker) => filter.type === marker.type),
-    [markers, category]
-  );
   const router = useRouter();
   const [x, setX] = useState(+(router.url.searchParams.get('x') || 0));
   const [y, setY] = useState(+(router.url.searchParams.get('y') || 0));
@@ -40,7 +30,11 @@ function SelectPosition({
       setY(y);
     },
   });
-  useLayerGroups({ markers: sameTypeMarkers, leafletMap });
+  useLayerGroups({
+    markers,
+    filters: [filter.type],
+    leafletMap,
+  });
 
   return (
     <div className={styles.container}>
@@ -88,7 +82,9 @@ function SelectPosition({
         </label>
       </aside>
       <div className={styles.map} ref={elementRef} />
-      <button onClick={() => onSelect([x, y, z])}>Save Position</button>
+      <button className={styles.save} onClick={() => onSelect([x, y, z])}>
+        Save Position
+      </button>
     </div>
   );
 }

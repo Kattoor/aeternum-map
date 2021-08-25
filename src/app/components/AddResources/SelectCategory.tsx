@@ -16,6 +16,7 @@ function SelectCategory({ onSelect }: SelectCategoryType): JSX.Element {
           className={styles.category}
           onClick={() => onSelect(category)}
         >
+          <img className={styles.image} src={category.imgSrc} alt="" />
           {category.title}
         </button>
       ))}
