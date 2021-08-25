@@ -1,4 +1,4 @@
-import { FilterItem, MapFiltersCategory } from '../MapFilter/mapFilters';
+import type { FilterItem, MapFiltersCategory } from '../MapFilter/mapFilters';
 import styles from './FishingDetails.module.css';
 
 type FishingDetailsProps = {

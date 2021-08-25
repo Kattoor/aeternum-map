@@ -5,7 +5,7 @@ import '@geoman-io/leaflet-geoman-free';
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';
 import { useEffect, useState } from 'react';
 import { LeafIcon } from '../WorldMap/useLayerGroups';
-import { FilterItem } from '../MapFilter/mapFilters';
+import type { FilterItem } from '../MapFilter/mapFilters';
 import { useRef } from 'react';
 
 type UseGeomanProps = {

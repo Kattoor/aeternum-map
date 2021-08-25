@@ -1,10 +1,5 @@
-import {
-  ReactNode,
-  createContext,
-  useEffect,
-  useState,
-  useContext,
-} from 'react';
+import type { ReactNode } from 'react';
+import { createContext, useEffect, useState, useContext } from 'react';
 import type { User } from '../../types';
 import { getCurrentUser } from '../utils/profile';
 

@@ -5,7 +5,7 @@ import useGeoman from './useGeoman';
 import useLayerGroups from '../WorldMap/useLayerGroups';
 import useWorldMap from '../WorldMap/useWorldMap';
 import styles from './SelectPosition.module.css';
-import { FilterItem } from '../MapFilter/mapFilters';
+import type { FilterItem } from '../MapFilter/mapFilters';
 
 type SelectPositionType = {
   filter: FilterItem;

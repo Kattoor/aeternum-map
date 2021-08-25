@@ -1,6 +1,6 @@
-import { Collection, Document } from 'mongodb';
+import type { Collection, Document } from 'mongodb';
 import { getCollection, getDb } from './db';
-import { Comment } from '../types';
+import type { Comment } from '../types';
 
 export function getCommentsCollection(): Collection<Comment> {
   return getCollection<Comment>('comments');

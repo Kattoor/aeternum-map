@@ -1,4 +1,4 @@
-import { OwAd } from '@overwolf/types/owads';
+import type { OwAd } from '@overwolf/types/owads';
 import { useEffect, useRef, useState } from 'react';
 import { getCurrentWindow } from '../../utils/windows';
 import classes from './Ads.module.css';

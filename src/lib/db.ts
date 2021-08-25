@@ -1,4 +1,5 @@
-import { Collection, Db, MongoClient } from 'mongodb';
+import type { Collection, Db } from 'mongodb';
+import { MongoClient } from 'mongodb';
 
 let db: Db | null = null;
 export async function connectToMongoDb(uri: string): Promise<void> {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Checkbox from './Checkbox';
-import { MapFiltersCategory } from './mapFilters';
+import type { MapFiltersCategory } from './mapFilters';
 import styles from './MarkerSection.module.css';
 
 type MarkerSectionProps = {

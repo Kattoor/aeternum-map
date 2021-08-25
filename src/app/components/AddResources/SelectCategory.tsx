@@ -1,7 +1,5 @@
-import {
-  mapFiltersCategories,
-  MapFiltersCategory,
-} from '../MapFilter/mapFilters';
+import type { MapFiltersCategory } from '../MapFilter/mapFilters';
+import { mapFiltersCategories } from '../MapFilter/mapFilters';
 import styles from './SelectCategory.module.css';
 
 type SelectCategoryType = {

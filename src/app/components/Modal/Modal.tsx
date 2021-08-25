@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import CloseIcon from '../icons/CloseIcon';
 import styles from './Modal.module.css';
 

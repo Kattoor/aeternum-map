@@ -1,6 +1,6 @@
-import { Collection, Document } from 'mongodb';
+import type { Collection, Document } from 'mongodb';
 import { getCollection, getDb } from './db';
-import { Marker } from '../types';
+import type { Marker } from '../types';
 
 export function getMarkersCollection(): Collection<Marker> {
   return getCollection<Marker>('markers');

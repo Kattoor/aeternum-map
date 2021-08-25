@@ -1,4 +1,4 @@
-import { Double, ObjectId } from 'mongodb';
+import type { Double, ObjectId } from 'mongodb';
 
 export type Marker = {
   type: string;

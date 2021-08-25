@@ -4,7 +4,7 @@ import useLayerGroups from './useLayerGroups';
 import { useEffect, useMemo, useState } from 'react';
 import { classNames } from '../../utils/styles';
 import { getPosition } from '../../utils/ocr';
-import { Marker } from '../../contexts/MarkersContext';
+import type { Marker } from '../../contexts/MarkersContext';
 import { useRouter } from '../Router/Router';
 
 type WorldMapProps = {

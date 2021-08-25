@@ -1,10 +1,5 @@
-import {
-  createContext,
-  useContext,
-  ReactNode,
-  MouseEvent,
-  useState,
-} from 'react';
+import type { ReactNode, MouseEvent } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 type RouterContextType = {
   url: URL;

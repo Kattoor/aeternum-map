@@ -1,4 +1,5 @@
-import { useState, FormEvent } from 'react';
+import type { FormEvent } from 'react';
+import { useState } from 'react';
 import { useUser } from '../../contexts/UserContext';
 import { fetchJSON } from '../../utils/api';
 import styles from './AddComment.module.css';

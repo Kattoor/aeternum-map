@@ -1,4 +1,5 @@
-import { FormEvent, Fragment, useState } from 'react';
+import type { FormEvent } from 'react';
+import { Fragment, useState } from 'react';
 import { useMarkers } from '../../contexts/MarkersContext';
 import { useUser } from '../../contexts/UserContext';
 import { fetchJSON } from '../../utils/api';

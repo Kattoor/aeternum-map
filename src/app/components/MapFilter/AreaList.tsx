@@ -1,7 +1,7 @@
 import { classNames } from '../../utils/styles';
 import { Link } from '../Router/Router';
 import styles from './AreaList.module.css';
-import { Area } from './areas';
+import type { Area } from './areas';
 
 type AreaListProps = {
   area: Area;
