@@ -1,5 +1,8 @@
 import { useState } from 'react';
+import { useMarkers } from '../../contexts/MarkersContext';
+import { useModal } from '../../contexts/ModalContext';
 import { useUser } from '../../contexts/UserContext';
+import { fetchJSON } from '../../utils/api';
 import { classNames } from '../../utils/styles';
 import type { FilterItem, MapFiltersCategory } from '../MapFilter/mapFilters';
 import styles from './AddResources.module.css';
@@ -11,6 +14,8 @@ import UploadScreenshot from './UploadScreenshot';
 
 function AddResources(): JSX.Element {
   const user = useUser();
+  const { closeLatestModal } = useModal();
+  const { refresh } = useMarkers();
   const [step, setStep] = useState(0);
   const [category, setCategory] = useState<MapFiltersCategory | null>(null);
   const [filter, setFilter] = useState<FilterItem | null>(null);
@@ -18,12 +23,25 @@ function AddResources(): JSX.Element {
     null
   );
 
-  function handleUploadScreenshot(screenshotPath: string): void {
+  async function handleUploadScreenshot(screenshotUrl: string) {
     if (!filter || !position || !user) {
       return;
     }
-    const marker = { type: filter.type, position, username: user.username };
-    console.log(marker, screenshotPath);
+    const marker = {
+      type: filter.type,
+      position,
+      username: user.username,
+      screenshotUrl,
+    };
+    await fetchJSON('/api/markers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(marker),
+    });
+    refresh();
+    closeLatestModal();
   }
 
   return (

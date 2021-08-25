@@ -9,9 +9,6 @@ import multer from 'multer';
 import sharp from 'sharp';
 import fs from 'fs/promises';
 
-if (!process.env.SCREENSHOTS_PATH) {
-  throw new Error('SCREENSHOTS_PATH environment variable is not set');
-}
 const screenshotsUpload = multer({ dest: process.env.SCREENSHOTS_PATH });
 
 const router = express.Router();
@@ -27,7 +24,7 @@ router.get('/markers', async (_req, res, next) => {
 
 router.post('/markers', async (req, res, next) => {
   try {
-    const { type, position, name, username } = req.body;
+    const { type, position, name, username, screenshotUrl } = req.body;
 
     if (
       typeof type !== 'string' ||
@@ -46,6 +43,9 @@ router.post('/markers', async (req, res, next) => {
     };
     if (name) {
       marker.name = name;
+    }
+    if (screenshotUrl) {
+      marker.screenshotUrl = screenshotUrl;
     }
 
     if (!mapFilters.some((filter) => filter.type === marker.type)) {

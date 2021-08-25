@@ -9,10 +9,12 @@ type ModalData = {
 type ModalContextProps = {
   modals: ModalData[];
   addModal: (modal: ModalData) => void;
+  closeLatestModal: () => void;
 };
 const ModalContext = createContext<ModalContextProps>({
   modals: [],
   addModal: () => undefined,
+  closeLatestModal: () => undefined,
 });
 
 type ModalProviderProps = {
@@ -35,7 +37,9 @@ export function ModalProvider({ children }: ModalProviderProps): JSX.Element {
   const latestModal = modals[modals.length - 1];
 
   return (
-    <ModalContext.Provider value={{ modals, addModal }}>
+    <ModalContext.Provider
+      value={{ modals, addModal, closeLatestModal: handleClose }}
+    >
       {children}
       {latestModal && (
         <Modal title={latestModal.title} onClose={handleClose}>

@@ -41,6 +41,9 @@ export function ensureMarkersSchema(): Promise<Document> {
           username: {
             bsonType: 'string',
           },
+          screenshotUrl: {
+            bsonType: 'string',
+          },
           createdAt: {
             bsonType: 'date',
           },

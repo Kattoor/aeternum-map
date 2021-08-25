@@ -51,7 +51,7 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
         onClick={handleUpload}
         className={styles.upload}
       >
-        Upload screenshot
+        Save
       </button>
     </div>
   );

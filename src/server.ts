@@ -1,21 +1,23 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+const { PORT, MONGODB_URI, SCREENSHOTS_PATH } = process.env;
+
+if (typeof PORT !== 'string') {
+  throw new Error('PORT is not set');
+}
+if (typeof MONGODB_URI !== 'string') {
+  throw new Error('MONGODB_URI is not set');
+}
+if (typeof SCREENSHOTS_PATH !== 'string') {
+  throw new Error('SCREENSHOTS_PATH environment variable is not set');
+}
+
 import express from 'express';
 import router from './lib/router';
 import { connectToMongoDb } from './lib/db';
 import { ensureMarkersSchema, ensureMarkersIndexes } from './lib/markers';
 import { ensureCommentsIndexes, ensureCommentsSchema } from './lib/comments';
-
-const { PORT, MONGODB_URI } = process.env;
-
-if (typeof PORT !== 'string') {
-  throw new Error('PORT is not set');
-}
-
-if (typeof MONGODB_URI !== 'string') {
-  throw new Error('MONGODB_URI is not set');
-}
 
 const app = express();
 
@@ -32,9 +34,12 @@ app.use(express.json());
 // Serve API requests from the router
 app.use('/api', router);
 
-// All other requests could be used for static files, images, etc.
+// Static screenshots folder
+app.use('/screenshots', express.static(SCREENSHOTS_PATH));
+
+// All other requests are answered with a 404
 app.get('*', (_req, res) => {
-  res.send('<h1>Welcome to the server</h1>');
+  res.status(404).send('Not found');
 });
 
 connectToMongoDb(MONGODB_URI).then(async () => {

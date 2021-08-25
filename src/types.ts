@@ -5,6 +5,7 @@ export type Marker = {
   position: [Double, Double, Double];
   name?: string;
   username: string;
+  screenshotUrl?: string;
   createdAt: Date;
 };
 
