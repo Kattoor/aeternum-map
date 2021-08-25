@@ -1,4 +1,6 @@
 import type { Marker } from '../../contexts/MarkersContext';
+import { getScreenshotUrl } from '../../utils/api';
+import { toTimeAgo } from '../../utils/dates';
 import AddComment from '../AddComment/AddComment';
 import Comment from '../Comment/Comment';
 import useComments from '../Comment/useComments';
@@ -23,7 +25,14 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
         <h2>{filterItem?.title}</h2>
         <p>[{marker.position.join(', ')}]</p>
       </header>
-      <h3 className={styles.headline}>Comments</h3>
+      <aside className={styles.aside}>
+        {marker.screenshotFilename && (
+          <a href={getScreenshotUrl(marker.screenshotFilename)} target="_blank">
+            Screenshot
+          </a>
+        )}
+        <span>Added {toTimeAgo(new Date(marker.createdAt))}</span>
+      </aside>
       <main className={styles.main}>
         {comments?.map((comment) => (
           <Comment

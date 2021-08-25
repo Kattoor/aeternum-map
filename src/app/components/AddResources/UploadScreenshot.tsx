@@ -18,11 +18,11 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
       const formData = new FormData();
       formData.append('screenshot', screenshot);
 
-      const result = await fetchJSON<{ path: string }>('/api/screenshots', {
+      const result = await fetchJSON<{ filename: string }>('/api/screenshots', {
         method: 'POST',
         body: formData,
       });
-      onUpload(result.path);
+      onUpload(result.filename);
     }
   }
 

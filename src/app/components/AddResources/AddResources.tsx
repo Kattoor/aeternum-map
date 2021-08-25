@@ -23,7 +23,7 @@ function AddResources(): JSX.Element {
     null
   );
 
-  async function handleUploadScreenshot(screenshotUrl: string) {
+  async function handleUploadScreenshot(screenshotFilename: string) {
     if (!filter || !position || !user) {
       return;
     }
@@ -31,7 +31,7 @@ function AddResources(): JSX.Element {
       type: filter.type,
       position,
       username: user.username,
-      screenshotUrl,
+      screenshotFilename,
     };
     await fetchJSON('/api/markers', {
       method: 'POST',

@@ -12,3 +12,7 @@ export function fetchJSON<T>(
     response.json()
   );
 }
+
+export function getScreenshotUrl(filename: string): string {
+  return `${VITE_API_ENDPOINT}/screenshots/${filename}`;
+}

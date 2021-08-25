@@ -24,7 +24,7 @@ router.get('/markers', async (_req, res, next) => {
 
 router.post('/markers', async (req, res, next) => {
   try {
-    const { type, position, name, username, screenshotUrl } = req.body;
+    const { type, position, name, username, screenshotFilename } = req.body;
 
     if (
       typeof type !== 'string' ||
@@ -44,8 +44,8 @@ router.post('/markers', async (req, res, next) => {
     if (name) {
       marker.name = name;
     }
-    if (screenshotUrl) {
-      marker.screenshotUrl = screenshotUrl;
+    if (screenshotFilename) {
+      marker.screenshotFilename = screenshotFilename;
     }
 
     if (!mapFilters.some((filter) => filter.type === marker.type)) {
@@ -218,7 +218,7 @@ router.post(
       await sharp(req.file.path).webp().toFile(filePath);
       await fs.rm(req.file.path);
       res.json({
-        path: filePath,
+        filename: `${req.file.filename}.webp`,
       });
     } catch (error) {
       next(error);
