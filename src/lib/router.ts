@@ -1,10 +1,18 @@
 import express from 'express';
 import { Double, ObjectId } from 'mongodb';
-import { Comment, Marker } from '../types';
+import type { Comment, Marker } from '../types';
 import { getCommentsCollection } from './comments';
 import { getMarkersCollection } from './markers';
 import { mapFilters } from '../app/components/MapFilter/mapFilters';
 import { getUsersCollection } from './users';
+import multer from 'multer';
+import sharp from 'sharp';
+import fs from 'fs/promises';
+
+if (!process.env.SCREENSHOTS_PATH) {
+  throw new Error('SCREENSHOTS_PATH environment variable is not set');
+}
+const screenshotsUpload = multer({ dest: process.env.SCREENSHOTS_PATH });
 
 const router = express.Router();
 
@@ -196,4 +204,25 @@ router.patch('/users/:username', async (req, res, next) => {
     next(error);
   }
 });
+
+router.post(
+  '/screenshots',
+  screenshotsUpload.single('screenshot'),
+  async (req, res, next) => {
+    try {
+      if (!req.file) {
+        res.status(400).send('Invalid payload');
+        return;
+      }
+      const filePath = `${req.file.path}.webp`;
+      await sharp(req.file.path).webp().toFile(filePath);
+      await fs.rm(req.file.path);
+      res.json({
+        path: filePath,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 export default router;

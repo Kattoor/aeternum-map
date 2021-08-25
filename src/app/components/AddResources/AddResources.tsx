@@ -1,19 +1,30 @@
 import { useState } from 'react';
+import { useUser } from '../../contexts/UserContext';
 import { classNames } from '../../utils/styles';
-import { FilterItem, MapFiltersCategory } from '../MapFilter/mapFilters';
+import type { FilterItem, MapFiltersCategory } from '../MapFilter/mapFilters';
 import styles from './AddResources.module.css';
 import FishingDetails from './FishingDetails';
 import SelectCategory from './SelectCategory';
 import SelectPosition from './SelectPosition';
 import StepIcon from './StepIcon';
+import UploadScreenshot from './UploadScreenshot';
 
 function AddResources(): JSX.Element {
+  const user = useUser();
   const [step, setStep] = useState(0);
   const [category, setCategory] = useState<MapFiltersCategory | null>(null);
   const [filter, setFilter] = useState<FilterItem | null>(null);
   const [position, setPosition] = useState<[number, number, number] | null>(
     null
   );
+
+  function handleUploadScreenshot(screenshotPath: string): void {
+    if (!filter || !position || !user) {
+      return;
+    }
+    const marker = { type: filter.type, position, username: user.username };
+    console.log(marker, screenshotPath);
+  }
 
   return (
     <section className={styles.container}>
@@ -88,7 +99,7 @@ function AddResources(): JSX.Element {
           }}
         />
       )}
-      {step === 3 && <div>Screenshot</div>}
+      {step === 3 && <UploadScreenshot onUpload={handleUploadScreenshot} />}
     </section>
   );
 }

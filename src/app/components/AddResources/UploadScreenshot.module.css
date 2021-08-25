@@ -1,0 +1,26 @@
+.container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  text-align: center;
+  align-items: center;
+}
+
+.preview {
+  display: grid;
+  justify-items: center;
+}
+.screenshot {
+  max-width: 400px;
+  max-height: 300px;
+}
+
+.upload {
+  padding: 1em;
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+.upload:disabled {
+  background: var(--color-trivial);
+  color: var(--color-text);
+}
