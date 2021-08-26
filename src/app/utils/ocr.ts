@@ -53,7 +53,7 @@ export function getPosition(): Promise<[number, number]> {
       if (y > 14336) {
         y /= 1000;
       }
-      resolve([y, x]);
+      resolve([x, y]);
     });
   });
 }

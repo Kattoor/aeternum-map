@@ -32,6 +32,7 @@
 .nav button {
   padding: 0.5em;
   background: none;
+  display: grid;
 }
 
 .nav .nav__active {
@@ -42,7 +43,8 @@
   background: var(--color-shade-two);
 }
 
-.nav svg {
+.nav svg,
+.nav img {
   width: 16px;
   height: 16px;
   color: var(--color-text);

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { createContext, useEffect, useState, useContext } from 'react';
 import type { User } from '../../types';
+import { fetchJSON } from '../utils/api';
 import { getCurrentUser } from '../utils/profile';
 
 const UserContext = createContext<User | null>(null);
@@ -16,7 +17,7 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
     async function loadUser() {
       try {
         const currentUser = await getCurrentUser();
-        const result = await fetch('/api/users', {
+        const result = await fetchJSON('/api/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -26,7 +27,7 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
             displayName: currentUser.displayName,
             avatar: currentUser.avatar,
           }),
-        }).then((response) => response.json());
+        });
         setUser(result as User);
       } catch (error) {
         console.error(error);

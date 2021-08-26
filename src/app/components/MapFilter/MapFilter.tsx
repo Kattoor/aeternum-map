@@ -11,6 +11,7 @@ import MarkersView from './MarkersView';
 import MenuOpenIcon from '../icons/MenuOpenIcon';
 import SearchIcon from '../icons/SearchIcon';
 import AddResources from '../AddResources/AddResources';
+import { usePosition } from '../../contexts/PositionContext';
 
 type View = 'markers' | 'areas' | 'search';
 
@@ -18,6 +19,7 @@ function MapFilter(): JSX.Element {
   const { addModal } = useModal();
   const [isOpen, setIsOpen] = useState(true);
   const { url, search } = useRouter();
+  const { following, toggleFollowing } = usePosition();
 
   function handleViewClick(view: View) {
     setIsOpen(true);
@@ -64,6 +66,12 @@ function MapFilter(): JSX.Element {
         </button>
         <button onClick={() => setIsOpen(!isOpen)}>
           <MenuOpenIcon />
+        </button>
+        <button
+          onClick={toggleFollowing}
+          className={classNames(following && styles.nav__active)}
+        >
+          <img src="/player.webp" alt="" />
         </button>
       </nav>
     </aside>

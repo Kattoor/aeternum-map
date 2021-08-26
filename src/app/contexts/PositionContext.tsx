@@ -5,12 +5,16 @@ import { getPosition } from '../utils/ocr';
 type PositionContextProps = {
   position: [number, number] | null;
   tracking: boolean;
+  following: boolean;
   toggleTracking: () => void;
+  toggleFollowing: () => void;
 };
 const PositionContext = createContext<PositionContextProps>({
   position: null,
   tracking: false,
+  following: true,
   toggleTracking: () => undefined,
+  toggleFollowing: () => undefined,
 });
 
 type PositionProviderProps = {
@@ -22,6 +26,7 @@ export function PositionProvider({
 }: PositionProviderProps): JSX.Element {
   const [position, setPosition] = useState<[number, number] | null>(null);
   const [tracking, setTracking] = useState(false);
+  const [following, setFollowing] = useState(true);
 
   useEffect(() => {
     if (!tracking) {
@@ -44,8 +49,14 @@ export function PositionProvider({
   function toggleTracking() {
     setTracking(!tracking);
   }
+
+  function toggleFollowing() {
+    setFollowing(!following);
+  }
   return (
-    <PositionContext.Provider value={{ position, tracking, toggleTracking }}>
+    <PositionContext.Provider
+      value={{ position, tracking, following, toggleTracking, toggleFollowing }}
+    >
       {children}
     </PositionContext.Provider>
   );
