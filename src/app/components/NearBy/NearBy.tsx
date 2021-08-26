@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useMarkers } from '../../contexts/MarkersContext';
-import { useRouter } from '../Router/Router';
+import { usePosition } from '../../contexts/PositionContext';
 import styles from './NearBy.module.css';
 import NearByMarker from './NearByMarker';
 
@@ -16,40 +16,45 @@ function getDistance(
 }
 
 function NearBy(): JSX.Element {
-  const { url } = useRouter();
+  const { position, toggleTracking } = usePosition();
   const { markers } = useMarkers();
-  const lat = +(url.searchParams.get('y') || 0);
-  const lng = +(url.searchParams.get('x') || 0);
-  const userPosition = [lng, lat, 100];
 
   const markersByDistance = useMemo(
     () =>
+      position &&
       markers
         .sort(({ position: positionA }, { position: positionB }) => {
           const distanceA = getDistance(
             positionA[0],
             positionA[1],
-            userPosition[0],
-            userPosition[1]
+            position[0],
+            position[1]
           );
           const distanceB = getDistance(
             positionB[0],
             positionB[1],
-            userPosition[0],
-            userPosition[1]
+            position[0],
+            position[1]
           );
           return distanceA - distanceB;
         })
         .slice(0, 20),
-    [markers, userPosition]
+    [markers, position]
   );
   return (
     <>
       <h3>Near by</h3>
       <section className={styles.container}>
-        {markersByDistance.map((marker) => (
-          <NearByMarker key={marker._id} marker={marker} />
-        ))}
+        {markersByDistance ? (
+          markersByDistance.map((marker) => (
+            <NearByMarker key={marker._id} marker={marker} />
+          ))
+        ) : (
+          <>
+            <p>Please run game with position log to use this feature.</p>
+            <button onClick={toggleTracking}>Test now</button>
+          </>
+        )}
       </section>
     </>
   );

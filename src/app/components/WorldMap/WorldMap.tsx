@@ -1,13 +1,12 @@
 import styles from './WorldMap.module.css';
 import useWorldMap from './useWorldMap';
 import useLayerGroups from './useLayerGroups';
-import { useEffect, useMemo, useState } from 'react';
-import { classNames } from '../../utils/styles';
-import { getPosition } from '../../utils/ocr';
+import { useMemo } from 'react';
 import type { Marker } from '../../contexts/MarkersContext';
 import { useRouter } from '../Router/Router';
 import { useModal } from '../../contexts/ModalContext';
 import MarkerDetails from '../MarkerDetails/MarkerDetails';
+import usePlayerPosition from './usePlayerPosition';
 
 type WorldMapProps = {
   markers: Marker[];
@@ -33,41 +32,9 @@ function WorldMap({ markers }: WorldMapProps): JSX.Element {
       });
     },
   });
-  const [follow, setFollow] = useState(false);
+  usePlayerPosition({ leafletMap });
 
-  useEffect(() => {
-    if (!leafletMap || !follow) {
-      return;
-    }
-
-    const intervalId = setInterval(async () => {
-      try {
-        const position = await getPosition();
-        console.log(`Move to ${position}`);
-        leafletMap.setView(position);
-      } catch (error) {
-        console.error(error);
-      }
-    }, 5000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [leafletMap, follow]);
-
-  return (
-    <div className={styles.map} ref={elementRef}>
-      <button
-        className={classNames(
-          styles.follow,
-          follow && styles['follow--active']
-        )}
-        onClick={() => setFollow(!follow)}
-      >
-        Follow
-      </button>
-    </div>
-  );
+  return <div className={styles.map} ref={elementRef} />;
 }
 
 export default WorldMap;

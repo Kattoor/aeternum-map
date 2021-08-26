@@ -1,3 +1,4 @@
+import { usePosition } from '../../contexts/PositionContext';
 import { useUser } from '../../contexts/UserContext';
 import { openLoginDialog } from '../../utils/profile';
 import Avatar from '../Avatar/Avatar';
@@ -5,6 +6,7 @@ import styles from './User.module.css';
 
 function User(): JSX.Element {
   const user = useUser();
+  const { position } = usePosition();
 
   let content: JSX.Element | null = null;
   if (user) {
@@ -20,8 +22,13 @@ function User(): JSX.Element {
 
   return (
     <section className={styles.header}>
-      <Avatar src={user?.avatar || '/icon.png'} alt="" />
+      <Avatar
+        src={user?.avatar || '/icon.png'}
+        alt=""
+        className={styles.avatar}
+      />
       {content}
+      <p>Position: {position ? `[${position?.join(', ')}]` : 'unknown'}</p>
     </section>
   );
 }

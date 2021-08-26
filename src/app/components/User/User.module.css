@@ -6,3 +6,7 @@
   padding-bottom: 0.5em;
   align-items: center;
 }
+
+.avatar {
+  grid-row: 1 / 3;
+}
