@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRouter } from '../Router/Router';
+import { useMarkers } from '../../contexts/MarkersContext';
 
 function toThreeDigits(number: number): string {
   if (number < 10) {
@@ -116,6 +117,7 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
   if (!selectMode) {
     const x = +(url.searchParams.get('x') || 0);
     const y = +(url.searchParams.get('y') || 0);
+    const { markers } = useMarkers();
 
     useEffect(() => {
       if (leafletMap && x && y) {
@@ -125,6 +127,17 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
         }
       }
     }, [leafletMap, x, y]);
+
+    useEffect(() => {
+      if (leafletMap && url.pathname) {
+        const marker = markers.find(
+          (marker) => marker._id === url.pathname.slice(1)
+        );
+        if (marker) {
+          leafletMap.setView([marker.position[1], marker.position[0]]);
+        }
+      }
+    }, [leafletMap, url.pathname, markers]);
 
     useEffect(() => {
       if (!leafletMap) {

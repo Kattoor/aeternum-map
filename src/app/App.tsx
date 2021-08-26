@@ -3,7 +3,7 @@ import styles from './App.module.css';
 import Ads from './components/Ads/Ads';
 import AppHeader from './components/AppHeader/AppHeader';
 import MapFilter from './components/MapFilter/MapFilter';
-import NewMarker from './components/NewMarker/NewMarker';
+import NearBy from './components/NearBy/NearBy';
 import { useRouter } from './components/Router/Router';
 import User from './components/User/User';
 import WorldMap from './components/WorldMap/WorldMap';
@@ -32,7 +32,7 @@ function App(): JSX.Element {
       <WorldMap markers={markers} />
       <aside className={styles.more}>
         <User />
-        <NewMarker />
+        <NearBy />
         <Ads />
       </aside>
     </div>
