@@ -1,13 +1,15 @@
 .container {
   overflow: hidden;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto 1fr auto;
   gap: 0.5em;
+  height: 100%;
 }
 
 .header {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-auto-flow: column;
+  grid-template: auto auto auto / auto 1fr auto;
   column-gap: 1em;
   border-bottom: 1px solid var(--color-shade-two);
   padding-bottom: 0.5em;
@@ -17,10 +19,15 @@
   align-self: end;
 }
 
-.header img {
-  grid-row: 1 / 3;
+.header img,
+.header a {
+  grid-row: 1 / 4;
 }
 
+.preview {
+  height: 4em;
+  width: auto;
+}
 .main {
   overflow: auto;
   display: flex;

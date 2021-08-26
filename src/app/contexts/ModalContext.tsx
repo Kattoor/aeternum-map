@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react';
 import Modal from '../components/Modal/Modal';
 
 type ModalData = {
-  title: string;
+  title?: string;
   children: ReactNode;
 };
 type ModalContextProps = {

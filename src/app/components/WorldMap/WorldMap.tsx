@@ -6,13 +6,16 @@ import { classNames } from '../../utils/styles';
 import { getPosition } from '../../utils/ocr';
 import type { Marker } from '../../contexts/MarkersContext';
 import { useRouter } from '../Router/Router';
+import { useModal } from '../../contexts/ModalContext';
+import MarkerDetails from '../MarkerDetails/MarkerDetails';
 
 type WorldMapProps = {
   markers: Marker[];
 };
 
 function WorldMap({ markers }: WorldMapProps): JSX.Element {
-  const { url, go } = useRouter();
+  const { url } = useRouter();
+  const { addModal } = useModal();
   const searchParam = url.searchParams.get('mapFilters');
   const filters = useMemo(
     () => (searchParam?.length ? searchParam.split(',') : []),
@@ -25,7 +28,9 @@ function WorldMap({ markers }: WorldMapProps): JSX.Element {
     leafletMap,
     filters,
     onMarkerClick: (marker) => {
-      go(`/${marker._id}`, true);
+      addModal({
+        children: <MarkerDetails marker={marker} />,
+      });
     },
   });
   const [follow, setFollow] = useState(false);

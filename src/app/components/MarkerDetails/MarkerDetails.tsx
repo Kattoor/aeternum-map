@@ -24,15 +24,25 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
         <img src={filterItem?.iconUrl} alt="" width={64} height={64} />
         <h2>{filterItem?.title}</h2>
         <p>[{marker.position.join(', ')}]</p>
+        <small>Added {toTimeAgo(new Date(marker.createdAt))}</small>
+        <a
+          href={
+            marker.screenshotFilename &&
+            getScreenshotUrl(marker.screenshotFilename)
+          }
+          target="_blank"
+        >
+          <img
+            className={styles.preview}
+            src={
+              marker.screenshotFilename
+                ? getScreenshotUrl(marker.screenshotFilename)
+                : '/icon.png'
+            }
+            alt=""
+          />
+        </a>
       </header>
-      <aside className={styles.aside}>
-        {marker.screenshotFilename && (
-          <a href={getScreenshotUrl(marker.screenshotFilename)} target="_blank">
-            Screenshot
-          </a>
-        )}
-        <span>Added {toTimeAgo(new Date(marker.createdAt))}</span>
-      </aside>
       <main className={styles.main}>
         {comments?.map((comment) => (
           <Comment
