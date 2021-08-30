@@ -9,12 +9,12 @@ import MapIcon from '../icons/MapIcon';
 import MarkerIcon from '../icons/MarkerIcon';
 import MarkersView from './MarkersView';
 import MenuOpenIcon from '../icons/MenuOpenIcon';
-import SearchIcon from '../icons/SearchIcon';
 import AddResources from '../AddResources/AddResources';
 import { usePosition } from '../../contexts/PositionContext';
 import Ads from '../Ads/Ads';
 import NearBy from '../NearBy/NearBy';
 import User from '../User/User';
+import NearByIcon from '../icons/NearByIcon';
 
 type View = 'markers' | 'areas' | 'nearBy';
 
@@ -53,7 +53,10 @@ function MapFilter(): JSX.Element {
           <AddIcon />
         </button>
         <button
-          className={classNames(view === 'markers' && styles.nav__active)}
+          className={classNames(
+            styles.nav__border,
+            view === 'markers' && styles.nav__active
+          )}
           onClick={() => handleViewClick('markers')}
         >
           <MarkerIcon />
@@ -68,16 +71,23 @@ function MapFilter(): JSX.Element {
           className={classNames(view === 'nearBy' && styles.nav__active)}
           onClick={() => handleViewClick('nearBy')}
         >
-          <SearchIcon />
+          <NearByIcon />
         </button>
-        <button onClick={() => setIsOpen(!isOpen)}>
-          <MenuOpenIcon />
-        </button>
+
         <button
           onClick={toggleFollowing}
-          className={classNames(following && styles.nav__active)}
+          className={classNames(
+            styles.nav__border,
+            following && styles.nav__active
+          )}
         >
           <img src="/player.webp" alt="" />
+        </button>
+        <button
+          className={styles.nav__border}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <MenuOpenIcon />
         </button>
       </nav>
     </aside>

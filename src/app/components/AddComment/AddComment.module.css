@@ -7,22 +7,25 @@
 
 .form textarea {
   resize: none;
+  padding-left: 0.5em;
 }
 
 .form input[type='submit'] {
-  color: inherit;
   grid-column: 2;
   grid-row: 1 / 3;
   padding: 1em;
   border-bottom-right-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
-  background: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-three);
+}
+.form input[type='submit']:hover {
+  background: var(--color-shade-three);
 }
 
 .form input[type='submit']:disabled {
   cursor: default;
   color: var(--color-trivial);
-  background: var(--color-three);
 }
 
 .form small {

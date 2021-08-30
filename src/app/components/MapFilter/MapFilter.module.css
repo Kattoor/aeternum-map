@@ -26,20 +26,21 @@
   left: 100%;
   top: calc(50% - 80px);
   z-index: 9000;
-  background: var(--color-shade-one);
 }
 
 .nav button {
   padding: 0.5em;
-  background: none;
   display: grid;
   color: var(--color-text);
+  background: var(--color-shade-one);
 }
 
-.nav .nav__active,
-.nav button:hover {
+.nav .nav__active {
   color: var(--color-primary);
   background: var(--color-shade-two);
+}
+.nav button:hover {
+  background: var(--color-shade-three);
 }
 
 .nav svg,
@@ -47,4 +48,8 @@
   width: 16px;
   height: 16px;
   color: inherit;
+}
+
+.nav__border {
+  border-top: 1px solid var(--color-shade-three);
 }

@@ -1,5 +1,6 @@
 .list {
   list-style: none;
+  margin-left: 0.5em;
   padding: 0.1em 0.25em;
 }
 
@@ -20,6 +21,10 @@
 
 .link:hover {
   background-color: var(--color-shade-three);
+}
+
+.link:active {
+  color: var(--color-primary);
 }
 
 .item::before {

@@ -42,9 +42,9 @@ function NearBy(): JSX.Element {
     [markers, position]
   );
   return (
-    <>
-      <h3>Near by</h3>
-      <section className={styles.container}>
+    <section className={styles.container}>
+      <h3>Near by markers</h3>
+      <div className={styles.items}>
         {markersByDistance ? (
           markersByDistance.map((marker) => (
             <NearByMarker key={marker._id} marker={marker} />
@@ -55,8 +55,8 @@ function NearBy(): JSX.Element {
             <button onClick={toggleTracking}>Test now</button>
           </>
         )}
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
