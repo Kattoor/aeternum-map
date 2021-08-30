@@ -20,7 +20,7 @@ function Modal({ children, title, onClose }: ModalProps): JSX.Element {
             <CloseIcon />
           </button>
         </header>
-        <main>{children}</main>
+        <main className={styles.main}>{children}</main>
       </div>
     </section>
   );

@@ -1,0 +1,25 @@
+.form {
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+.inputs {
+  display: grid;
+  gap: 1em;
+  justify-items: center;
+  align-items: center;
+}
+
+.input {
+  border-bottom: 1px solid var(--color-shade-four);
+  margin: 0 1em;
+  padding-bottom: 0;
+}
+
+.submit {
+  align-self: end;
+  justify-self: stretch;
+  padding: 1em;
+  background: var(--color-shade-two);
+  color: var(--color-primary);
+}

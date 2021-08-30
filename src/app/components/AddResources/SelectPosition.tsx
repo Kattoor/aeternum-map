@@ -6,12 +6,18 @@ import useLayerGroups from '../WorldMap/useLayerGroups';
 import useWorldMap from '../WorldMap/useWorldMap';
 import styles from './SelectPosition.module.css';
 import type { FilterItem } from '../MapFilter/mapFilters';
+import type { Details } from './AddResources';
 
 type SelectPositionType = {
+  details: Details | null;
   filter: FilterItem;
   onSelect: (position: [number, number, number]) => void;
 };
-function SelectPosition({ filter, onSelect }: SelectPositionType): JSX.Element {
+function SelectPosition({
+  details,
+  filter,
+  onSelect,
+}: SelectPositionType): JSX.Element {
   const { markers } = useMarkers();
   const router = useRouter();
   const [x, setX] = useState(+(router.url.searchParams.get('x') || 0));
@@ -20,6 +26,7 @@ function SelectPosition({ filter, onSelect }: SelectPositionType): JSX.Element {
 
   const { leafletMap, elementRef } = useWorldMap({ selectMode: true });
   useGeoman({
+    details,
     leafletMap,
     iconUrl: filter.iconUrl,
     filter,

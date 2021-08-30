@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Checkbox from './Checkbox';
 import type { MapFiltersCategory } from './mapFilters';
 import styles from './MarkerSection.module.css';
@@ -16,23 +15,21 @@ function MarkerSection({
 }: MarkerSectionProps): JSX.Element {
   return (
     <section key={mapFilterCategory.value} className={styles.container}>
-      {mapFilterCategory.filters.length > 1 && (
-        <Checkbox
-          onChange={(checked) =>
-            onToggle(
-              mapFilterCategory.filters.map((filter) => filter.type),
-              checked
-            )
-          }
-          checked={filters.some((filter) =>
-            mapFilterCategory.filters.some(
-              (categoryFilter) => categoryFilter.type === filter
-            )
-          )}
-          title={mapFilterCategory.title}
-          className={styles.category}
-        />
-      )}
+      <Checkbox
+        onChange={(checked) =>
+          onToggle(
+            mapFilterCategory.filters.map((filter) => filter.type),
+            checked
+          )
+        }
+        checked={filters.some((filter) =>
+          mapFilterCategory.filters.some(
+            (categoryFilter) => categoryFilter.type === filter
+          )
+        )}
+        title={mapFilterCategory.title}
+        className={styles.category}
+      />
       <div className={styles.items}>
         {mapFilterCategory.filters.map((filter) => (
           <Checkbox

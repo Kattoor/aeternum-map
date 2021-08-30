@@ -1,0 +1,34 @@
+.container {
+  overflow: auto;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 150px);
+}
+
+.filter {
+  display: grid;
+  grid-template-columns: 1.5em 1fr;
+  grid-gap: 0.25em;
+  position: relative;
+  transition: background-color 0.1s ease-in;
+  background: none;
+  color: var(--color-text);
+  text-align: left;
+  align-items: center;
+  padding: 0;
+}
+
+.filter:hover {
+  color: var(--color-primary);
+}
+
+.filter img {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.title {
+  margin: 0.5em 0;
+}

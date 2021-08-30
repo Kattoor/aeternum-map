@@ -3,7 +3,7 @@ import { fetchJSON } from '../../utils/api';
 import styles from './UploadScreenshot.module.css';
 
 type UploadScreenshotProps = {
-  onUpload: (path: string) => void;
+  onUpload: (path?: string) => void;
 };
 function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
   const [screenshot, setScreenshot] = useState<File | null>(null);
@@ -14,7 +14,9 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
   }
 
   async function handleUpload() {
-    if (screenshot) {
+    if (!screenshot) {
+      onUpload();
+    } else {
       const formData = new FormData();
       formData.append('screenshot', screenshot);
 
@@ -28,9 +30,6 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
 
   return (
     <div className={styles.container}>
-      <p>
-        Please make sure that your screenshot shows the resource and position.
-      </p>
       <div className={styles.preview}>
         {screenshot && (
           <img
@@ -46,12 +45,8 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
           name="screenshot"
         />
       </div>
-      <button
-        disabled={!screenshot}
-        onClick={handleUpload}
-        className={styles.upload}
-      >
-        Save
+      <button onClick={handleUpload} className={styles.upload}>
+        {!screenshot ? 'Skip screenshot' : 'Save'}
       </button>
     </div>
   );

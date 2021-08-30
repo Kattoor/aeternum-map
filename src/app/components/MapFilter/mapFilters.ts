@@ -10,6 +10,36 @@ export type FilterItem = {
 
 export const mapFilters: FilterItem[] = [
   {
+    category: 'locations',
+    type: 'city',
+    title: i18n('City'),
+    iconUrl: '/pois/city.webp',
+  },
+  {
+    category: 'locations',
+    type: 'expedition',
+    title: i18n('Expedition'),
+    iconUrl: '/pois/expedition.webp',
+  },
+  {
+    category: 'locations',
+    type: 'fort',
+    title: i18n('Fort'),
+    iconUrl: '/pois/fort.webp',
+  },
+  {
+    category: 'locations',
+    type: 'outpost',
+    title: i18n('Outpost'),
+    iconUrl: '/pois/outpost.webp',
+  },
+  {
+    category: 'locations',
+    type: 'spiritShrine',
+    title: i18n('Spirit Shrine'),
+    iconUrl: '/pois/spiritShrine.webp',
+  },
+  {
     category: 'fishing',
     type: 'fish_hotspot1',
     title: i18n('Fishing (Broad)'),
@@ -566,39 +596,40 @@ export const mapFilters: FilterItem[] = [
 export type MapFiltersCategory = {
   value: string;
   title: string;
-  imgSrc: string;
   filters: FilterItem[];
 };
 
 export const mapFiltersCategories: MapFiltersCategory[] = [
   {
+    value: 'locations',
+    title: 'Locations',
+    filters: mapFilters.filter(
+      (mapFilter) => mapFilter.category === 'locations'
+    ),
+  },
+  {
     value: 'fishing',
     title: 'Fishing',
-    imgSrc: '/filters/fishing.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'fishing'),
   },
   {
     value: 'farming',
     title: 'Farming',
-    imgSrc: '/filters/harvesting.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'farming'),
   },
   {
     value: 'logging',
     title: 'Logging',
-    imgSrc: '/filters/logging.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'logging'),
   },
   {
     value: 'mining',
     title: 'Mining',
-    imgSrc: '/filters/mining.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'mining'),
   },
   {
     value: 'skinning',
     title: 'Skinning',
-    imgSrc: '/filters/tracking.webp',
     filters: mapFilters.filter(
       (mapFilter) => mapFilter.category === 'skinning'
     ),
@@ -606,25 +637,21 @@ export const mapFiltersCategories: MapFiltersCategory[] = [
   {
     value: 'npc',
     title: 'NPC',
-    imgSrc: '/filters/npc.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'npc'),
   },
   {
     value: 'lore',
     title: 'Lore',
-    imgSrc: '/filters/lore.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'lore'),
   },
   {
     value: 'chests',
     title: 'Chests',
-    imgSrc: '/filters/chests.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'chests'),
   },
   {
     value: 'essences',
     title: 'Essences',
-    imgSrc: '/filters/alchemy.webp',
     filters: mapFilters.filter(
       (mapFilter) => mapFilter.category === 'essences'
     ),
@@ -632,19 +659,16 @@ export const mapFiltersCategories: MapFiltersCategory[] = [
   {
     value: 'mobs',
     title: 'Mobs',
-    imgSrc: '/filters/mobs.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'mobs'),
   },
   {
     value: 'pigment',
     title: 'Pigment',
-    imgSrc: '/filters/pigment.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'pigment'),
   },
   {
     value: 'other',
     title: 'Other',
-    imgSrc: '/filters/other.webp',
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'other'),
   },
 ];

@@ -4,26 +4,29 @@ import { useModal } from '../../contexts/ModalContext';
 import { useUser } from '../../contexts/UserContext';
 import { fetchJSON } from '../../utils/api';
 import { classNames } from '../../utils/styles';
-import type { FilterItem, MapFiltersCategory } from '../MapFilter/mapFilters';
+import type { FilterItem } from '../MapFilter/mapFilters';
 import styles from './AddResources.module.css';
-import FishingDetails from './FishingDetails';
-import SelectCategory from './SelectCategory';
+import SelectType from './SelectType';
 import SelectPosition from './SelectPosition';
 import StepIcon from './StepIcon';
 import UploadScreenshot from './UploadScreenshot';
+import DetailsInput from './DetailsInput';
 
+export type Details = {
+  name: string;
+};
 function AddResources(): JSX.Element {
   const user = useUser();
   const { closeLatestModal } = useModal();
   const { refresh } = useMarkers();
   const [step, setStep] = useState(0);
-  const [category, setCategory] = useState<MapFiltersCategory | null>(null);
   const [filter, setFilter] = useState<FilterItem | null>(null);
+  const [details, setDetails] = useState<Details | null>(null);
   const [position, setPosition] = useState<[number, number, number] | null>(
     null
   );
 
-  async function handleUploadScreenshot(screenshotFilename: string) {
+  async function handleUploadScreenshot(screenshotFilename?: string) {
     if (!filter || !position || !user) {
       return;
     }
@@ -32,6 +35,7 @@ function AddResources(): JSX.Element {
       position,
       username: user.username,
       screenshotFilename,
+      ...details,
     };
     await fetchJSON('/api/markers', {
       method: 'POST',
@@ -48,19 +52,19 @@ function AddResources(): JSX.Element {
     <section className={styles.container}>
       <aside className={styles.stepper}>
         <button onClick={() => setStep(0)} className={styles.step}>
-          <StepIcon step={1} done={Boolean(category)} disabled={false} />{' '}
+          <StepIcon step={1} done={Boolean(filter)} disabled={false} />{' '}
           <span className={classNames(step === 0 && styles.active)}>
-            {category ? category.title : 'Select category'}
+            {filter ? filter.title : 'Select type'}
           </span>
         </button>
         <button
           onClick={() => setStep(1)}
           className={styles.step}
-          disabled={!category}
+          disabled={!filter}
         >
-          <StepIcon step={2} done={Boolean(filter)} disabled={!category} />{' '}
+          <StepIcon step={2} done={Boolean(details)} disabled={!filter} />{' '}
           <span className={classNames(step === 1 && styles.active)}>
-            {filter ? filter.title : 'Enter details'}
+            Enter details
           </span>
         </button>
         <button
@@ -70,7 +74,7 @@ function AddResources(): JSX.Element {
         >
           <StepIcon step={3} done={Boolean(position)} disabled={!filter} />{' '}
           <span className={classNames(step === 2 && styles.active)}>
-            {position ? `[${position.join(', ')}]` : 'Set position'}
+            Set position
           </span>
         </button>
         <button
@@ -85,31 +89,25 @@ function AddResources(): JSX.Element {
         </button>
       </aside>
       {step === 0 && (
-        <SelectCategory
-          onSelect={(category) => {
-            setCategory(category);
-            setFilter(null);
+        <SelectType
+          onSelect={(filter) => {
+            setFilter(filter);
             setPosition(null);
             setStep(1);
           }}
         />
       )}
-      {step === 1 && category && (
-        <>
-          {category.value === 'fishing' && (
-            <FishingDetails
-              category={category}
-              onFilterChange={(filter) => {
-                setFilter(filter);
-                setPosition(null);
-                setStep(2);
-              }}
-            />
-          )}
-        </>
+      {step === 1 && filter && (
+        <DetailsInput
+          onChange={(details) => {
+            setDetails(details);
+            setStep(2);
+          }}
+        />
       )}
-      {step === 2 && category && filter && (
+      {step === 2 && filter && (
         <SelectPosition
+          details={details}
           filter={filter}
           onSelect={(position) => {
             setPosition(position);
