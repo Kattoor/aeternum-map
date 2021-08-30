@@ -3,10 +3,15 @@
   grid-template-rows: 1fr auto;
 }
 
+.label {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+}
+
 .inputs {
   display: grid;
   gap: 1em;
-  justify-items: center;
+  place-content: center;
   align-items: center;
 }
 

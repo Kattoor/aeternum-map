@@ -11,12 +11,6 @@ export type FilterItem = {
 export const mapFilters: FilterItem[] = [
   {
     category: 'locations',
-    type: 'city',
-    title: i18n('City'),
-    iconUrl: '/pois/city.webp',
-  },
-  {
-    category: 'locations',
     type: 'expedition',
     title: i18n('Expedition'),
     iconUrl: '/pois/expedition.webp',
@@ -32,6 +26,12 @@ export const mapFilters: FilterItem[] = [
     type: 'outpost',
     title: i18n('Outpost'),
     iconUrl: '/pois/outpost.webp',
+  },
+  {
+    category: 'locations',
+    type: 'settlement',
+    title: i18n('Settlement'),
+    iconUrl: '/pois/settlement.webp',
   },
   {
     category: 'locations',

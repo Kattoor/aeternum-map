@@ -32,8 +32,8 @@
         "transparent": true,
         "override_on_update": true,
         "size": {
-          "width": 1212,
-          "height": 699
+          "width": 1280,
+          "height": 720
         },
         "min_size": {
           "width": 1212,

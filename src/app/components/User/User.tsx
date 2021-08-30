@@ -1,4 +1,3 @@
-import { usePosition } from '../../contexts/PositionContext';
 import { useUser } from '../../contexts/UserContext';
 import { openLoginDialog } from '../../utils/profile';
 import Avatar from '../Avatar/Avatar';

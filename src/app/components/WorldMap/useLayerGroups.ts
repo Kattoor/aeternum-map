@@ -53,7 +53,6 @@ function useLayerGroups({
       const markersOfType = markers.filter(
         (marker) => marker.type === mapFilter.type
       );
-      const icon = new LeafIcon({ iconUrl: mapFilter.iconUrl });
 
       const existingLayerGroup = layerGroupByFilterRef.current[mapFilter.type];
       if (existingLayerGroup) {
@@ -62,6 +61,7 @@ function useLayerGroups({
         }
         leafletMap.removeLayer(existingLayerGroup);
       }
+      const icon = new LeafIcon({ iconUrl: mapFilter.iconUrl });
       const layerGroup = leaflet.markerClusterGroup({
         iconCreateFunction: () => icon,
         disableClusteringAtZoom: 5,
