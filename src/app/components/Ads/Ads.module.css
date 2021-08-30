@@ -2,4 +2,13 @@
   background: var(--color-shade-one);
   height: 300px;
   width: 400px;
+  position: relative;
+  border-top: 1px solid var(--color-shade-three);
+}
+
+.text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
 }

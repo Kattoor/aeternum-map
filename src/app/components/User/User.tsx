@@ -6,29 +6,21 @@ import styles from './User.module.css';
 
 function User(): JSX.Element {
   const user = useUser();
-  const { position } = usePosition();
-
-  let content: JSX.Element | null = null;
-  if (user) {
-    content = <h3>{user.displayName}</h3>;
-  } else {
-    content = (
-      <p>
-        For full functionality, please{' '}
-        <button onClick={openLoginDialog}>Login</button>
-      </p>
-    );
-  }
 
   return (
-    <section className={styles.header}>
+    <section className={styles.container}>
       <Avatar
         src={user?.avatar || '/icon.png'}
         alt=""
         className={styles.avatar}
       />
-      {content}
-      <p>Position: {position ? `[${position?.join(', ')}]` : 'unknown'}</p>
+      {user ? (
+        <span>{user.displayName}</span>
+      ) : (
+        <button onClick={openLoginDialog} className={styles.login}>
+          Login for full functionality
+        </button>
+      )}
     </section>
   );
 }

@@ -9,16 +9,16 @@
 .content {
   position: absolute;
   left: 0;
-  width: 250px;
+  width: 400px;
   height: 100%;
   overflow: hidden;
   display: grid;
-  align-content: start;
+  grid-template-rows: auto 1fr auto;
 }
 
 .open {
   transform: none;
-  width: 250px;
+  width: 400px;
 }
 
 .nav {
@@ -33,13 +33,12 @@
   padding: 0.5em;
   background: none;
   display: grid;
+  color: var(--color-text);
 }
 
-.nav .nav__active {
-  background: var(--color-shade-two);
-}
-
+.nav .nav__active,
 .nav button:hover {
+  color: var(--color-primary);
   background: var(--color-shade-two);
 }
 
@@ -47,5 +46,5 @@
 .nav img {
   width: 16px;
   height: 16px;
-  color: var(--color-text);
+  color: inherit;
 }

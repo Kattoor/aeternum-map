@@ -30,7 +30,6 @@ function MarkersView(): JSX.Element {
 
   return (
     <>
-      <CategoryTitle>Markers</CategoryTitle>
       <div className={styles.list}>
         {mapFiltersCategories.map((mapFilterCategory) => (
           <MarkerSection

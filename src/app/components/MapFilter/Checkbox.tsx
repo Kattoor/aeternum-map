@@ -2,9 +2,10 @@ import { classNames } from '../../utils/styles';
 import styles from './Checkbox.module.css';
 
 type CheckboxProps = {
-  imgSrc: string;
+  imgSrc?: string;
   title: string;
   checked: boolean;
+  className?: string;
   onChange: (checked: boolean) => void;
 };
 
@@ -12,16 +13,23 @@ function Checkbox({
   imgSrc,
   title,
   checked,
+  className,
   onChange,
 }: CheckboxProps): JSX.Element {
   return (
-    <label className={classNames(styles.filter, checked && styles.checked)}>
+    <label
+      className={classNames(
+        className,
+        styles.filter,
+        checked && styles.checked
+      )}
+    >
       <input
         type="checkbox"
         onChange={(event) => onChange(event.target.checked)}
         checked={checked}
       />
-      <img src={imgSrc} alt="" />
+      {imgSrc && <img src={imgSrc} alt="" />}
       {title}
     </label>
   );

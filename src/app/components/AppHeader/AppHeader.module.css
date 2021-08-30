@@ -1,10 +1,11 @@
 .header {
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  background-color: var(--color-shade-one);
+  background-color: var(--color-shade-three);
   user-select: none;
+  padding-left: 0.5em;
 }
 
 .title {
@@ -13,6 +14,14 @@
   font-size: 0.8em;
   color: var(--color-text);
   font-family: var(--font-family-primary);
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.logo {
+  height: 1.7em;
+  width: 1.7em;
 }
 
 .button {
@@ -25,7 +34,7 @@
 }
 
 .button:hover {
-  background-color: var(--color-shade-three);
+  background-color: var(--color-shade-two);
 }
 
 .button--danger:hover {

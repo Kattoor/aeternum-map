@@ -17,6 +17,6 @@
 
 .save {
   padding: 1em;
-  background: var(--color-primary);
-  color: var(--color-text);
+  background: var(--color-shade-two);
+  color: var(--color-primary);
 }

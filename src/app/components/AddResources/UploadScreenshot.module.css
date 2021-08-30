@@ -16,11 +16,12 @@
 
 .upload {
   padding: 1em;
-  background: var(--color-primary);
-  color: var(--color-text);
+  background: var(--color-shade-two);
+  color: var(--color-primary);
 }
 
 .upload:disabled {
   background: var(--color-trivial);
-  color: var(--color-text);
+  color: var(--color-shade-two);
+  cursor: default;
 }

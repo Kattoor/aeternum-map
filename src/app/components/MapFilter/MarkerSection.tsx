@@ -14,42 +14,27 @@ function MarkerSection({
   filters,
   onToggle,
 }: MarkerSectionProps): JSX.Element {
-  const [open, setOpen] = useState(mapFilterCategory.filters.length <= 1);
   return (
     <section key={mapFilterCategory.value} className={styles.container}>
       {mapFilterCategory.filters.length > 1 && (
-        <div className={styles.category}>
-          <Checkbox
-            onChange={(checked) =>
-              onToggle(
-                mapFilterCategory.filters.map((filter) => filter.type),
-                checked
-              )
-            }
-            checked={filters.some((filter) =>
-              mapFilterCategory.filters.some(
-                (categoryFilter) => categoryFilter.type === filter
-              )
-            )}
-            imgSrc={mapFilterCategory.imgSrc}
-            title={mapFilterCategory.title}
-          />
-          <svg
-            height="24px"
-            viewBox="0 0 24 24"
-            width="24px"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? (
-              <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z" />
-            ) : (
-              <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
-            )}
-          </svg>
-        </div>
+        <Checkbox
+          onChange={(checked) =>
+            onToggle(
+              mapFilterCategory.filters.map((filter) => filter.type),
+              checked
+            )
+          }
+          checked={filters.some((filter) =>
+            mapFilterCategory.filters.some(
+              (categoryFilter) => categoryFilter.type === filter
+            )
+          )}
+          title={mapFilterCategory.title}
+          className={styles.category}
+        />
       )}
-      {open &&
-        mapFilterCategory.filters.map((filter) => (
+      <div className={styles.items}>
+        {mapFilterCategory.filters.map((filter) => (
           <Checkbox
             key={filter.type}
             onChange={(checked) => onToggle([filter.type], checked)}
@@ -58,6 +43,7 @@ function MarkerSection({
             title={filter.title}
           />
         ))}
+      </div>
     </section>
   );
 }

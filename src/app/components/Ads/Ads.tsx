@@ -54,7 +54,13 @@ function Ads(): JSX.Element {
     };
   }, [owAd]);
 
-  return <div className={classes.container} ref={containerRef}></div>;
+  return (
+    <div className={classes.container} ref={containerRef}>
+      <span className={classes.text}>
+        Ads support the development of this app
+      </span>
+    </div>
+  );
 }
 
 export default Ads;

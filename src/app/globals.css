@@ -18,11 +18,11 @@
 }
 
 :root {
-  --color-primary: #04af4b;
-  --color-text: #fefefe;
+  --color-primary: #ffb10f;
+  --color-text: #b2b2b2;
   --color-trivial: #ababab;
-  --color-shade-one: #222;
-  --color-shade-two: #555;
+  --color-shade-one: #232220;
+  --color-shade-two: #141312;
   --color-shade-three: #333;
   --color-shade-four: #efefef;
   --color-alert: #b61313;

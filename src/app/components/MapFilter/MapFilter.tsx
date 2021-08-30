@@ -12,8 +12,11 @@ import MenuOpenIcon from '../icons/MenuOpenIcon';
 import SearchIcon from '../icons/SearchIcon';
 import AddResources from '../AddResources/AddResources';
 import { usePosition } from '../../contexts/PositionContext';
+import Ads from '../Ads/Ads';
+import NearBy from '../NearBy/NearBy';
+import User from '../User/User';
 
-type View = 'markers' | 'areas' | 'search';
+type View = 'markers' | 'areas' | 'nearBy';
 
 function MapFilter(): JSX.Element {
   const { addModal } = useModal();
@@ -32,8 +35,11 @@ function MapFilter(): JSX.Element {
   return (
     <aside className={classNames(styles.container, isOpen && styles.open)}>
       <div className={styles.content}>
+        <User />
         {view === 'markers' && <MarkersView />}
         {view === 'areas' && <AreasView />}
+        {view === 'nearBy' && <NearBy />}
+        <Ads />
       </div>
       <nav className={styles.nav}>
         <button
@@ -59,8 +65,8 @@ function MapFilter(): JSX.Element {
           <MapIcon />
         </button>
         <button
-          className={classNames(view === 'search' && styles.nav__active)}
-          onClick={() => handleViewClick('search')}
+          className={classNames(view === 'nearBy' && styles.nav__active)}
+          onClick={() => handleViewClick('nearBy')}
         >
           <SearchIcon />
         </button>

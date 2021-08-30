@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
 import styles from './App.module.css';
-import Ads from './components/Ads/Ads';
 import AppHeader from './components/AppHeader/AppHeader';
 import MapFilter from './components/MapFilter/MapFilter';
-import NearBy from './components/NearBy/NearBy';
 import { useRouter } from './components/Router/Router';
-import User from './components/User/User';
 import WorldMap from './components/WorldMap/WorldMap';
 import { useMarkers } from './contexts/MarkersContext';
 
@@ -30,11 +27,6 @@ function App(): JSX.Element {
       <AppHeader />
       <MapFilter />
       <WorldMap markers={markers} />
-      <aside className={styles.more}>
-        <User />
-        <NearBy />
-        <Ads />
-      </aside>
     </div>
   );
 }

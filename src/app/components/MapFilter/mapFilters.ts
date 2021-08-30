@@ -12,19 +12,19 @@ export const mapFilters: FilterItem[] = [
   {
     category: 'fishing',
     type: 'fish_hotspot1',
-    title: i18n('Fish Hotspot (Broad)'),
+    title: i18n('Fishing (Broad)'),
     iconUrl: '/pois/fish_hotspot1.webp',
   },
   {
     category: 'fishing',
     type: 'fish_hotspot2',
-    title: 'Fish Hotspot (Rare)',
+    title: 'Fishing (Rare)',
     iconUrl: '/pois/fish_hotspot2.webp',
   },
   {
     category: 'fishing',
     type: 'fish_hotspot3',
-    title: 'Fish Hotspot (Secret)',
+    title: 'Fishing (Secret)',
     iconUrl: '/pois/fish_hotspot3.webp',
   },
   {
