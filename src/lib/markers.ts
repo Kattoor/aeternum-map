@@ -38,6 +38,12 @@ export function ensureMarkersSchema(): Promise<Document> {
           name: {
             bsonType: 'string',
           },
+          level: {
+            bsonType: 'int',
+          },
+          description: {
+            bsonType: 'string',
+          },
           username: {
             bsonType: 'string',
           },

@@ -13,7 +13,9 @@ import UploadScreenshot from './UploadScreenshot';
 import DetailsInput from './DetailsInput';
 
 export type Details = {
-  name: string;
+  description?: string;
+  name?: string;
+  level?: number;
 };
 function AddResources(): JSX.Element {
   const user = useUser();
@@ -99,13 +101,14 @@ function AddResources(): JSX.Element {
       )}
       {step === 1 && filter && (
         <DetailsInput
+          filter={filter}
           onChange={(details) => {
             setDetails(details);
             setStep(2);
           }}
         />
       )}
-      {step === 2 && filter && (
+      {step === 2 && filter && details && (
         <SelectPosition
           details={details}
           filter={filter}

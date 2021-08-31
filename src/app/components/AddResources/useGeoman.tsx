@@ -8,9 +8,10 @@ import { LeafIcon } from '../WorldMap/useLayerGroups';
 import type { FilterItem } from '../MapFilter/mapFilters';
 import { useRef } from 'react';
 import type { Details } from './AddResources';
+import { getTooltipContent } from '../WorldMap/tooltips';
 
 type UseGeomanProps = {
-  details: Details | null;
+  details: Details;
   leafletMap: Map | null;
   iconUrl: string;
   filter: FilterItem;
@@ -34,13 +35,10 @@ function useGeoman({
       .marker([y, x], {
         icon: new LeafIcon({ iconUrl }),
       })
-      .bindTooltip(
-        details?.name ? `${details.name} (${filter.title})` : filter.title,
-        {
-          direction: 'top',
-          permanent: true,
-        }
-      )
+      .bindTooltip(getTooltipContent(details, filter), {
+        direction: 'top',
+        permanent: true,
+      })
   );
 
   useEffect(() => {

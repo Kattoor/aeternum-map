@@ -9,7 +9,7 @@ import type { FilterItem } from '../MapFilter/mapFilters';
 import type { Details } from './AddResources';
 
 type SelectPositionType = {
-  details: Details | null;
+  details: Details;
   filter: FilterItem;
   onSelect: (position: [number, number, number]) => void;
 };

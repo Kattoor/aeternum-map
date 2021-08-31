@@ -4,6 +4,7 @@ import { mapFilters } from '../MapFilter/mapFilters';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import type { Marker } from '../../contexts/MarkersContext';
+import { getTooltipContent } from './tooltips';
 
 export const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   leaflet.Icon.extend({
@@ -89,14 +90,9 @@ function useLayerGroups({
             icon,
             pmIgnore: true,
           })
-          .bindTooltip(
-            markerOfType.name
-              ? `${markerOfType.name} (${mapFilter.title})`
-              : mapFilter.title,
-            {
-              direction: 'top',
-            }
-          );
+          .bindTooltip(getTooltipContent(markerOfType, mapFilter), {
+            direction: 'top',
+          });
         if (onMarkerClick) {
           marker.on('click', () => {
             onMarkerClick(markerOfType);

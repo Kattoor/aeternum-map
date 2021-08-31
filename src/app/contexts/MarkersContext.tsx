@@ -12,6 +12,8 @@ export type Marker = {
   type: string;
   position: [number, number, number];
   name?: string;
+  level?: number;
+  description?: string;
   screenshotFilename?: string;
   createdAt: string;
   _id: string;

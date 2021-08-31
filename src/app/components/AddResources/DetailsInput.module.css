@@ -28,3 +28,9 @@
   background: var(--color-shade-two);
   color: var(--color-primary);
 }
+
+.submit:disabled {
+  background: var(--color-trivial);
+  color: var(--color-shade-two);
+  cursor: default;
+}

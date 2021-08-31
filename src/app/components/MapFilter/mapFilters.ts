@@ -6,6 +6,7 @@ export type FilterItem = {
   title: string;
   iconUrl: string;
   hasName?: boolean;
+  hasLevel?: boolean;
 };
 
 export const mapFilters: FilterItem[] = [
@@ -38,6 +39,52 @@ export const mapFilters: FilterItem[] = [
     type: 'spiritShrine',
     title: i18n('Spirit Shrine'),
     iconUrl: '/pois/spiritShrine.webp',
+  },
+  {
+    category: 'chests',
+    type: 'chests_t1',
+    title: i18n('Chest T1'),
+    iconUrl: '/pois/chest.webp',
+  },
+  {
+    category: 'chests',
+    type: 'chests_t2',
+    title: i18n('Chest T2'),
+    iconUrl: '/pois/chest.webp',
+  },
+  {
+    category: 'chests',
+    type: 'chests_t3',
+    title: i18n('Chest T3'),
+    iconUrl: '/pois/chest.webp',
+  },
+  {
+    category: 'chests',
+    type: 'chests_t4',
+    title: i18n('Chest T4'),
+    iconUrl: '/pois/chest.webp',
+  },
+  {
+    category: 'chests',
+    type: 'chests_t5',
+    title: i18n('Chest T5'),
+    iconUrl: '/pois/chest.webp',
+  },
+  {
+    category: 'enemies',
+    type: 'boss',
+    title: 'Boss',
+    iconUrl: '/pois/boss.webp',
+    hasName: true,
+    hasLevel: true,
+  },
+  {
+    category: 'enemies',
+    type: 'boss_elite',
+    title: 'Elite Boss',
+    iconUrl: '/pois/boss.webp',
+    hasName: true,
+    hasLevel: true,
   },
   {
     category: 'fishing',
@@ -207,36 +254,7 @@ export const mapFilters: FilterItem[] = [
     iconUrl: '/pois/lore_note.webp',
     hasName: true,
   },
-  {
-    category: 'chests',
-    type: 'chests_t1',
-    title: 'T1',
-    iconUrl: '/pois/chest.webp',
-  },
-  {
-    category: 'chests',
-    type: 'chests_t2',
-    title: 'T2',
-    iconUrl: '/pois/chest.webp',
-  },
-  {
-    category: 'chests',
-    type: 'chests_t3',
-    title: 'T3',
-    iconUrl: '/pois/chest.webp',
-  },
-  {
-    category: 'chests',
-    type: 'chests_t4',
-    title: 'T4',
-    iconUrl: '/pois/chest.webp',
-  },
-  {
-    category: 'chests',
-    type: 'chests_t5',
-    title: 'T5',
-    iconUrl: '/pois/chest.webp',
-  },
+
   {
     category: 'essences',
     type: 'essences_shockbulb',
@@ -519,12 +537,7 @@ export const mapFilters: FilterItem[] = [
     title: 'Cow',
     iconUrl: '/pois/cow.webp',
   },
-  {
-    category: 'mobs',
-    type: 'named_mobs',
-    title: 'Named Mobs',
-    iconUrl: '/pois/named_mobs.webp',
-  },
+
   {
     category: 'other',
     type: 'other',
@@ -602,73 +615,74 @@ export type MapFiltersCategory = {
 export const mapFiltersCategories: MapFiltersCategory[] = [
   {
     value: 'locations',
-    title: 'Locations',
+    title: i18n('Locations'),
     filters: mapFilters.filter(
       (mapFilter) => mapFilter.category === 'locations'
     ),
   },
   {
+    value: 'chests',
+    title: i18n('Chests'),
+    filters: mapFilters.filter((mapFilter) => mapFilter.category === 'chests'),
+  },
+  {
+    value: 'enemies',
+    title: i18n('Enemies'),
+    filters: mapFilters.filter((mapFilter) => mapFilter.category === 'enemies'),
+  },
+  {
     value: 'fishing',
-    title: 'Fishing',
+    title: i18n('Fishing'),
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'fishing'),
   },
   {
     value: 'farming',
-    title: 'Farming',
+    title: i18n('Farming'),
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'farming'),
   },
   {
     value: 'logging',
-    title: 'Logging',
+    title: i18n('Logging'),
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'logging'),
   },
   {
     value: 'mining',
-    title: 'Mining',
+    title: i18n('Mining'),
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'mining'),
   },
   {
     value: 'skinning',
-    title: 'Skinning',
+    title: i18n('Skinning'),
     filters: mapFilters.filter(
       (mapFilter) => mapFilter.category === 'skinning'
     ),
   },
   {
     value: 'npc',
-    title: 'NPC',
+    title: i18n('NPC'),
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'npc'),
   },
   {
     value: 'lore',
-    title: 'Lore',
+    title: i18n('Lore'),
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'lore'),
   },
   {
-    value: 'chests',
-    title: 'Chests',
-    filters: mapFilters.filter((mapFilter) => mapFilter.category === 'chests'),
-  },
-  {
     value: 'essences',
-    title: 'Essences',
+    title: i18n('Essences'),
     filters: mapFilters.filter(
       (mapFilter) => mapFilter.category === 'essences'
     ),
   },
-  {
-    value: 'mobs',
-    title: 'Mobs',
-    filters: mapFilters.filter((mapFilter) => mapFilter.category === 'mobs'),
-  },
+
   {
     value: 'pigment',
-    title: 'Pigment',
+    title: i18n('Pigment'),
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'pigment'),
   },
   {
     value: 'other',
-    title: 'Other',
+    title: i18n('Other'),
     filters: mapFilters.filter((mapFilter) => mapFilter.category === 'other'),
   },
 ];

@@ -4,6 +4,8 @@ export type Marker = {
   type: string;
   position: [Double, Double, Double];
   name?: string;
+  level?: number;
+  description?: string;
   username: string;
   screenshotFilename?: string;
   createdAt: Date;

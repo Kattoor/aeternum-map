@@ -24,7 +24,15 @@ router.get('/markers', async (_req, res, next) => {
 
 router.post('/markers', async (req, res, next) => {
   try {
-    const { type, position, name, username, screenshotFilename } = req.body;
+    const {
+      type,
+      position,
+      name,
+      username,
+      level,
+      description,
+      screenshotFilename,
+    } = req.body;
 
     if (
       typeof type !== 'string' ||
@@ -43,6 +51,12 @@ router.post('/markers', async (req, res, next) => {
     };
     if (name) {
       marker.name = name;
+    }
+    if (level) {
+      marker.level = level;
+    }
+    if (description) {
+      marker.description = description;
     }
     if (screenshotFilename) {
       marker.screenshotFilename = screenshotFilename;
