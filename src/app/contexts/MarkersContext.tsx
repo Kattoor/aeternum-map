@@ -10,9 +10,11 @@ import { fetchJSON } from '../utils/api';
 
 export type Marker = {
   type: string;
-  position: [number, number, number];
+  position?: [number, number, number];
+  positions?: [number, number][];
   name?: string;
   level?: number;
+  levelRange?: [number, number];
   description?: string;
   screenshotFilename?: string;
   createdAt: string;

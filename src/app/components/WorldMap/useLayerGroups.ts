@@ -5,6 +5,7 @@ import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import type { Marker } from '../../contexts/MarkersContext';
 import { getTooltipContent } from './tooltips';
+import { classNames } from '../../utils/styles';
 
 export const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   leaflet.Icon.extend({
@@ -65,7 +66,7 @@ function useLayerGroups({
       const icon = new LeafIcon({ iconUrl: mapFilter.iconUrl });
       const layerGroup = leaflet.markerClusterGroup({
         iconCreateFunction: () => icon,
-        disableClusteringAtZoom: 5,
+        disableClusteringAtZoom: mapFilter.isArea ? 0 : 5,
       });
 
       layerGroup
@@ -83,25 +84,58 @@ function useLayerGroups({
         .on('clustermouseout', (event) => {
           event.propagatedFrom.unbindTooltip();
         });
+      layerGroup.addTo(leafletMap);
 
       markersOfType.forEach((markerOfType) => {
-        const marker = leaflet
-          .marker([markerOfType.position[1], markerOfType.position[0]], {
-            icon,
-            pmIgnore: true,
-          })
-          .bindTooltip(getTooltipContent(markerOfType, mapFilter), {
-            direction: 'top',
+        if (markerOfType.position) {
+          const marker = leaflet
+            .marker([markerOfType.position[1], markerOfType.position[0]], {
+              icon,
+              pmIgnore: true,
+            })
+            .bindTooltip(getTooltipContent(markerOfType, mapFilter), {
+              direction: 'top',
+            });
+          if (onMarkerClick) {
+            marker.on('click', () => {
+              onMarkerClick(markerOfType);
+            });
+          }
+          layerGroup.addLayer(marker);
+        } else if (markerOfType.positions) {
+          const polygon = leaflet.polygon(
+            markerOfType.positions.map((position) => [position[1], position[0]])
+          );
+
+          layerGroup.addLayer(polygon);
+          const text = leaflet.divIcon({
+            className: classNames(
+              'leaflet-polygon-text',
+              `leaflet-polygon-text-${leafletMap.getZoom()}`
+            ),
+            html: `${markerOfType.name}<br/>(${markerOfType.levelRange?.join(
+              '-'
+            )})`,
           });
-        if (onMarkerClick) {
-          marker.on('click', () => {
-            onMarkerClick(markerOfType);
+          const textMarker = leaflet.marker(polygon.getCenter(), {
+            icon: text,
           });
+
+          leafletMap.on('zoomend', () => {
+            textMarker.getElement()!.className = classNames(
+              'leaflet-polygon-text',
+              `leaflet-polygon-text-${leafletMap.getZoom()}`
+            );
+          });
+          layerGroup.addLayer(textMarker);
+          if (onMarkerClick) {
+            polygon.on('click', () => {
+              onMarkerClick(markerOfType);
+            });
+          }
         }
-        layerGroup.addLayer(marker);
       });
 
-      layerGroup.addTo(leafletMap);
       layerGroupByFilterRef.current[mapFilter.type] = layerGroup;
     });
   }, [filters, typeof leafletMap, markers]);

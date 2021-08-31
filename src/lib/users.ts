@@ -3,7 +3,7 @@ import { getCollection, getDb } from './db';
 import type { User } from '../types';
 
 export function getUsersCollection(): Collection<User> {
-  return getCollection<User>('Users');
+  return getCollection<User>('users');
 }
 
 export function ensureUsersIndexes(): Promise<string[]> {

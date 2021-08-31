@@ -24,6 +24,12 @@ function NearBy(): JSX.Element {
       position &&
       markers
         .sort(({ position: positionA }, { position: positionB }) => {
+          if (!positionA) {
+            return 1;
+          }
+          if (!positionB) {
+            return -1;
+          }
           const distanceA = getDistance(
             positionA[0],
             positionA[1],

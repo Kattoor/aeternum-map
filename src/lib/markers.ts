@@ -8,9 +8,12 @@ export function getMarkersCollection(): Collection<Marker> {
 
 export function ensureMarkersIndexes(): Promise<[string[], string[]]> {
   return Promise.all([
-    getMarkersCollection().createIndexes([{ key: { type: 1, position: 1 } }], {
-      unique: true,
-    }),
+    getMarkersCollection().createIndexes(
+      [{ key: { type: 1, position: 1, positions: 1 } }],
+      {
+        unique: true,
+      }
+    ),
     getMarkersCollection().createIndexes([{ key: { createdAt: -1 } }]),
   ]);
 }
@@ -35,11 +38,26 @@ export function ensureMarkersSchema(): Promise<Document> {
               bsonType: 'double',
             },
           },
+          positions: {
+            bsonType: 'array',
+            items: {
+              bsonType: 'array',
+              items: {
+                bsonType: 'double',
+              },
+            },
+          },
           name: {
             bsonType: 'string',
           },
           level: {
             bsonType: 'int',
+          },
+          levelRange: {
+            bsonType: 'array',
+            items: {
+              bsonType: 'int',
+            },
           },
           description: {
             bsonType: 'string',
@@ -55,7 +73,7 @@ export function ensureMarkersSchema(): Promise<Document> {
           },
         },
         additionalProperties: false,
-        required: ['type', 'position', 'createdAt'],
+        required: ['type', 'createdAt'],
       },
     },
   });

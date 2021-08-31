@@ -22,8 +22,12 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
     <section className={styles.container}>
       <header className={styles.header}>
         <img src={filterItem?.iconUrl} alt="" width={64} height={64} />
-        <h2>{filterItem?.title}</h2>
-        <p>[{marker.position.join(', ')}]</p>
+        <h2>
+          {marker.name
+            ? `${marker.name} (${filterItem?.title})`
+            : filterItem?.title}
+        </h2>
+        {marker.position && <p>[{marker.position.join(', ')}]</p>}
         <small>Added {toTimeAgo(new Date(marker.createdAt))}</small>
         <a
           href={

@@ -81,7 +81,7 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
     }
     leaflet.control.zoom({ position: 'topright' }).addTo(map);
 
-    const divElement = leaflet.DomUtil.create('div');
+    const divElement = leaflet.DomUtil.create('div', 'leaflet-position');
     function handleMouseMove(event: leaflet.LeafletMouseEvent) {
       divElement.innerHTML = `<span>[${event.latlng.lng.toFixed(
         2
@@ -134,7 +134,14 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
           (marker) => marker._id === url.pathname.slice(1)
         );
         if (marker) {
-          leafletMap.setView([marker.position[1], marker.position[0]]);
+          if (marker.position) {
+            leafletMap.setView([marker.position[1], marker.position[0]]);
+          } else if (marker.positions) {
+            leafletMap.setView([
+              marker.positions[0][1],
+              marker.positions[0][0],
+            ]);
+          }
         }
       }
     }, [leafletMap, url.pathname, markers]);

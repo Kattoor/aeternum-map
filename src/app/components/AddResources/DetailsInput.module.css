@@ -5,7 +5,12 @@
 
 .label {
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 100px 1fr;
+}
+
+.labelRange {
+  display: grid;
+  grid-template-columns: 100px 1fr auto 1fr;
 }
 
 .inputs {
@@ -13,6 +18,8 @@
   gap: 1em;
   place-content: center;
   align-items: center;
+  justify-content: stretch;
+  margin: 0 10%;
 }
 
 .input {

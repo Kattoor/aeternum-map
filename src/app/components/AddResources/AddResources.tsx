@@ -16,6 +16,7 @@ export type Details = {
   description?: string;
   name?: string;
   level?: number;
+  levelRange?: [number, number];
 };
 function AddResources(): JSX.Element {
   const user = useUser();
@@ -27,14 +28,16 @@ function AddResources(): JSX.Element {
   const [position, setPosition] = useState<[number, number, number] | null>(
     null
   );
+  const [positions, setPositions] = useState<[number, number][] | null>(null);
 
   async function handleUploadScreenshot(screenshotFilename?: string) {
-    if (!filter || !position || !user) {
+    if (!filter || (!position && !positions) || !user) {
       return;
     }
     const marker = {
       type: filter.type,
       position,
+      positions,
       username: user.username,
       screenshotFilename,
       ...details,
@@ -112,8 +115,12 @@ function AddResources(): JSX.Element {
         <SelectPosition
           details={details}
           filter={filter}
-          onSelect={(position) => {
+          onSelectPosition={(position) => {
             setPosition(position);
+            setStep(3);
+          }}
+          onSelectPositions={(positions) => {
+            setPositions(positions);
             setStep(3);
           }}
         />
