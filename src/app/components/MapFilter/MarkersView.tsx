@@ -3,6 +3,7 @@ import { mapFilters, mapFiltersCategories } from './mapFilters';
 import { useRouter, useURL } from '../Router/Router';
 import { useMemo } from 'react';
 import MarkerSection from './MarkerSection';
+import Checkbox from './Checkbox';
 
 function MarkersView(): JSX.Element {
   const router = useRouter();
@@ -19,7 +20,10 @@ function MarkersView(): JSX.Element {
       newFilters.push(...filterTypes);
     } else {
       filterTypes.forEach((filterType) => {
-        newFilters.splice(newFilters.indexOf(filterType), 1);
+        const index = newFilters.indexOf(filterType);
+        if (index !== -1) {
+          newFilters.splice(newFilters.indexOf(filterType), 1);
+        }
       });
     }
     router.search({
@@ -50,6 +54,12 @@ function MarkersView(): JSX.Element {
         >
           Hide all
         </button>
+        <Checkbox
+          className={styles.action}
+          onChange={(checked) => handleToggle(['hidden'], checked)}
+          checked={filters.includes('hidden')}
+          title="Show Hidden"
+        />
       </div>
       <div className={styles.list}>
         {mapFiltersCategories.map((mapFilterCategory) => (

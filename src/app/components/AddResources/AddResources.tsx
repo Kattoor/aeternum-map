@@ -13,10 +13,10 @@ import UploadScreenshot from './UploadScreenshot';
 import DetailsInput from './DetailsInput';
 
 export type Details = {
-  description?: string;
-  name?: string;
-  level?: number;
-  levelRange?: [number, number];
+  description: string | null;
+  name: string | null;
+  level: number | null;
+  levelRange: [number, number] | null;
 };
 function AddResources(): JSX.Element {
   const user = useUser();

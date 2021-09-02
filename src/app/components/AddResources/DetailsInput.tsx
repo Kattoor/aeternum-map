@@ -9,19 +9,21 @@ type DetailsInputProps = {
   onChange: (details: Details) => void;
 };
 function DetailsInput({ filter, onChange }: DetailsInputProps): JSX.Element {
-  const [description, setDescription] = useState('');
-  const [name, setName] = useState('');
-  const [level, setLevel] = useState(0);
-  const [levelRange, setLevelRange] = useState<[number, number]>([0, 0]);
+  const [description, setDescription] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
+  const [level, setLevel] = useState<number | null>(null);
+  const [levelRange, setLevelRange] = useState<[number, number] | null>(null);
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     onChange({ name, level, description, levelRange });
   }
   const isValid =
-    (filter.hasName ? name.length > 0 : true) &&
-    (filter.hasLevel ? level > 0 : true) &&
-    (filter.hasLevelRange ? levelRange[0] > 0 && levelRange[1] > 0 : true);
+    (filter.hasName ? name && name.length > 0 : true) &&
+    (filter.hasLevel ? level && level > 0 : true) &&
+    (filter.hasLevelRange
+      ? levelRange && levelRange[0] > 0 && levelRange[1] > 0
+      : true);
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <div className={styles.inputs}>
@@ -31,7 +33,7 @@ function DetailsInput({ filter, onChange }: DetailsInputProps): JSX.Element {
             <input
               className={styles.input}
               onChange={(event) => setName(event.target.value)}
-              value={name}
+              value={name || ''}
               placeholder="Enter name"
               required
             />
@@ -45,7 +47,7 @@ function DetailsInput({ filter, onChange }: DetailsInputProps): JSX.Element {
               type="number"
               min={1}
               onChange={(event) => setLevel(+event.target.value)}
-              value={level}
+              value={level || 0}
               required
             />
           </label>
@@ -60,10 +62,10 @@ function DetailsInput({ filter, onChange }: DetailsInputProps): JSX.Element {
               onChange={(event) =>
                 setLevelRange((levelRange) => [
                   +event.target.value,
-                  levelRange[1],
+                  levelRange ? levelRange[1] : 0,
                 ])
               }
-              value={levelRange[0]}
+              value={levelRange ? levelRange[0] : 0}
               required
             />
             -
@@ -73,11 +75,11 @@ function DetailsInput({ filter, onChange }: DetailsInputProps): JSX.Element {
               min={1}
               onChange={(event) =>
                 setLevelRange((levelRange) => [
-                  levelRange[0],
+                  levelRange ? levelRange[0] : 0,
                   +event.target.value,
                 ])
               }
-              value={levelRange[1]}
+              value={levelRange ? levelRange[1] : 0}
               required
             />
           </label>
@@ -87,7 +89,7 @@ function DetailsInput({ filter, onChange }: DetailsInputProps): JSX.Element {
           <textarea
             className={styles.input}
             onChange={(event) => setDescription(event.target.value)}
-            value={description}
+            value={description || ''}
             placeholder="Feel free to add more details about this marker"
             rows={2}
           />

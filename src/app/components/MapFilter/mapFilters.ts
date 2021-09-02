@@ -502,12 +502,6 @@ export const mapFilters: FilterItem[] = [
     iconUrl: '/pois/water_boid.webp',
   },
   {
-    category: 'other',
-    type: 'miscellaneous',
-    title: i18n('Miscellaneous'),
-    iconUrl: '/pois/other.webp',
-  },
-  {
     category: 'pigment',
     type: 'pigment_black_primsabloom',
     title: i18n('Black Prismabloom'),
@@ -560,6 +554,12 @@ export const mapFilters: FilterItem[] = [
     type: 'pigment_yellow_primsabloom',
     title: i18n('Yellow Prismabloom'),
     iconUrl: '/pois/pigment_yellow.webp',
+  },
+  {
+    category: 'other',
+    type: 'miscellaneous',
+    title: i18n('Miscellaneous'),
+    iconUrl: '/pois/other.webp',
   },
 ];
 

@@ -6,6 +6,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import type { Marker } from '../../contexts/MarkersContext';
 import { getTooltipContent } from './tooltips';
 import { classNames } from '../../utils/styles';
+import { useUser } from '../../contexts/UserContext';
 
 export const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   leaflet.Icon.extend({
@@ -26,9 +27,15 @@ function useLayerGroups({
   filters: string[];
   onMarkerClick?: (marker: Marker) => void;
 }): void {
+  const user = useUser();
   const layerGroupByFilterRef = useRef<{
     [filterType: string]: leaflet.LayerGroup;
   }>({});
+
+  const hiddenMarkerIds = user?.hiddenMarkerIds || [];
+  const visibleMarkers = filters.includes('hidden')
+    ? markers
+    : markers.filter((marker) => !hiddenMarkerIds.includes(marker._id));
 
   useEffect(() => {
     if (!leafletMap || !leafletMap.getPane('mapPane') || !markers.length) {
@@ -49,11 +56,12 @@ function useLayerGroups({
         (mapFilter) => mapFilter.type === filter
       );
       if (!mapFilter) {
-        console.warn(`No markers for filter ${filter}`);
         return;
       }
-      const markersOfType = markers.filter(
-        (marker) => marker.type === mapFilter.type
+      const markersOfType = visibleMarkers.filter(
+        (marker) =>
+          marker.type === mapFilter.type &&
+          (!hiddenMarkerIds.includes(marker._id) || filters.includes('hidden'))
       );
 
       const existingLayerGroup = layerGroupByFilterRef.current[mapFilter.type];
@@ -122,10 +130,13 @@ function useLayerGroups({
           });
 
           leafletMap.on('zoomend', () => {
-            textMarker.getElement()!.className = classNames(
-              'leaflet-polygon-text',
-              `leaflet-polygon-text-${leafletMap.getZoom()}`
-            );
+            const element = textMarker.getElement();
+            if (element) {
+              element.className = classNames(
+                'leaflet-polygon-text',
+                `leaflet-polygon-text-${leafletMap.getZoom()}`
+              );
+            }
           });
           layerGroup.addLayer(textMarker);
           if (onMarkerClick) {
@@ -138,7 +149,7 @@ function useLayerGroups({
 
       layerGroupByFilterRef.current[mapFilter.type] = layerGroup;
     });
-  }, [filters, leafletMap, markers]);
+  }, [filters, leafletMap, visibleMarkers]);
 }
 
 export default useLayerGroups;

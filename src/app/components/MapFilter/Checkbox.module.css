@@ -1,12 +1,15 @@
 .filter {
   display: grid;
-  grid-template-columns: 1.5em 1fr;
+  grid-auto-flow: column;
+  justify-content: left;
   grid-gap: 0.25em;
   position: relative;
   transition: background-color 0.1s ease-in;
   padding: 0.25em 0.5em;
   filter: grayscale() brightness(0.5);
   cursor: pointer;
+  text-transform: uppercase;
+  font-size: 0.9em;
 }
 
 .checked {
@@ -14,6 +17,7 @@
 }
 
 .filter:hover {
+  filter: none;
   color: var(--color-primary);
 }
 
