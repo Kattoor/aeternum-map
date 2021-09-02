@@ -31,7 +31,7 @@ function useLayerGroups({
   }>({});
 
   useEffect(() => {
-    if (!leafletMap || !leafletMap.getPane('markerPane') || !markers.length) {
+    if (!leafletMap || !leafletMap.getPane('mapPane') || !markers.length) {
       return;
     }
 
@@ -138,7 +138,7 @@ function useLayerGroups({
 
       layerGroupByFilterRef.current[mapFilter.type] = layerGroup;
     });
-  }, [filters, typeof leafletMap, markers]);
+  }, [filters, leafletMap, markers]);
 }
 
 export default useLayerGroups;

@@ -120,7 +120,7 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
     const { markers } = useMarkers();
 
     useEffect(() => {
-      if (leafletMap && x && y) {
+      if (leafletMap && leafletMap.getPane('mapPane') && x && y) {
         const center = leafletMap.getCenter();
         if (Math.abs(center.lat - y) > 0.5 || Math.abs(center.lng - x) > 0.5) {
           leafletMap.setView([y, x]);
