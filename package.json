@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "client:dev": "vite",
-    "server:dev": "ts-node-dev --ignore-watch src/app --project tsconfig.server.json src/server ",
+    "server:dev": "ts-node-dev --ignore-watch src/app --project tsconfig.server.json src/server",
     "client:build": "vite build",
-    "server:build": "tsc --project tsconfig.server.json",
+    "server:build": "tsc --project tsconfig.server.json && cp -R src/assets dist/server/assets",
     "build": "npm run server:build && npm run client:build",
     "serve": "vite preview",
     "prepare": "husky install",
