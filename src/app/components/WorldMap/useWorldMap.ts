@@ -3,6 +3,7 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRouter } from '../Router/Router';
 import { useMarkers } from '../../contexts/MarkersContext';
+const { VITE_API_ENDPOINT } = import.meta.env;
 
 function toThreeDigits(number: number): string {
   if (number < 10) {
@@ -26,10 +27,12 @@ const WorldTiles = leaflet.TileLayer.extend({
     const y = (-coords.y - 1) * multiplicators[zoom - 1];
 
     if (x < 0 || y < 0 || y >= 64 || x >= 64) {
-      return '/map/empty.webp';
+      return `${VITE_API_ENDPOINT}/assets/map/empty.webp`;
     }
     // return `/map/map_l1_y000_x024.webp`;
-    return `/map/map_l${zoom}_y${toThreeDigits(y)}_x${toThreeDigits(x)}.webp`;
+    return `${VITE_API_ENDPOINT}/assets/map/map_l${zoom}_y${toThreeDigits(
+      y
+    )}_x${toThreeDigits(x)}.webp`;
   },
   getTileSize() {
     return { x: 1024, y: 1024 };
