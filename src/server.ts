@@ -18,6 +18,7 @@ import router from './lib/router';
 import { connectToMongoDb } from './lib/db';
 import { ensureMarkersSchema, ensureMarkersIndexes } from './lib/markers';
 import { ensureCommentsIndexes, ensureCommentsSchema } from './lib/comments';
+import path from 'path';
 
 const app = express();
 
@@ -38,8 +39,8 @@ app.use('/api', router);
 // Static screenshots folder
 app.use('/screenshots', express.static(SCREENSHOTS_PATH));
 
-// Static screenshots folder
-app.use('/assets', express.static('src/assets'));
+// Static assets folder
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // All other requests are answered with a 404
 app.get('*', (_req, res) => {
