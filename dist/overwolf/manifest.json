@@ -7,7 +7,7 @@
     "version": "0.0.8",
     "minimum-overwolf-version": "0.169.0",
     "description": "New World Companion",
-    "dock_button_title": "New World Companion",
+    "dock_button_title": "NW Companion",
     "icon": "icons/iconMouseOver.png",
     "icon_gray": "icons/iconMouseNormal.png",
     "launcher_icon": "icons/desktopIcon.ico",
