@@ -80,8 +80,8 @@
       "start_minimized": false
     }],
     "hotkeys": {
-      "toggle_monitor": {
-        "title": "Toggle monitor",
+      "show_hide_app": {
+        "title": "Show/Hide App",
         "action-type": "custom",
         "default": "Ctrl+Up"
       }

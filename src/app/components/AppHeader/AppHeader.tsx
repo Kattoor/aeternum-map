@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useIsNewWorldRunning } from '../../utils/games';
+import { SHOW_HIDE_APP, useHotkeyBinding } from '../../utils/hotkeys';
 import { classNames } from '../../utils/styles';
 import {
   closeMainWindow,
@@ -23,6 +25,8 @@ type AppHeaderProps = {
 
 function AppHeader({ className }: AppHeaderProps): JSX.Element {
   const [isMaximized, setIsMaximized] = useState(false);
+  const isNewWorldRunning = useIsNewWorldRunning();
+  const hotkeyBinding = useHotkeyBinding(SHOW_HIDE_APP);
 
   useEffect(() => {
     overwolf.windows.getCurrentWindow((result) => {
@@ -47,6 +51,11 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
     >
       <img src="/icon.png" alt="" className={classes.logo} />
       <h1 className={classes.title}>New World Companion</h1>
+      <p className={classes.gameInfo}>
+        {isNewWorldRunning
+          ? `${hotkeyBinding} to show/hide app`
+          : 'New World is not running'}
+      </p>
       <div className={classes.controls}>
         <a
           className={classNames(classes.button, classes['button--github'])}
@@ -67,7 +76,8 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
         <button
           className={classNames(classes.button)}
           onClick={togglePreferedWindow}
-          data-tooltip="Toggle Desktop/Overlay"
+          data-tooltip={'Toggle Desktop/Overlay'}
+          disabled={!isNewWorldRunning}
         >
           <MonitorIcon />
         </button>

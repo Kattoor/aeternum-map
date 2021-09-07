@@ -66,17 +66,25 @@ export async function closeMainWindow(): Promise<void> {
   return closeWindow(WINDOWS.BACKGROUND);
 }
 
+export function getPreferedWindowName(): string {
+  return getJSONItem('preferedWindowName') || WINDOWS.DESKTOP;
+}
+
 export async function restoreWindow(windowName: string): Promise<string> {
   const declaredWindow = await obtainDeclaredWindow(windowName);
-  return new Promise((resolve, reject) =>
+  return new Promise((resolve, reject) => {
+    if (declaredWindow.isVisible) {
+      resolve(declaredWindow.id);
+      return;
+    }
     overwolf.windows.restore(declaredWindow.id, (result) => {
       if (result.success) {
         resolve(result.window_id!); // window_id is always a string if success
       } else {
         reject(result.error);
       }
-    })
-  );
+    });
+  });
 }
 
 export function toggleWindow(windowName: string): void {
@@ -90,14 +98,14 @@ export function toggleWindow(windowName: string): void {
 }
 
 export async function togglePreferedWindow(): Promise<void> {
-  const preferedWindow =
-    getJSONItem<string>('preferedWindow') || WINDOWS.DESKTOP;
+  const preferedWindowName =
+    getJSONItem<string>('preferedWindowName') || WINDOWS.DESKTOP;
   setJSONItem(
-    'preferedWindow',
-    preferedWindow === WINDOWS.DESKTOP ? WINDOWS.OVERLAY : WINDOWS.DESKTOP
+    'preferedWindowName',
+    preferedWindowName === WINDOWS.DESKTOP ? WINDOWS.OVERLAY : WINDOWS.DESKTOP
   );
   await restoreWindow(
-    preferedWindow === WINDOWS.DESKTOP ? WINDOWS.OVERLAY : WINDOWS.DESKTOP
+    preferedWindowName === WINDOWS.DESKTOP ? WINDOWS.OVERLAY : WINDOWS.DESKTOP
   );
-  await closeWindow(preferedWindow);
+  await closeWindow(preferedWindowName);
 }

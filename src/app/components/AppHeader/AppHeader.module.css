@@ -1,4 +1,5 @@
 .header {
+  position: relative;
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: auto 1fr;
@@ -24,6 +25,13 @@
   width: 1.7em;
 }
 
+.gameInfo {
+  position: absolute;
+  inset: 0 200px;
+  display: grid;
+  place-items: center;
+}
+
 .controls {
   display: flex;
 }
@@ -39,12 +47,16 @@
   color: var(--color-shade-four);
 }
 
+.button:disabled {
+  color: var(--color-trivial);
+}
+
 .button > * {
   width: 100%;
   height: 100%;
 }
 
-.button:hover {
+.button:not(:disabled):hover {
   background-color: var(--color-shade-two);
 }
 
