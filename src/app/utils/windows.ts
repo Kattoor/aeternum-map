@@ -1,5 +1,8 @@
+import { getJSONItem, setJSONItem } from './storage';
+
 export const WINDOWS = {
   DESKTOP: 'desktop',
+  OVERLAY: 'overlay',
   BACKGROUND: 'background',
 };
 
@@ -54,6 +57,11 @@ export async function closeWindow(windowName: string): Promise<void> {
   overwolf.windows.close(backgroundWindow.id);
 }
 
+export async function closeCurrentWindow(): Promise<void> {
+  const currentWindow = await getCurrentWindow();
+  return closeWindow(currentWindow.id);
+}
+
 export async function closeMainWindow(): Promise<void> {
   return closeWindow(WINDOWS.BACKGROUND);
 }
@@ -79,4 +87,17 @@ export function toggleWindow(windowName: string): void {
       restoreWindow(result.window.id);
     }
   });
+}
+
+export async function togglePreferedWindow(): Promise<void> {
+  const preferedWindow =
+    getJSONItem<string>('preferedWindow') || WINDOWS.DESKTOP;
+  setJSONItem(
+    'preferedWindow',
+    preferedWindow === WINDOWS.DESKTOP ? WINDOWS.OVERLAY : WINDOWS.DESKTOP
+  );
+  await restoreWindow(
+    preferedWindow === WINDOWS.DESKTOP ? WINDOWS.OVERLAY : WINDOWS.DESKTOP
+  );
+  await closeWindow(preferedWindow);
 }

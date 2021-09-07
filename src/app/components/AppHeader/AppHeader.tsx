@@ -6,12 +6,14 @@ import {
   maximizeCurrentWindow,
   minimizeCurrentWindow,
   restoreCurrentWindow,
+  togglePreferedWindow,
 } from '../../utils/windows';
 import CloseIcon from '../icons/CloseIcon';
 import DiscordIcon from '../icons/DiscordIcon';
 import GitHubIcon from '../icons/GitHubIcon';
 import MaximizeIcon from '../icons/MaximizeIcon';
 import MinimizeIcon from '../icons/MinimizeIcon';
+import MonitorIcon from '../icons/MonitorIcon';
 import RestoreIcon from '../icons/RestoreIcon';
 import classes from './AppHeader.module.css';
 
@@ -50,16 +52,25 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
           className={classNames(classes.button, classes['button--github'])}
           href="https://github.com/lmachens/new-world-companion"
           target="_blank"
+          data-tooltip="Open Source on GitHub"
         >
           <GitHubIcon />
         </a>
         <a
-          className={classNames(classes.button, classes['button--discord'])}
+          className={classNames(classes.button)}
           href="https://discord.gg/NTZu8Px"
           target="_blank"
+          data-tooltip="Join Discord Community"
         >
           <DiscordIcon />
         </a>
+        <button
+          className={classNames(classes.button)}
+          onClick={togglePreferedWindow}
+          data-tooltip="Toggle Desktop/Overlay"
+        >
+          <MonitorIcon />
+        </button>
         <button
           className={classNames(classes.button, classes['button--padded'])}
           onClick={minimizeCurrentWindow}

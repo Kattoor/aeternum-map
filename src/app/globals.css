@@ -42,6 +42,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--color-text);
+  overflow: hidden;
 }
 
 a {
@@ -81,4 +82,22 @@ a {
 
 svg {
   fill: currentColor;
+}
+
+*[data-tooltip] {
+  position: relative;
+}
+
+*[data-tooltip]:hover::after {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9000;
+  content: attr(data-tooltip);
+  width: max-content;
+  color: var(--text-color);
+  background-color: var(--color-shade-one);
+  padding: 0.5em;
+  border-radius: var(--border-radius);
 }

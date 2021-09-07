@@ -13,7 +13,7 @@
     "launcher_icon": "icons/desktopIcon.ico",
     "window_icon": "icons/taskbarIcon.png"
   },
-  "permissions": ["Media", "FileSystem"],
+  "permissions": ["Hotkeys", "GameInfo", "Media", "FileSystem"],
   "data": {
     "start_window": "background",
     "windows": {
@@ -39,16 +39,53 @@
           "width": 1212,
           "height": 699
         },
-        "allow_local_file_access": true
+        "allow_local_file_access": true,
+        "popup_blocker": true,
+        "mute": true,
+        "keep_window_location": true
+      },
+      "overlay": {
+        "file": "index.html",
+        "debug_url": "http://localhost:3000",
+        "desktop_only": false,
+        "focus_game_takeover": "ReleaseOnHidden",
+        "focus_game_takeover_release_hotkey": "showhide",
+        "resizable": true,
+        "transparent": true,
+        "override_on_update": true,
+        "size": {
+          "width": 1280,
+          "height": 720
+        },
+        "min_size": {
+          "width": 1212,
+          "height": 699
+        },
+        "allow_local_file_access": true,
+        "popup_blocker": true,
+        "mute": true,
+        "keep_window_location": true
       }
     },
     "game_targeting": {
       "type": "dedicated",
-      "game_ids": []
+      "game_ids": [21816]
     },
-    "game_events": [],
-    "launch_events": [],
-    "hotkeys": {},
+    "game_events": [21816],
+    "launch_events": [{
+      "event": "GameLaunch",
+      "event_data": {
+        "game_ids": [21816]
+      },
+      "start_minimized": false
+    }],
+    "hotkeys": {
+      "toggle_monitor": {
+        "title": "Toggle monitor",
+        "action-type": "custom",
+        "default": "Ctrl+Up"
+      }
+    },
     "protocol_override_domains": {
       "googlesyndication": "http"
     },
