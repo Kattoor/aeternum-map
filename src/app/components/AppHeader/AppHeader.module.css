@@ -30,7 +30,7 @@
   height: 2em;
   width: 2em;
   padding: 0.6em;
-  color: var(--color-text);
+  color: var(--color-shade-four);
 }
 
 .button:hover {
