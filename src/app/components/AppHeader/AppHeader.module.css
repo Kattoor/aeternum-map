@@ -24,13 +24,24 @@
   width: 1.7em;
 }
 
+.controls {
+  display: flex;
+}
+
 .button {
+  display: inline-flex;
   cursor: default;
   background: none;
+  font-size: 1em;
   height: 2em;
   width: 2em;
-  padding: 0.6em;
+  padding: 0;
   color: var(--color-shade-four);
+}
+
+.button > * {
+  width: 100%;
+  height: 100%;
 }
 
 .button:hover {
@@ -39,4 +50,16 @@
 
 .button--danger:hover {
   background-color: var(--color-alert);
+}
+
+.button--github {
+  padding: 0.45em;
+}
+
+.button--discord:hover {
+  color: #7289da;
+}
+
+.button--padded {
+  padding: 0.6em;
 }

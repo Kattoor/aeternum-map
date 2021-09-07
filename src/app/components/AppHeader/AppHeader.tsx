@@ -8,6 +8,8 @@ import {
   restoreCurrentWindow,
 } from '../../utils/windows';
 import CloseIcon from '../icons/CloseIcon';
+import DiscordIcon from '../icons/DiscordIcon';
+import GitHubIcon from '../icons/GitHubIcon';
 import MaximizeIcon from '../icons/MaximizeIcon';
 import MinimizeIcon from '../icons/MinimizeIcon';
 import RestoreIcon from '../icons/RestoreIcon';
@@ -43,13 +45,30 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
     >
       <img src="/icon.png" alt="" className={classes.logo} />
       <h1 className={classes.title}>New World Companion</h1>
-      <div>
-        <button className={classes.button} onClick={minimizeCurrentWindow}>
+      <div className={classes.controls}>
+        <a
+          className={classNames(classes.button, classes['button--github'])}
+          href="https://github.com/lmachens/new-world-companion"
+          target="_blank"
+        >
+          <GitHubIcon />
+        </a>
+        <a
+          className={classNames(classes.button, classes['button--discord'])}
+          href="https://discord.gg/NTZu8Px"
+          target="_blank"
+        >
+          <DiscordIcon />
+        </a>
+        <button
+          className={classNames(classes.button, classes['button--padded'])}
+          onClick={minimizeCurrentWindow}
+        >
           <MinimizeIcon />
         </button>
         {!isMaximized ? (
           <button
-            className={classes.button}
+            className={classNames(classes.button, classes['button--padded'])}
             onClick={() => {
               maximizeCurrentWindow();
               setIsMaximized(true);
@@ -59,7 +78,7 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
           </button>
         ) : (
           <button
-            className={classes.button}
+            className={classNames(classes.button, classes['button--padded'])}
             onClick={() => {
               restoreCurrentWindow();
               setIsMaximized(false);
@@ -69,7 +88,11 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
           </button>
         )}
         <button
-          className={`${classes.button} ${classes['button--danger']}`}
+          className={classNames(
+            classes.button,
+            classes['button--padded'],
+            classes['button--danger']
+          )}
           onClick={closeMainWindow}
         >
           <CloseIcon />

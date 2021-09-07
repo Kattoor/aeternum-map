@@ -69,7 +69,8 @@ select {
 }
 
 button,
-input[type='submit'] {
+input[type='submit'],
+a {
   outline: none;
   cursor: pointer;
   border: none;
