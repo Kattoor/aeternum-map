@@ -61,7 +61,7 @@
 }
 
 .button--danger:hover {
-  background-color: var(--color-alert);
+  background-color: var(--color-alert) !important;
 }
 
 .button--github {

@@ -49,9 +49,9 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
         <AddComment markerId={marker._id} onAdd={refresh} />
       </main>
       <aside className={styles.more}>
-        <h4>Actions</h4>
+        <h3>Actions</h3>
         <HideMarkerInput markerId={marker._id} />
-        <h4>Screenshot</h4>
+        <h3>Screenshot</h3>
         {marker.screenshotFilename ? (
           <a
             href={
@@ -73,7 +73,7 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
         ) : (
           'No screenshot available'
         )}
-        <h4>Details</h4>
+        <h3>Details</h3>
         {marker.level && <p>Level {marker.level}</p>}
         {marker.levelRange && <p>Level Range {marker.levelRange.join('-')}</p>}
         {marker.description && <Markdown>{marker.description}</Markdown>}

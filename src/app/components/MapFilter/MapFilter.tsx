@@ -107,7 +107,7 @@ function MapFilter(): JSX.Element {
           <PlayerIcon />
         </button>
         <button
-          data-tooltip="Hide menu"
+          data-tooltip="Show/Hide menu"
           data-tooltip-position="right"
           className={classNames(styles.nav__button, styles.nav__border)}
           onClick={() => setIsOpen(!isOpen)}

@@ -19,8 +19,8 @@ function Comment({
   return (
     <article className={styles.container}>
       <Avatar src={avatar} alt="" />
-      <h4>{displayName}</h4>
-      <small>{toTimeAgo(createdAt)}</small>
+      <p className={styles.name}>{displayName}</p>
+      <small className={styles.createdAt}>{toTimeAgo(createdAt)}</small>
       <main className={styles.message}>
         <Markdown>{message}</Markdown>
       </main>

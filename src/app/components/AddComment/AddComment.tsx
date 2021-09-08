@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react';
+import type { FormEvent, KeyboardEvent } from 'react';
 import { useState } from 'react';
 import { useUser } from '../../contexts/UserContext';
 import { fetchJSON } from '../../utils/api';
@@ -13,13 +13,15 @@ function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
   const user = useUser();
   const [message, setMessage] = useState('');
 
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault();
+  async function handleSubmit(event?: FormEvent) {
+    if (event) {
+      event.preventDefault();
+    }
     if (!user) {
       return;
     }
 
-    fetchJSON(`/api/markers/${markerId}/comments`, {
+    await fetchJSON(`/api/markers/${markerId}/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +32,16 @@ function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
         avatar: user.avatar,
         message: message,
       }),
-    }).then(() => onAdd());
+    });
+    onAdd();
+    setMessage('');
+  }
+
+  function handleKeyPress(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === 'Enter' && event.shiftKey === false) {
+      event.preventDefault();
+      handleSubmit();
+    }
   }
 
   return (
@@ -38,6 +49,7 @@ function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
       <textarea
         value={message}
         onChange={(event) => setMessage(event.target.value)}
+        onKeyPress={handleKeyPress}
         placeholder={
           !user ? 'You need to login to add a comment' : 'Add a comment'
         }

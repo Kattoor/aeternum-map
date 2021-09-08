@@ -1,3 +1,25 @@
+@font-face {
+  font-family: 'IM Fell DW Pica';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/IM_Fell_DW_Pica/IMFellDWPica-Regular.ttf) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
 *,
 *::after,
 *::before {
@@ -27,8 +49,8 @@
   --color-shade-four: #efefef;
   --color-alert: #b61313;
   --border-radius: 0.5em;
-  --font-family-primary: 'Roboto', sans-serif;
-  --font-family-secondary: 'Segoe UI', sans-serif;
+  --font-family-primary: 'IM Fell DW Pica', serif;
+  --font-family-secondary: 'Josefin Sans', sans-serif;
 }
 
 html {
@@ -49,13 +71,19 @@ a {
   color: inherit;
 }
 
-p,
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-weight: 400;
+}
+
+p {
+  padding-top: 0.1em;
   margin: 0;
 }
 
@@ -67,6 +95,7 @@ select {
   border: none;
   padding: 0.5em;
   outline: none;
+  font-family: var(--font-family-secondary);
 }
 
 button,
@@ -75,9 +104,10 @@ a {
   outline: none;
   cursor: pointer;
   border: none;
-  background: var(--color-shade-four);
-  color: var(--color-shade-one);
+  background: none;
+  color: var(--color-text);
   transition: all 0.1s ease-in;
+  font-family: var(--font-family-secondary);
 }
 
 svg {
@@ -107,6 +137,8 @@ svg {
   content: attr(data-tooltip);
   width: max-content;
   color: var(--color-text);
+  font-size: 1rem;
+  font-family: var(--font-family-secondary);
   background-color: var(--color-shade-one);
   padding: 0.5em;
   border-radius: var(--border-radius);
