@@ -4,7 +4,7 @@
   "meta": {
     "name": "New World Companion",
     "author": "Leon Machens",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "minimum-overwolf-version": "0.169.0",
     "description": "New World Interactive Map",
     "dock_button_title": "Aeternum Map",
