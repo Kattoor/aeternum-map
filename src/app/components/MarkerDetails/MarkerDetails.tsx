@@ -71,7 +71,7 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
             />
           </a>
         ) : (
-          'No screenshot available'
+          <img className={styles.preview} src={'/icon.png'} alt="" />
         )}
         <h3>Details</h3>
         {marker.level && <p>Level {marker.level}</p>}

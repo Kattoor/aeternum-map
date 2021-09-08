@@ -8,10 +8,12 @@
 .preview {
   display: grid;
   justify-items: center;
+  gap: 1em;
 }
 .screenshot {
-  max-width: 400px;
-  max-height: 300px;
+  width: 400px;
+  height: 300px;
+  object-fit: contain;
 }
 
 .upload {
@@ -24,4 +26,23 @@
   background: var(--color-trivial);
   color: var(--color-shade-two);
   cursor: default;
+}
+
+.hidden {
+  display: none;
+}
+
+.actions {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.action {
+  cursor: pointer;
+  display: inline-block;
+  padding: 1em;
+  background: var(--color-shade-two);
+  color: var(--color-primary);
+  font-size: 1em;
 }
