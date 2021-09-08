@@ -15,6 +15,7 @@ import Ads from '../Ads/Ads';
 import NearBy from '../NearBy/NearBy';
 import User from '../User/User';
 import NearByIcon from '../icons/NearByIcon';
+import PlayerIcon from '../icons/PlayerIcon';
 
 type View = 'markers' | 'areas' | 'nearBy';
 
@@ -43,6 +44,9 @@ function MapFilter(): JSX.Element {
       </div>
       <nav className={styles.nav}>
         <button
+          className={styles.nav__button}
+          data-tooltip="Add resources"
+          data-tooltip-position="right"
           onClick={() =>
             addModal({
               title: 'Add resources',
@@ -53,7 +57,10 @@ function MapFilter(): JSX.Element {
           <AddIcon />
         </button>
         <button
+          data-tooltip="Markers"
+          data-tooltip-position="right"
           className={classNames(
+            styles.nav__button,
             styles.nav__border,
             view === 'markers' && styles.nav__active
           )}
@@ -62,29 +69,47 @@ function MapFilter(): JSX.Element {
           <MarkerIcon />
         </button>
         <button
-          className={classNames(view === 'areas' && styles.nav__active)}
+          data-tooltip="Areas (Coming Soon)"
+          data-tooltip-position="right"
+          disabled
+          className={classNames(
+            styles.nav__button,
+            view === 'areas' && styles.nav__active
+          )}
           onClick={() => handleViewClick('areas')}
         >
           <MapIcon />
         </button>
         <button
-          className={classNames(view === 'nearBy' && styles.nav__active)}
+          data-tooltip="Near by (Coming Soon)"
+          data-tooltip-position="right"
+          disabled
+          className={classNames(
+            styles.nav__button,
+            view === 'nearBy' && styles.nav__active
+          )}
           onClick={() => handleViewClick('nearBy')}
         >
           <NearByIcon />
         </button>
 
         <button
+          data-tooltip="Follow position (Coming Soon)"
+          data-tooltip-position="right"
+          disabled
           onClick={toggleFollowing}
           className={classNames(
+            styles.nav__button,
             styles.nav__border,
             following && styles.nav__active
           )}
         >
-          <img src="/player.webp" alt="" />
+          <PlayerIcon />
         </button>
         <button
-          className={styles.nav__border}
+          data-tooltip="Hide menu"
+          data-tooltip-position="right"
+          className={classNames(styles.nav__button, styles.nav__border)}
           onClick={() => setIsOpen(!isOpen)}
         >
           <MenuOpenIcon />

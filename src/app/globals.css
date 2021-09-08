@@ -84,6 +84,16 @@ svg {
   fill: currentColor;
 }
 
+@keyframes show {
+  0%,
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
 *[data-tooltip] {
   position: relative;
 }
@@ -96,8 +106,16 @@ svg {
   z-index: 9000;
   content: attr(data-tooltip);
   width: max-content;
-  color: var(--text-color);
+  color: var(--color-text);
   background-color: var(--color-shade-one);
   padding: 0.5em;
   border-radius: var(--border-radius);
+  border: 1px solid var(--color-shade-two);
+  animation: show 0.5s;
+}
+
+*[data-tooltip-position='right']:hover::after {
+  top: 0;
+  left: 120%;
+  transform: none;
 }

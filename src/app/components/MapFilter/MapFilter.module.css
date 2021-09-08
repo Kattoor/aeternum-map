@@ -28,18 +28,25 @@
   z-index: 9000;
 }
 
-.nav button {
+.nav__button {
   padding: 0.5em;
   display: grid;
   color: var(--color-text);
   background: var(--color-shade-one);
 }
 
-.nav .nav__active {
+.nav__active {
   color: var(--color-primary);
   background: var(--color-shade-two);
 }
-.nav button:hover {
+
+.nav__button:disabled {
+  cursor: default;
+  color: var(--color-shade-three);
+  background: var(--color-shade-one);
+}
+
+.nav__button:not(:disabled):hover {
   background: var(--color-shade-three);
 }
 
