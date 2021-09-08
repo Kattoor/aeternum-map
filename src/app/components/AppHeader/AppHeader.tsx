@@ -50,7 +50,7 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
       onDoubleClick={isMaximized ? restoreCurrentWindow : maximizeCurrentWindow}
     >
       <img src="/icon.png" alt="" className={classes.logo} />
-      <h1 className={classes.title}>New World Companion</h1>
+      <h1 className={classes.title}>Aeternum Map</h1>
       <p className={classes.gameInfo}>
         {isNewWorldRunning
           ? `${hotkeyBinding} to show/hide app`
@@ -59,7 +59,7 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
       <div className={classes.controls}>
         <a
           className={classNames(classes.button, classes['button--github'])}
-          href="https://github.com/lmachens/new-world-companion"
+          href="https://github.com/lmachens/aeternum-map"
           target="_blank"
           data-tooltip="Open Source on GitHub"
         >

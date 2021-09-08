@@ -1,6 +1,6 @@
-# New World Companion
+# Aeternum Map
 
-> Under construction
+New World Interactive Map
 
 ## Licensing
 
