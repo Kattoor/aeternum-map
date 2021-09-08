@@ -75,9 +75,9 @@ function AddResources(): JSX.Element {
         <button
           onClick={() => setStep(2)}
           className={styles.step}
-          disabled={!filter}
+          disabled={!details}
         >
-          <StepIcon step={3} done={Boolean(position)} disabled={!filter} />{' '}
+          <StepIcon step={3} done={Boolean(position)} disabled={!details} />{' '}
           <span className={classNames(step === 2 && styles.active)}>
             Set position
           </span>
