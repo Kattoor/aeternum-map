@@ -1,3 +1,3 @@
-# New World companion app
+# Aeternum Map
 
-TBA
+This is an interactive world map of the MMORPG New World. It shows markers for all points of interest like Gold Veins, Secret Fishing Spots or Epic Monsters.
