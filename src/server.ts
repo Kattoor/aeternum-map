@@ -1,4 +1,6 @@
 import dotenv from 'dotenv';
+import cors from 'cors';
+
 dotenv.config();
 
 const { PORT, MONGODB_URI, SCREENSHOTS_PATH } = process.env;
@@ -23,12 +25,7 @@ import path from 'path';
 const app = express();
 
 // Middleware to set CORS headers
-app.use((_req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
+app.use(cors());
 
 // Middleware that parses json and looks at requests where the Content-Type header matches the type option.
 app.use(express.json());
