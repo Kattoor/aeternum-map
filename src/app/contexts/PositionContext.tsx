@@ -26,7 +26,7 @@ export function PositionProvider({
 }: PositionProviderProps): JSX.Element {
   const [position, setPosition] = useState<[number, number] | null>(null);
   const [tracking, setTracking] = useState(false);
-  const [following, setFollowing] = useState(true);
+  const [following, setFollowing] = useState(false);
 
   useEffect(() => {
     if (!tracking) {

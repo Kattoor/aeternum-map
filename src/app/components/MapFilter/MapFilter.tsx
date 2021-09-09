@@ -23,7 +23,7 @@ function MapFilter(): JSX.Element {
   const { addModal } = useModal();
   const [isOpen, setIsOpen] = useState(true);
   const { url, search } = useRouter();
-  const { following, toggleFollowing } = usePosition();
+  const { following, toggleFollowing, toggleTracking } = usePosition();
 
   function handleViewClick(view: View) {
     setIsOpen(true);
@@ -94,10 +94,12 @@ function MapFilter(): JSX.Element {
         </button>
 
         <button
-          data-tooltip="Follow position (Coming Soon)"
+          data-tooltip="Follow position"
           data-tooltip-position="right"
-          disabled
-          onClick={toggleFollowing}
+          onClick={() => {
+            toggleFollowing();
+            toggleTracking();
+          }}
           className={classNames(
             styles.nav__button,
             styles.nav__border,
