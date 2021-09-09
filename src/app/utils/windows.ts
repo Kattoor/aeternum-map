@@ -77,8 +77,9 @@ export async function restoreWindow(windowName: string): Promise<string> {
       resolve(declaredWindow.id);
       return;
     }
-    overwolf.windows.restore(declaredWindow.id, (result) => {
+    overwolf.windows.restore(windowName, (result) => {
       if (result.success) {
+        overwolf.windows.bringToFront(windowName, () => undefined);
         resolve(result.window_id!); // window_id is always a string if success
       } else {
         reject(result.error);
@@ -92,7 +93,7 @@ export function toggleWindow(windowName: string): void {
     if (['normal', 'maximized'].includes(result.window.stateEx)) {
       overwolf.windows.hide(result.window.id);
     } else {
-      restoreWindow(result.window.id);
+      restoreWindow(result.window.name);
     }
   });
 }

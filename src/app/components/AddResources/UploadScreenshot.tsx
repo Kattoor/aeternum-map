@@ -9,8 +9,10 @@ type UploadScreenshotProps = {
 function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [timer, setTimer] = useState<number | null>(null);
 
   useEffect(() => {
+    console.log({ screenshot });
     const canvas = canvasRef.current;
     if (!canvas || !screenshot) {
       return;
@@ -19,8 +21,12 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
     if (!context) {
       return;
     }
+
     const image = new Image();
     image.onload = () => {
+      console.log('ON LOAD');
+
+      context.clearRect(0, 0, canvas.width, canvas.height);
       canvas.width = image.width;
       canvas.height = image.height;
       context.drawImage(image, 0, 0);
@@ -61,6 +67,7 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
   }
 
   async function handleTakeScreenshot() {
+    setTimer(3);
     try {
       const screenshotUrl = await takeScreenshot();
       setScreenshot(screenshotUrl);
@@ -68,6 +75,28 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
       console.error(error);
     }
   }
+
+  useEffect(() => {
+    if (timer === null) {
+      return;
+    }
+    if (timer > 0) {
+      setTimeout(() => {
+        setTimer(timer - 1);
+      }, 1000);
+    } else {
+      (async () => {
+        try {
+          const screenshotUrl = await takeScreenshot();
+          setScreenshot(screenshotUrl);
+          setTimer(null);
+        } catch (error) {
+          console.error(error);
+          setTimer(3);
+        }
+      })();
+    }
+  }, [timer]);
 
   return (
     <div className={styles.container}>
@@ -87,6 +116,13 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
               name="screenshot"
             />
           </label>
+        </div>
+        <div>
+          {timer !== null ? (
+            <>Please focus New World. Screenshot in {timer}s</>
+          ) : (
+            'A screenshot helps other players to find this resource.'
+          )}
         </div>
         <canvas ref={canvasRef} className={styles.screenshot} />
       </div>

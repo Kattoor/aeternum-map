@@ -10,13 +10,7 @@ export function takeScreenshot(): Promise<string> {
         if (result.url) {
           resolve(result.url);
         } else {
-          overwolf.media.takeScreenshot((result) => {
-            if (result.url) {
-              resolve(result.url);
-            } else {
-              reject(result.error);
-            }
-          });
+          reject(result.error);
         }
       }
     );
