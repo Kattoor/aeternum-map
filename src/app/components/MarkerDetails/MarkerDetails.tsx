@@ -1,5 +1,6 @@
 import type { Marker } from '../../contexts/MarkersContext';
-import { getScreenshotUrl } from '../../utils/api';
+import { useMarkers } from '../../contexts/MarkersContext';
+import { fetchJSON, getScreenshotUrl } from '../../utils/api';
 import { toTimeAgo } from '../../utils/dates';
 import AddComment from '../AddComment/AddComment';
 import Comment from '../Comment/Comment';
@@ -9,6 +10,8 @@ import { mapFilters } from '../MapFilter/mapFilters';
 import styles from './MarkerDetails.module.css';
 import Markdown from 'markdown-to-jsx';
 import HideMarkerInput from './HideMarkerInput';
+import { useModal } from '../../contexts/ModalContext';
+import UploadScreenshot from '../AddResources/UploadScreenshot';
 
 type MarkerDetailsProps = {
   marker: Marker;
@@ -19,6 +22,36 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
   const filterItem = mapFilters.find(
     (mapFilter) => mapFilter.type === marker.type
   );
+  const { addModal, closeLatestModal } = useModal();
+  const { refresh: refreshMarkers } = useMarkers();
+
+  async function handleUploadScreenshot(
+    screenshotFilename?: string | undefined
+  ) {
+    closeLatestModal();
+    if (!screenshotFilename) {
+      return;
+    }
+    await fetchJSON(`/api/markers/${marker._id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        screenshotFilename,
+      }),
+    });
+    marker.screenshotFilename = screenshotFilename;
+    refreshMarkers();
+  }
+
+  async function handleDelete() {
+    await fetchJSON(`/api/markers/${marker._id}`, {
+      method: 'DELETE',
+    });
+    refreshMarkers();
+    closeLatestModal();
+  }
 
   return (
     <section className={styles.container}>
@@ -51,15 +84,12 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
       <aside className={styles.more}>
         <h3>Actions</h3>
         <HideMarkerInput markerId={marker._id} />
+        <button className={styles.button} onClick={handleDelete}>
+          💀 Remove invalid marker 💀
+        </button>
         <h3>Screenshot</h3>
         {marker.screenshotFilename ? (
-          <a
-            href={
-              marker.screenshotFilename &&
-              getScreenshotUrl(marker.screenshotFilename)
-            }
-            target="_blank"
-          >
+          <a href={getScreenshotUrl(marker.screenshotFilename)} target="_blank">
             <img
               className={styles.preview}
               src={
@@ -71,7 +101,19 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
             />
           </a>
         ) : (
-          <img className={styles.preview} src={'/icon.png'} alt="" />
+          <button
+            onClick={() =>
+              addModal({
+                title: 'Add screenshot',
+                children: (
+                  <UploadScreenshot onUpload={handleUploadScreenshot} />
+                ),
+              })
+            }
+          >
+            <img className={styles.preview} src={'/icon.png'} alt="" />
+            Take a screenshot
+          </button>
         )}
         <h3>Details</h3>
         {marker.level && <p>Level {marker.level}</p>}

@@ -23,6 +23,10 @@
   object-fit: contain;
 }
 
+.button {
+  width: max-content;
+}
+
 .main {
   display: grid;
   grid-template-rows: 1fr auto;

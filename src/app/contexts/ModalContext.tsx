@@ -25,13 +25,15 @@ export function ModalProvider({ children }: ModalProviderProps): JSX.Element {
   const [modals, setModals] = useState<ModalData[]>([]);
 
   function addModal(modal: ModalData) {
-    setModals((modals) => [...(modals || null), modal]);
+    setModals((modals) => [...(modals || []), modal]);
   }
 
   function handleClose() {
-    const newModals = [...modals];
-    newModals.pop();
-    setModals(newModals);
+    setModals((modals) => {
+      const newModals = [...modals];
+      newModals.pop();
+      return newModals;
+    });
   }
 
   const latestModal = modals[modals.length - 1];

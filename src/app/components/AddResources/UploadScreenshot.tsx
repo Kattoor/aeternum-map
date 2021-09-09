@@ -35,6 +35,7 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
   }, [canvasRef.current, screenshot]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setTimer(null);
     const file = event.target.files![0];
     setScreenshot(URL.createObjectURL(file));
   }
@@ -80,8 +81,9 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
     if (timer === null) {
       return;
     }
+    let timeout: NodeJS.Timeout | null = null;
     if (timer > 0) {
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         setTimer(timer - 1);
       }, 1000);
     } else {
@@ -96,6 +98,11 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
         }
       })();
     }
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
   }, [timer]);
 
   return (

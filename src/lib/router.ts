@@ -22,6 +22,58 @@ router.get('/markers', async (_req, res, next) => {
   }
 });
 
+router.delete('/markers/:markerId', async (req, res, next) => {
+  try {
+    const { markerId } = req.params;
+
+    if (!ObjectId.isValid(markerId)) {
+      res.status(400).send('Invalid payload');
+      return;
+    }
+
+    const result = await getMarkersCollection().deleteOne({
+      _id: new ObjectId(markerId),
+    });
+    if (!result.deletedCount) {
+      res.status(404).end(`No marker found for id ${markerId}`);
+      return;
+    }
+    res.status(200).json({});
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch('/markers/:markerId', async (req, res, next) => {
+  try {
+    const { markerId } = req.params;
+    const { screenshotFilename } = req.body;
+
+    if (typeof screenshotFilename !== 'string' || !ObjectId.isValid(markerId)) {
+      res.status(400).send('Invalid payload');
+      return;
+    }
+
+    const result = await getMarkersCollection().updateOne(
+      {
+        _id: new ObjectId(markerId),
+      },
+      {
+        $set: {
+          screenshotFilename,
+        },
+      }
+    );
+    if (!result.modifiedCount) {
+      res.status(404).end(`No marker found for id ${markerId}`);
+      return;
+    }
+    res.status(200).json(screenshotFilename);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post('/markers', async (req, res, next) => {
   try {
     const {
