@@ -12,13 +12,13 @@ function usePlayerPosition({
   const [marker, setMarker] = useState<leaflet.Marker | null>(null);
 
   useEffect(() => {
-    if (!leafletMap || marker) {
+    if (!leafletMap || marker || !position) {
       return;
     }
     const icon = new LeafIcon({ iconUrl: '/player.webp' });
     const newMarker = leaflet.marker([0, 0], { icon }).addTo(leafletMap);
     setMarker(newMarker);
-  }, [leafletMap, marker]);
+  }, [leafletMap, marker, position]);
 
   useEffect(() => {
     if (!marker || !position || !leafletMap) {
@@ -26,7 +26,7 @@ function usePlayerPosition({
     }
     marker.setLatLng(position);
     if (following) {
-      leafletMap.setView([position[1], position[0]]);
+      leafletMap.setView([position[0], position[1]]);
     }
   }, [marker, leafletMap, position, following]);
 }

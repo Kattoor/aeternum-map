@@ -33,7 +33,6 @@ export async function getPosition(): Promise<[number, number]> {
   } = await worker.recognize(url, {
     rectangle: { left: 1600, top: 17, width: 300, height: 30 },
   });
-  console.log(url, text);
   const match = text.match(/\[(\d+[,.]\d{3}|\d+)[, ]+(\d+[,.]\d{3}|\d+)/);
   if (!match) {
     throw new Error('Can not match position');
