@@ -10,9 +10,9 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [timer, setTimer] = useState<number | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
-    console.log({ screenshot });
     const canvas = canvasRef.current;
     if (!canvas || !screenshot) {
       return;
@@ -24,8 +24,6 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
 
     const image = new Image();
     image.onload = () => {
-      console.log('ON LOAD');
-
       context.clearRect(0, 0, canvas.width, canvas.height);
       canvas.width = image.width;
       canvas.height = image.height;
@@ -48,6 +46,7 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
     if (!screenshot) {
       onUpload();
     } else {
+      setIsUploading(true);
       const formData = new FormData();
       canvas.toBlob(async (blob) => {
         if (!blob) {
@@ -63,6 +62,7 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
           }
         );
         onUpload(result.filename);
+        setIsUploading(false);
       });
     }
   }
@@ -133,7 +133,11 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
         </div>
         <canvas ref={canvasRef} className={styles.screenshot} />
       </div>
-      <button onClick={handleUpload} className={styles.upload}>
+      <button
+        onClick={handleUpload}
+        className={styles.upload}
+        disabled={isUploading}
+      >
         {!screenshot ? 'Skip screenshot' : 'Save'}
       </button>
     </div>

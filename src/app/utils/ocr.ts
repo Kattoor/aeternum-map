@@ -24,15 +24,28 @@ const initializedWorker = initWorker();
 // ];
 
 export async function getPosition(): Promise<[number, number]> {
-  const url = await takeScreenshot();
+  const gameInfo = await new Promise<overwolf.games.GetRunningGameInfoResult>(
+    (resolve) => overwolf.games.getRunningGameInfo((result) => resolve(result))
+  );
+  if (!gameInfo || gameInfo.classId !== 21816) {
+    throw new Error('Game is not running');
+  }
+  gameInfo.width;
+
+  const url = await takeScreenshot({
+    crop: {
+      x: gameInfo.width - 400,
+      y: 0,
+      width: 400,
+      height: 50,
+    },
+  });
 
   await initializedWorker;
 
   const {
     data: { text },
-  } = await worker.recognize(url, {
-    rectangle: { left: 1600, top: 17, width: 300, height: 30 },
-  });
+  } = await worker.recognize(url);
   const match = text.match(/\[(\d+[,.]\d{3}|\d+)[, ]+(\d+[,.]\d{3}|\d+)/);
   if (!match) {
     throw new Error('Can not match position');
@@ -47,5 +60,5 @@ export async function getPosition(): Promise<[number, number]> {
   if (y > 14336) {
     y /= 1000;
   }
-  return [x, y];
+  return [y, x];
 }
