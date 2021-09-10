@@ -49,7 +49,7 @@
         "debug_url": "http://localhost:3000",
         "desktop_only": false,
         "focus_game_takeover": "ReleaseOnHidden",
-        "focus_game_takeover_release_hotkey": "showhide",
+        "focus_game_takeover_release_hotkey": "show_hide_app",
         "resizable": true,
         "transparent": true,
         "override_on_update": true,
