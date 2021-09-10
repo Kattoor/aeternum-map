@@ -12,6 +12,7 @@ import Markdown from 'markdown-to-jsx';
 import HideMarkerInput from './HideMarkerInput';
 import { useModal } from '../../contexts/ModalContext';
 import UploadScreenshot from '../AddResources/UploadScreenshot';
+import { useUser } from '../../contexts/UserContext';
 
 type MarkerDetailsProps = {
   marker: Marker;
@@ -24,6 +25,7 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
   );
   const { addModal, closeLatestModal } = useModal();
   const { refresh: refreshMarkers } = useMarkers();
+  const user = useUser();
 
   async function handleUploadScreenshot(
     screenshotFilename?: string | undefined
@@ -84,9 +86,11 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
       <aside className={styles.more}>
         <h3>Actions</h3>
         <HideMarkerInput markerId={marker._id} />
-        <button className={styles.button} onClick={handleDelete}>
-          💀 Remove invalid marker 💀
-        </button>
+        {user?.username === 'loltrophyhunter' && (
+          <button className={styles.button} onClick={handleDelete}>
+            💀 Remove invalid marker 💀
+          </button>
+        )}
         <h3>Screenshot</h3>
         {marker.screenshotFilename ? (
           <a href={getScreenshotUrl(marker.screenshotFilename)} target="_blank">

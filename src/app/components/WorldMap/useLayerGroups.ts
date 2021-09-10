@@ -11,7 +11,7 @@ import { useUser } from '../../contexts/UserContext';
 export const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   leaflet.Icon.extend({
     options: {
-      iconSize: [64, 64],
+      iconSize: [48, 48],
       tooltipAnchor: [0, -32],
     },
   });
