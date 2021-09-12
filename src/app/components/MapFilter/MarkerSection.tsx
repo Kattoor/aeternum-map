@@ -38,6 +38,7 @@ function MarkerSection({
             checked={filters.includes(filter.type)}
             imgSrc={filter.iconUrl}
             title={filter.title}
+            countType={filter.type}
           />
         ))}
       </div>
