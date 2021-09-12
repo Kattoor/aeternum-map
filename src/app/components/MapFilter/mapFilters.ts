@@ -17,6 +17,7 @@ export const mapFilters: FilterItem[] = [
     type: 'expedition',
     title: i18n('Expedition'),
     iconUrl: '/pois/expedition.webp',
+    hasName: true,
   },
   {
     category: 'locations',
