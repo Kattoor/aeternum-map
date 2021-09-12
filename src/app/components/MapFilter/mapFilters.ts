@@ -24,24 +24,28 @@ export const mapFilters: FilterItem[] = [
     type: 'fort',
     title: i18n('Fort'),
     iconUrl: '/pois/fort.webp',
+    hasName: true,
   },
   {
     category: 'locations',
     type: 'outpost',
     title: i18n('Outpost'),
     iconUrl: '/pois/outpost.webp',
+    hasName: true,
   },
   {
     category: 'locations',
     type: 'settlement',
     title: i18n('Settlement'),
     iconUrl: '/pois/settlement.webp',
+    hasName: true,
   },
   {
     category: 'locations',
     type: 'spiritShrine',
     title: i18n('Spirit Shrine'),
     iconUrl: '/pois/spiritShrine.webp',
+    hasName: true,
   },
   {
     category: 'chests',
