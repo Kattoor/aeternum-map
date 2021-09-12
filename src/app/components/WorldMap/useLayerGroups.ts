@@ -12,8 +12,7 @@ export const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
   leaflet.Icon.extend({
     options: {
       iconSize: [32, 32],
-      iconAnchor: [16, 32],
-      tooltipAnchor: [0, -32],
+      tooltipAnchor: [0, -20],
     },
   });
 
