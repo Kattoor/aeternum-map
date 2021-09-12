@@ -42,4 +42,12 @@
 :global(.leaflet-polygon-text-1) {
   font-size: 0.8em;
 }
+
+:global(.leaflet-marker-icon) {
+  border-radius: 100%;
+  background: var(--color-shade-three);
+  padding: 2px;
+  border: 1px solid var(--color-text);
+}
+
 /* stylelint-enable */
