@@ -54,6 +54,7 @@ function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
           !user ? 'You need to login to add a comment' : 'Add a comment'
         }
         rows={1}
+        disabled={!user}
       />
       <input
         type="submit"

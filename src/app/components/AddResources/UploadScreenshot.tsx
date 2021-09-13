@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
+import { useUser } from '../../contexts/UserContext';
 import { fetchJSON } from '../../utils/api';
 import { takeScreenshot } from '../../utils/media';
+import { classNames } from '../../utils/styles';
 import styles from './UploadScreenshot.module.css';
 
 type UploadScreenshotProps = {
   onUpload: (path?: string) => void;
 };
 function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
+  const user = useUser();
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [timer, setTimer] = useState<number | null>(null);
@@ -109,13 +112,20 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
     <div className={styles.container}>
       <div className={styles.preview}>
         <div className={styles.actions}>
-          <button className={styles.action} onClick={handleTakeScreenshot}>
+          <button
+            className={styles.action}
+            onClick={handleTakeScreenshot}
+            disabled={!user}
+          >
             Take screenshot
           </button>
           <span>or</span>
-          <label className={styles.action}>
+          <label
+            className={classNames(styles.action, !user && styles.disabled)}
+          >
             Choose file
             <input
+              disabled={!user}
               className={styles.hidden}
               type="file"
               onChange={handleChange}
@@ -127,8 +137,10 @@ function UploadScreenshot({ onUpload }: UploadScreenshotProps): JSX.Element {
         <div>
           {timer !== null ? (
             <>Please focus New World. Screenshot in {timer}s</>
-          ) : (
+          ) : user ? (
             'A screenshot helps other players to find this resource.'
+          ) : (
+            'Please login to upload a screenshot.'
           )}
         </div>
         <canvas ref={canvasRef} className={styles.screenshot} />

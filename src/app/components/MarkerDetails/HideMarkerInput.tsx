@@ -34,7 +34,11 @@ function HideMarkerInput({ markerId }: HideMarkerInputProps): JSX.Element {
     refreshUser();
   }
   return (
-    <label>
+    <label
+      data-tooltip={
+        user ? "Marker won't be shown on the map" : 'Login to hide marker'
+      }
+    >
       <input
         type="checkbox"
         onChange={handleChange}

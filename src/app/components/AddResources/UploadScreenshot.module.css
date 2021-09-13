@@ -24,12 +24,6 @@
   color: var(--color-primary);
 }
 
-.upload:disabled {
-  background: var(--color-trivial);
-  color: var(--color-shade-two);
-  cursor: default;
-}
-
 .hidden {
   display: none;
 }
@@ -47,4 +41,12 @@
   background: var(--color-shade-two);
   color: var(--color-primary);
   font-size: 1em;
+}
+
+.upload:disabled,
+.action:disabled,
+.disabled {
+  background: var(--color-trivial);
+  color: var(--color-shade-two);
+  cursor: default;
 }

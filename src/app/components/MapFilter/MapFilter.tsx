@@ -16,6 +16,7 @@ import NearBy from '../NearBy/NearBy';
 import User from '../User/User';
 import NearByIcon from '../icons/NearByIcon';
 import PlayerIcon from '../icons/PlayerIcon';
+import { useUser } from '../../contexts/UserContext';
 
 type View = 'markers' | 'areas' | 'nearBy';
 
@@ -24,6 +25,7 @@ function MapFilter(): JSX.Element {
   const [isOpen, setIsOpen] = useState(true);
   const { url, search } = useRouter();
   const { following, toggleFollowing, toggleTracking } = usePosition();
+  const user = useUser();
 
   function handleViewClick(view: View) {
     setIsOpen(true);
@@ -45,7 +47,8 @@ function MapFilter(): JSX.Element {
       <nav className={styles.nav}>
         <button
           className={styles.nav__button}
-          data-tooltip="Add resources"
+          disabled={!user}
+          data-tooltip={user ? 'Add resources' : 'Login to add resources'}
           data-tooltip-position="right"
           onClick={() =>
             addModal({
