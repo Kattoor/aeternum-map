@@ -72,6 +72,7 @@ function useLayerGroups({
         leafletMap.removeLayer(existingLayerGroup);
       }
       const icon = new LeafIcon({ iconUrl: mapFilter.iconUrl });
+      icon.options.className = `leaflet-marker-${mapFilter.category}`;
       const layerGroup = leaflet.markerClusterGroup({
         iconCreateFunction: () => icon,
         disableClusteringAtZoom: mapFilter.isArea ? 0 : 5,

@@ -36,6 +36,7 @@ function DetailsInput({ filter, onChange }: DetailsInputProps): JSX.Element {
               value={name || ''}
               placeholder="Enter name"
               required
+              autoFocus
             />
           </label>
         )}
