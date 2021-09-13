@@ -42,7 +42,7 @@ function MapFilter(): JSX.Element {
         {view === 'markers' && <MarkersView />}
         {view === 'areas' && <AreasView />}
         {view === 'nearBy' && <NearBy />}
-        <Ads />
+        <Ads active={isOpen} />
       </div>
       <nav className={styles.nav}>
         <button

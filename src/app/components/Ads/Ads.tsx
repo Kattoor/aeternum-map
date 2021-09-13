@@ -3,11 +3,19 @@ import { useEffect, useRef, useState } from 'react';
 import { getCurrentWindow } from '../../utils/windows';
 import classes from './Ads.module.css';
 
-function Ads(): JSX.Element {
+type AdsProps = {
+  active: boolean;
+};
+
+function Ads({ active }: AdsProps): JSX.Element {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [owAd, setOwAd] = useState<OwAd>();
 
   useEffect(() => {
+    if (!active || owAd) {
+      return;
+    }
+
     function onOwAdReady() {
       if (typeof window.OwAd === 'undefined' || containerRef.current === null) {
         return;
@@ -15,7 +23,9 @@ function Ads(): JSX.Element {
       const ad = new window.OwAd(containerRef.current, {
         size: { width: 400, height: 300 },
       });
-      setOwAd(ad);
+      ad.addEventListener('ow_internal_rendered', () => {
+        setOwAd(ad);
+      });
     }
 
     const script = document.createElement('script');
@@ -26,10 +36,10 @@ function Ads(): JSX.Element {
     return () => {
       document.body.removeChild(script);
     };
-  }, []);
+  }, [active, owAd]);
 
   useEffect(() => {
-    if (!owAd) {
+    if (!owAd || !active) {
       return;
     }
     async function onWindowStateChanged(
@@ -48,11 +58,13 @@ function Ads(): JSX.Element {
         owAd?.refreshAd({});
       }
     }
+    owAd?.refreshAd({});
     overwolf.windows.onStateChanged.addListener(onWindowStateChanged);
     return () => {
+      owAd?.removeAd();
       overwolf.windows.onStateChanged.removeListener(onWindowStateChanged);
     };
-  }, [owAd]);
+  }, [owAd, active]);
 
   return (
     <div className={classes.container} ref={containerRef}>
