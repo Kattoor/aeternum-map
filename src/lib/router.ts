@@ -92,18 +92,15 @@ router.post('/markers', async (req, res, next) => {
       res.status(400).send('Invalid payload');
       return;
     }
-
     const marker: Marker = {
       type,
       username,
       createdAt: new Date(),
     };
     if (position) {
-      marker.position = position.map((part: number) => new Double(part)) as [
-        Double,
-        Double,
-        Double
-      ];
+      marker.position = position.map(
+        (part: number) => new Double(+part.toFixed(2))
+      ) as [Double, Double, Double];
     }
     if (Array.isArray(positions)) {
       marker.positions = positions.map((position) =>
