@@ -78,7 +78,7 @@ export const mapFilters: FilterItem[] = [
   },
   {
     category: 'enemies',
-    type: 'boss_elite',
+    type: 'bossElite',
     title: i18n('Elite Boss'),
     iconUrl: '/pois/boss.webp',
     hasName: true,
