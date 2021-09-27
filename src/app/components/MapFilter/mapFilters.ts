@@ -173,7 +173,7 @@ export const mapFilters: FilterItem[] = [
   },
   {
     category: 'skinning',
-    type: 'hare',
+    type: 'rabbit',
     title: i18n('Rabbit'),
     iconUrl: '/pois/hare.webp',
   },
@@ -294,7 +294,7 @@ export const mapFilters: FilterItem[] = [
   },
   {
     category: 'farming',
-    type: 'cooking_ingredient',
+    type: 'cookingIngredient',
     title: i18n('Cooking Ingredient'),
     iconUrl: '/pois/broccoli.webp',
   },
