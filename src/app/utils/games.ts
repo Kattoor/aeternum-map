@@ -27,7 +27,7 @@ export function useRunningGameInfo():
     return () => {
       overwolf.games.onGameInfoUpdated.removeListener(handleGameInfoUpdated);
     };
-  });
+  }, []);
 
   return runningGameInfo;
 }
