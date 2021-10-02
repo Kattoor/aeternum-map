@@ -1,4 +1,5 @@
 import type { ReactNode, MouseEvent } from 'react';
+import { useEffect } from 'react';
 import { createContext, useContext, useState } from 'react';
 
 type RouterContextType = {
@@ -16,7 +17,13 @@ type RouterProviderProps = {
   children: ReactNode;
 };
 export function RouterProvider({ children }: RouterProviderProps): JSX.Element {
-  const [url, setURL] = useState<URL>(() => new URL(location.href));
+  const [url, setURL] = useState<URL>(
+    () => new URL(localStorage.getItem('url') || location.href)
+  );
+
+  useEffect(() => {
+    localStorage.setItem('url', url.toString());
+  }, [url]);
 
   function go(href: string, preserveSearch?: boolean): void {
     const url = new URL(location.href);
