@@ -167,7 +167,7 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
       return () => {
         leafletMap.off('moveend', handleMoveEnd);
       };
-    }, [leafletMap, url]);
+    }, [leafletMap, search]);
   }
 
   return { elementRef, leafletMap };

@@ -23,6 +23,7 @@ export function RouterProvider({ children }: RouterProviderProps): JSX.Element {
 
   useEffect(() => {
     localStorage.setItem('url', url.toString());
+    history.replaceState({}, '', url);
   }, [url]);
 
   function go(href: string, preserveSearch?: boolean): void {
