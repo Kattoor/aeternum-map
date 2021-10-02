@@ -32,17 +32,21 @@ export function PositionProvider({
     if (!tracking) {
       return;
     }
-    const intervalId = setInterval(async () => {
+    let handler = setTimeout(updatePosition, 5000);
+
+    async function updatePosition() {
       try {
         const position = await getPosition();
         setPosition(position);
       } catch (error) {
         console.error(error);
+      } finally {
+        handler = setTimeout(updatePosition, 5000);
       }
-    }, 5000);
+    }
 
     return () => {
-      clearInterval(intervalId);
+      clearTimeout(handler);
     };
   }, [tracking]);
 

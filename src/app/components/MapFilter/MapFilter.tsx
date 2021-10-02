@@ -99,7 +99,6 @@ function MapFilter(): JSX.Element {
         <button
           data-tooltip="Follow position"
           data-tooltip-position="right"
-          disabled
           onClick={() => {
             toggleFollowing();
             toggleTracking();
