@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { createContext, useEffect, useState, useContext } from 'react';
 import { getPosition } from '../utils/ocr';
+import { usePersistentState } from '../utils/storage';
 
 type PositionContextProps = {
   position: [number, number] | null;
@@ -25,8 +26,14 @@ export function PositionProvider({
   children,
 }: PositionProviderProps): JSX.Element {
   const [position, setPosition] = useState<[number, number] | null>(null);
-  const [tracking, setTracking] = useState(false);
-  const [following, setFollowing] = useState(false);
+  const [tracking, setTracking] = usePersistentState<boolean>(
+    'tracking',
+    false
+  );
+  const [following, setFollowing] = usePersistentState<boolean>(
+    'following',
+    false
+  );
 
   useEffect(() => {
     if (!tracking) {
