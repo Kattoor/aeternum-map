@@ -66,19 +66,32 @@ export async function closeMainWindow(): Promise<void> {
   return closeWindow(WINDOWS.BACKGROUND);
 }
 
-export function getPreferedWindowName(): string {
-  return getJSONItem('preferedWindowName') || WINDOWS.DESKTOP;
+export async function getPreferedWindowName(): Promise<string> {
+  const preferedWindowName = getJSONItem<string>('preferedWindowName');
+  if (preferedWindowName) {
+    return preferedWindowName;
+  }
+  const secondScreen = await getMonitor(false);
+  return secondScreen ? WINDOWS.DESKTOP : WINDOWS.OVERLAY;
 }
 
 export async function restoreWindow(windowName: string): Promise<string> {
   const declaredWindow = await obtainDeclaredWindow(windowName);
+
   return new Promise((resolve, reject) => {
     if (declaredWindow.isVisible) {
+      overwolf.windows.bringToFront(windowName, () => undefined);
       resolve(declaredWindow.id);
       return;
     }
-    overwolf.windows.restore(windowName, (result) => {
+    overwolf.windows.restore(windowName, async (result) => {
       if (result.success) {
+        const alreadyCentered = getJSONItem<boolean>(`centered-${windowName}`);
+        if (!alreadyCentered) {
+          const primaryDisplay = declaredWindow.name === WINDOWS.OVERLAY;
+          await centerWindow(declaredWindow, primaryDisplay);
+          setJSONItem(`centered-${declaredWindow.name}`, true);
+        }
         overwolf.windows.bringToFront(windowName, () => undefined);
         resolve(result.window_id!); // window_id is always a string if success
       } else {
@@ -109,4 +122,41 @@ export async function togglePreferedWindow(): Promise<void> {
     preferedWindowName === WINDOWS.DESKTOP ? WINDOWS.OVERLAY : WINDOWS.DESKTOP
   );
   await closeWindow(preferedWindowName);
+}
+
+export async function getMonitor(
+  primaryDisplay: boolean
+): Promise<overwolf.utils.Display | undefined> {
+  const monitors = await getDisplays();
+
+  const monitor = monitors.find(
+    (display) => display.is_primary === primaryDisplay
+  );
+  return monitor;
+}
+
+export function getDisplays(): Promise<overwolf.utils.Display[]> {
+  return new Promise<overwolf.utils.Display[]>((resolve) => {
+    overwolf.utils.getMonitorsList((result) => {
+      resolve(result.displays);
+    });
+  });
+}
+
+export async function centerWindow(
+  window: overwolf.windows.WindowInfo,
+  primaryDisplay = true
+): Promise<void> {
+  const monitor = await getMonitor(primaryDisplay);
+  if (!monitor) {
+    return;
+  }
+  return new Promise((resolve) => {
+    overwolf.windows.changePosition(
+      window.name,
+      monitor.x + Math.round((monitor.width - window.width) / 2),
+      monitor.y + Math.round((monitor.height - window.height) / 2),
+      () => resolve()
+    );
+  });
 }
