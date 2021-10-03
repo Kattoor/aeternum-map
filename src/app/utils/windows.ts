@@ -86,13 +86,17 @@ export async function restoreWindow(windowName: string): Promise<string> {
     }
     overwolf.windows.restore(windowName, async (result) => {
       if (result.success) {
+        await new Promise((resolve) =>
+          overwolf.windows.bringToFront(windowName, resolve)
+        );
+
         const alreadyCentered = getJSONItem<boolean>(`centered-${windowName}`);
         if (!alreadyCentered) {
           const primaryDisplay = declaredWindow.name === WINDOWS.OVERLAY;
-          await centerWindow(declaredWindow, primaryDisplay);
+          await centerWindow(windowName, primaryDisplay);
           setJSONItem(`centered-${declaredWindow.name}`, true);
         }
-        overwolf.windows.bringToFront(windowName, () => undefined);
+
         resolve(result.window_id!); // window_id is always a string if success
       } else {
         reject(result.error);
@@ -144,18 +148,20 @@ export function getDisplays(): Promise<overwolf.utils.Display[]> {
 }
 
 export async function centerWindow(
-  window: overwolf.windows.WindowInfo,
+  windowName: string,
   primaryDisplay = true
 ): Promise<void> {
   const monitor = await getMonitor(primaryDisplay);
   if (!monitor) {
     return;
   }
+  const declaredWindow = await obtainDeclaredWindow(windowName);
+
   return new Promise((resolve) => {
     overwolf.windows.changePosition(
-      window.name,
-      monitor.x + Math.round((monitor.width - window.width) / 2),
-      monitor.y + Math.round((monitor.height - window.height) / 2),
+      declaredWindow.name,
+      monitor.x + Math.round((monitor.width - declaredWindow.width) / 2),
+      monitor.y + Math.round((monitor.height - declaredWindow.height) / 2),
       () => resolve()
     );
   });
