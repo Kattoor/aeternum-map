@@ -42,15 +42,12 @@ export async function getPosition(): Promise<[number, number]> {
     throw new Error('Can not match position');
   }
 
-  let [x, y] = match
+  const [x, y] = match
     .slice(1)
     .map((a) => a.replace(',', '.'))
     .map(Number);
-  if (x > 14336) {
-    x /= 1000;
-  }
-  if (y > 14336) {
-    y /= 1000;
+  if (x < 4531 || x > 14336 || y < 43 || y > 10280) {
+    throw new Error('Out of bounds');
   }
   return [y, x];
 }

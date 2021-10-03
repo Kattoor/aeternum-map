@@ -65,6 +65,7 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
       minZoom: 0,
       attributionControl: false,
       zoomControl: false,
+      maxBounds: leaflet.latLngBounds([-10000, -7000], [20000, 25000]),
     });
     setLeafletMap(map);
 
