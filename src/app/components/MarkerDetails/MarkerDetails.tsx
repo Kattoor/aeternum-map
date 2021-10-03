@@ -70,8 +70,7 @@ function MarkerDetails({ marker }: MarkerDetailsProps): JSX.Element {
           {comments?.map((comment) => (
             <Comment
               key={comment._id}
-              displayName={comment.displayName}
-              avatar={comment.avatar}
+              username={comment.username}
               message={comment.message}
               createdAt={comment.createdAt}
             />

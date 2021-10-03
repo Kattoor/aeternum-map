@@ -1,12 +1,11 @@
 import type { ReactNode } from 'react';
 import { createContext, useEffect, useState, useContext } from 'react';
 import { fetchJSON } from '../utils/api';
-import { getCurrentUser } from '../utils/profile';
+import { addGameLogListener, removeGameLogListener } from '../utils/extensions';
+import { usePersistentState } from '../utils/storage';
 
 export type User = {
   username: string;
-  displayName: string;
-  avatar: string;
   hiddenMarkerIds: string[];
   createdAt: Date;
 };
@@ -25,19 +24,23 @@ type UserProviderProps = {
 
 export function UserProvider({ children }: UserProviderProps): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
+  const [username, setUsername] = usePersistentState<string | null>(
+    'username',
+    null
+  );
 
-  async function loadUser() {
+  async function loadUser(): Promise<void> {
     try {
-      const currentUser = await getCurrentUser();
+      if (!username) {
+        return;
+      }
       const result = await fetchJSON('/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: currentUser.username,
-          displayName: currentUser.displayName,
-          avatar: currentUser.avatar,
+          username,
         }),
       });
       setUser(result as User);
@@ -46,12 +49,17 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
     }
   }
   useEffect(() => {
-    loadUser();
-    overwolf.profile.onLoginStateChanged.addListener(loadUser);
+    addGameLogListener({
+      onPlayerNameChange: setUsername,
+    });
     return () => {
-      overwolf.profile.onLoginStateChanged.removeListener(loadUser);
+      removeGameLogListener();
     };
   }, []);
+
+  useEffect(() => {
+    loadUser();
+  }, [username]);
 
   return (
     <UserContext.Provider value={{ user, refresh: loadUser }}>

@@ -26,12 +26,6 @@ export function ensureUsersSchema(): Promise<Document> {
           username: {
             bsonType: 'string',
           },
-          displayName: {
-            bsonType: 'string',
-          },
-          avatar: {
-            bsonType: 'string',
-          },
           hiddenMarkerIds: {
             bsonType: 'array',
             items: {
@@ -43,7 +37,7 @@ export function ensureUsersSchema(): Promise<Document> {
           },
         },
         additionalProperties: false,
-        required: ['username', 'displayName', 'avatar', 'createdAt'],
+        required: ['username', 'createdAt'],
       },
     },
   });

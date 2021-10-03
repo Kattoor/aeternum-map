@@ -28,8 +28,6 @@ function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
       },
       body: JSON.stringify({
         username: user.username,
-        displayName: user.displayName,
-        avatar: user.avatar,
         message: message,
       }),
     });

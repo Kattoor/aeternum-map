@@ -39,9 +39,7 @@ POST {{baseUrl}}/users HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "lmachens",
-    "displayName": "[Coach] Leon",
-    "avatar": "https://avatars.githubusercontent.com/u/10058950?v=4"
+    "username": "lmachens"
 }
 
 ### Get a user

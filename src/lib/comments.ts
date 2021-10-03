@@ -27,12 +27,6 @@ export function ensureCommentsSchema(): Promise<Document> {
           username: {
             bsonType: 'string',
           },
-          displayName: {
-            bsonType: 'string',
-          },
-          avatar: {
-            bsonType: 'string',
-          },
           message: {
             bsonType: 'string',
           },
@@ -41,14 +35,7 @@ export function ensureCommentsSchema(): Promise<Document> {
           },
         },
         additionalProperties: false,
-        required: [
-          'markerId',
-          'username',
-          'displayName',
-          'avatar',
-          'message',
-          'createdAt',
-        ],
+        required: ['markerId', 'username', 'message', 'createdAt'],
       },
     },
   });

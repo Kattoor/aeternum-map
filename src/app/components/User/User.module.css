@@ -4,13 +4,8 @@
   gap: 0.5em;
   align-items: center;
   justify-content: center;
-  padding: 0.4em 0.5em;
+  padding: 0.5em 0.5em;
   border-bottom: 1px solid var(--color-shade-three);
-}
-
-.avatar {
-  height: 2em;
-  width: 2em;
 }
 
 .login {
@@ -18,8 +13,4 @@
   background: none;
   border: 1px solid var(--color-trivial);
   padding: 0.5em;
-}
-
-.login:hover {
-  background: var(--color-shade-three);
 }

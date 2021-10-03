@@ -97,6 +97,12 @@
       "enable_auto_refresh": true,
       "reload_delay": 1000,
       "filter": "*.*"
+    },
+    "extra-objects": {
+      "simple-io-plugin": {
+        "file": "simple-io-plugin.dll",
+        "class": "overwolf.plugins.simpleio.SimpleIOPlugin"
+      }
     }
   }
 }

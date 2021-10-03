@@ -1,6 +1,4 @@
 import { useUser } from '../../contexts/UserContext';
-import { openLoginDialog } from '../../utils/profile';
-import Avatar from '../Avatar/Avatar';
 import styles from './User.module.css';
 
 function User(): JSX.Element {
@@ -8,17 +6,10 @@ function User(): JSX.Element {
 
   return (
     <section className={styles.container}>
-      <Avatar
-        src={user?.avatar || '/icon.png'}
-        alt=""
-        className={styles.avatar}
-      />
       {user ? (
-        <span>{user.displayName}</span>
+        <span>Welcome back, {user.username}!</span>
       ) : (
-        <button onClick={openLoginDialog} className={styles.login}>
-          Login for full functionality
-        </button>
+        <p className={styles.login}>Run New World for player detection</p>
       )}
     </section>
   );

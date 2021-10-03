@@ -3,6 +3,7 @@ node_modules
 /dist/overwolf
 !/dist/overwolf/manifest.json
 !/dist/overwolf/icons
+!/dist/overwolf/simple-io-plugin.dll
 /dist/server
 dist-ssr
 *.local

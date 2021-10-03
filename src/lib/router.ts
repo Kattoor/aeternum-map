@@ -168,13 +168,11 @@ router.get('/markers/:markerId/comments', async (req, res) => {
 router.post('/markers/:markerId/comments', async (req, res, next) => {
   try {
     const { markerId } = req.params;
-    const { username, displayName, avatar, message } = req.body;
+    const { username, message } = req.body;
 
     if (
       typeof username !== 'string' ||
       typeof message !== 'string' ||
-      typeof displayName !== 'string' ||
-      typeof avatar !== 'string' ||
       !ObjectId.isValid(markerId)
     ) {
       res.status(400).send('Invalid payload');
@@ -184,8 +182,6 @@ router.post('/markers/:markerId/comments', async (req, res, next) => {
     const comment: Comment = {
       markerId: new ObjectId(markerId),
       username,
-      displayName,
-      avatar,
       message,
       createdAt: new Date(),
     };
@@ -203,13 +199,9 @@ router.post('/markers/:markerId/comments', async (req, res, next) => {
 
 router.post('/users', async (req, res, next) => {
   try {
-    const { username, displayName, avatar } = req.body;
+    const { username } = req.body;
 
-    if (
-      typeof username !== 'string' ||
-      typeof displayName !== 'string' ||
-      typeof avatar !== 'string'
-    ) {
+    if (typeof username !== 'string') {
       res.status(400).send('Invalid payload');
       return;
     }
@@ -217,10 +209,6 @@ router.post('/users', async (req, res, next) => {
     const result = await getUsersCollection().findOneAndUpdate(
       { username },
       {
-        $set: {
-          displayName,
-          avatar,
-        },
         $setOnInsert: {
           username,
           hiddenMarkerIds: [],
@@ -238,14 +226,10 @@ router.post('/users', async (req, res, next) => {
 router.get('/users/:username', async (req, res, next) => {
   try {
     const { username } = req.params;
-    if (typeof username !== 'string') {
-      res.status(400).send('Invalid payload');
-      return;
-    }
 
     const user = await getUsersCollection().findOne({ username });
     if (!user) {
-      res.status(404).end(`No user found for username ${username}`);
+      res.status(404).end(`No user found for ${username}`);
       return;
     }
     res.status(200).json(user);
@@ -258,7 +242,7 @@ router.patch('/users/:username', async (req, res, next) => {
   try {
     const { username } = req.params;
     const { hiddenMarkerIds } = req.body;
-    if (typeof username !== 'string' || !Array.isArray(hiddenMarkerIds)) {
+    if (!Array.isArray(hiddenMarkerIds)) {
       res.status(400).send('Invalid payload');
       return;
     }
@@ -272,7 +256,7 @@ router.patch('/users/:username', async (req, res, next) => {
       }
     );
     if (!result.modifiedCount) {
-      res.status(404).end(`No user found for username ${username}`);
+      res.status(404).end(`No user found for ${username}`);
       return;
     }
     res.status(200).json(hiddenMarkerIds);
