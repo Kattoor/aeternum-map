@@ -1,0 +1,18 @@
+.container {
+  display: grid;
+  gap: 0.5em;
+  text-align: center;
+}
+
+.showFps {
+  max-width: 100%;
+}
+
+.close {
+  cursor: pointer;
+  display: inline-block;
+  padding: 1em;
+  background: var(--color-shade-two);
+  color: var(--color-primary);
+  font-size: 1em;
+}

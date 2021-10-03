@@ -17,6 +17,7 @@ import User from '../User/User';
 import NearByIcon from '../icons/NearByIcon';
 import PlayerIcon from '../icons/PlayerIcon';
 import { useUser } from '../../contexts/UserContext';
+import FollowPosition from './FollowPosition';
 
 type View = 'markers' | 'areas' | 'nearBy';
 
@@ -100,6 +101,12 @@ function MapFilter(): JSX.Element {
           data-tooltip="Follow position"
           data-tooltip-position="right"
           onClick={() => {
+            if (!following) {
+              addModal({
+                title: 'Follow position',
+                children: <FollowPosition />,
+              });
+            }
             toggleFollowing();
             toggleTracking();
           }}
