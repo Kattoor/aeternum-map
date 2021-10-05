@@ -344,9 +344,9 @@ export const mapFilters: FilterItem[] = [
   },
   {
     category: 'npc',
-    type: 'npc_convenant',
-    title: i18n('Convenant'),
-    iconUrl: '/pois/npc_convenant.webp',
+    type: 'npc_covenant',
+    title: i18n('Covenant'),
+    iconUrl: '/pois/npc_covenant.webp',
     hasName: true,
   },
   {
