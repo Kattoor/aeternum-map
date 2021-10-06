@@ -5,10 +5,12 @@ import { classNames } from '../../utils/styles';
 import {
   closeMainWindow,
   dragMoveWindow,
+  getCurrentWindow,
   maximizeCurrentWindow,
   minimizeCurrentWindow,
   restoreCurrentWindow,
   togglePreferedWindow,
+  WINDOWS,
 } from '../../utils/windows';
 import CloseIcon from '../icons/CloseIcon';
 import DiscordIcon from '../icons/DiscordIcon';
@@ -43,6 +45,15 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
     };
   }, []);
 
+  async function openExternalLink(url: string) {
+    const currentWindow = await getCurrentWindow();
+    if (currentWindow.name === WINDOWS.OVERLAY) {
+      overwolf.utils.openUrlInOverwolfBrowser(url);
+    } else {
+      overwolf.utils.openUrlInDefaultBrowser(url);
+    }
+  }
+
   return (
     <header
       className={classNames(classes.header, className)}
@@ -57,22 +68,22 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
           : 'New World is not running'}
       </p>
       <div className={classes.controls}>
-        <a
+        <button
           className={classNames(classes.button, classes['button--github'])}
-          href="https://github.com/lmachens/aeternum-map"
-          target="_blank"
           data-tooltip="Open Source on GitHub"
+          onClick={() =>
+            openExternalLink('https://github.com/lmachens/aeternum-map')
+          }
         >
           <GitHubIcon />
-        </a>
-        <a
+        </button>
+        <button
           className={classNames(classes.button)}
-          href="https://discord.gg/NTZu8Px"
-          target="_blank"
           data-tooltip="Join Discord Community"
+          onClick={() => openExternalLink('https://discord.gg/NTZu8Px')}
         >
           <DiscordIcon />
-        </a>
+        </button>
         <button
           className={classNames(classes.button)}
           onClick={togglePreferedWindow}
