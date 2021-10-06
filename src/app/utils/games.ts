@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 
 export const NEW_WORLD_CLASS_ID = 21816;
 
+export function isNewWorldRunning(): Promise<boolean> {
+  return new Promise((resolve) => {
+    overwolf.games.getRunningGameInfo((result) => {
+      resolve(result && result.classId === NEW_WORLD_CLASS_ID);
+    });
+  });
+}
+
 export function useRunningGameInfo():
   | overwolf.games.RunningGameInfo
   | undefined {
