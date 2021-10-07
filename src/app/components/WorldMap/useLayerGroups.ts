@@ -16,6 +16,9 @@ export const LeafIcon: new ({ iconUrl }: { iconUrl: string }) => leaflet.Icon =
     },
   });
 
+const icons: {
+  [key: string]: leaflet.Icon<leaflet.IconOptions>;
+} = {};
 function useLayerGroups({
   leafletMap,
   markers,
@@ -71,7 +74,11 @@ function useLayerGroups({
         }
         leafletMap.removeLayer(existingLayerGroup);
       }
-      const icon = new LeafIcon({ iconUrl: mapFilter.iconUrl });
+
+      if (!icons[mapFilter.iconUrl]) {
+        icons[mapFilter.iconUrl] = new LeafIcon({ iconUrl: mapFilter.iconUrl });
+      }
+      const icon = icons[mapFilter.iconUrl];
       icon.options.className = `leaflet-marker-${mapFilter.category}`;
       const layerGroup = leaflet.markerClusterGroup({
         iconCreateFunction: () => icon,
@@ -93,9 +100,9 @@ function useLayerGroups({
         .on('clustermouseout', (event) => {
           event.propagatedFrom.unbindTooltip();
         });
-      layerGroup.addTo(leafletMap);
 
-      markersOfType.forEach((markerOfType) => {
+      for (let i = 0; i < markersOfType.length; i++) {
+        const markerOfType = markersOfType[i];
         if (markerOfType.position) {
           const marker = leaflet
             .marker([markerOfType.position[1], markerOfType.position[0]], {
@@ -146,7 +153,9 @@ function useLayerGroups({
             });
           }
         }
-      });
+      }
+
+      layerGroup.addTo(leafletMap);
 
       layerGroupByFilterRef.current[mapFilter.type] = layerGroup;
     });
