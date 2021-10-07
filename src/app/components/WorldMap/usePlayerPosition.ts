@@ -16,7 +16,7 @@ function usePlayerPosition({
       return;
     }
     const icon = new LeafIcon({ iconUrl: '/player.webp' });
-    const newMarker = leaflet.marker([0, 0], { icon });
+    const newMarker = leaflet.marker([0, 0], { icon, zIndexOffset: 9000 });
     setMarker(newMarker);
   }, [leafletMap, marker, position]);
 
