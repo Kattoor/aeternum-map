@@ -19,11 +19,13 @@
     "windows": {
       "background": {
         "file": "background.html",
+        "debug_url": "http://localhost:3000/background.html",
         "is_background_page": true,
         "allow_local_file_access": true
       },
       "desktop": {
         "file": "index.html",
+        "debug_url": "http://localhost:3000",
         "desktop_only": true,
         "native_window": true,
         "resizable": true,
@@ -45,6 +47,7 @@
       },
       "overlay": {
         "file": "index.html",
+        "debug_url": "http://localhost:3000",
         "desktop_only": false,
         "in_game_only": true,
         "focus_game_takeover": "ReleaseOnHidden",
