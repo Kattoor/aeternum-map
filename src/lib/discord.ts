@@ -40,6 +40,10 @@ export async function sendToDiscord({
         description: comment.message,
       },
       {
+        title: 'Marker Type',
+        description: marker.type,
+      },
+      {
         title: 'Marker Name',
         description: marker.name || '',
       },
@@ -66,6 +70,10 @@ export async function sendToDiscord({
       {
         title: 'Position',
         description: marker.position ? marker.position.join(', ') : '',
+      },
+      {
+        title: 'Type',
+        description: marker.type,
       },
       {
         title: 'Name',
