@@ -1,3 +1,5 @@
+import { getJSONItem, setJSONItem } from './storage';
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function loadSimpleIOPlugin(): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -100,4 +102,20 @@ export async function removeGameLogListener(): Promise<void> {
     plugin.onFileListenerChanged.removeListener(handleFileListenerChanged);
     handleFileListenerChanged = undefined;
   }
+}
+
+export function getAppVersion(): Promise<string> {
+  return new Promise<string>((resolve) => {
+    overwolf.extensions.current.getManifest((manifest) =>
+      resolve(`v${manifest.meta.version}`)
+    );
+  });
+}
+
+export async function isAppUpdated(): Promise<boolean> {
+  const lastVersion = getJSONItem('lastVersion', '');
+  const version = await getAppVersion();
+  const isUpdated = version !== lastVersion;
+  setJSONItem('lastVersion', version);
+  return isUpdated;
 }

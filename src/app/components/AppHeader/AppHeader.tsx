@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useModal } from '../../contexts/ModalContext';
+import { isAppUpdated } from '../../utils/extensions';
 import { useIsNewWorldRunning } from '../../utils/games';
 import { SHOW_HIDE_APP, useHotkeyBinding } from '../../utils/hotkeys';
+import { getJSONItem } from '../../utils/storage';
 import { classNames } from '../../utils/styles';
 import {
   closeMainWindow,
@@ -12,9 +15,11 @@ import {
   togglePreferedWindow,
   WINDOWS,
 } from '../../utils/windows';
+import Changelog from '../Changelog/Changelog';
 import CloseIcon from '../icons/CloseIcon';
 import DiscordIcon from '../icons/DiscordIcon';
 import GitHubIcon from '../icons/GitHubIcon';
+import HelpIcon from '../icons/HelpIcon';
 import MaximizeIcon from '../icons/MaximizeIcon';
 import MinimizeIcon from '../icons/MinimizeIcon';
 import MonitorIcon from '../icons/MonitorIcon';
@@ -29,6 +34,19 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
   const [isMaximized, setIsMaximized] = useState(false);
   const isNewWorldRunning = useIsNewWorldRunning();
   const hotkeyBinding = useHotkeyBinding(SHOW_HIDE_APP);
+  const { addModal } = useModal();
+
+  useEffect(() => {
+    isAppUpdated().then((isUpdated) => {
+      const changelogUpdates = getJSONItem('changelogUpdates', true);
+      if (isUpdated && changelogUpdates) {
+        addModal({
+          title: 'Changelog',
+          children: <Changelog />,
+        });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     overwolf.windows.getCurrentWindow((result) => {
@@ -78,19 +96,31 @@ function AppHeader({ className }: AppHeaderProps): JSX.Element {
           <GitHubIcon />
         </button>
         <button
-          className={classNames(classes.button)}
+          className={classes.button}
           data-tooltip="Join Discord Community"
           onClick={() => openExternalLink('https://discord.gg/NTZu8Px')}
         >
           <DiscordIcon />
         </button>
         <button
-          className={classNames(classes.button)}
+          className={classes.button}
           onClick={togglePreferedWindow}
           data-tooltip={'Toggle Desktop/Overlay'}
           disabled={!isNewWorldRunning}
         >
           <MonitorIcon />
+        </button>
+        <button
+          className={classes.button}
+          onClick={() =>
+            addModal({
+              title: 'Changelog',
+              children: <Changelog />,
+            })
+          }
+          data-tooltip={'Changelog'}
+        >
+          <HelpIcon />
         </button>
         <button
           className={classNames(classes.button, classes['button--padded'])}

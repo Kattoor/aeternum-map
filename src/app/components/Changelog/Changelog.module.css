@@ -1,0 +1,16 @@
+.section {
+  overflow: auto;
+  height: 100%;
+}
+
+.hr {
+  border-color: rgba(234, 234, 234, 0.2);
+}
+
+.h2 {
+  margin: 8px 0 4px 0;
+}
+
+.aside {
+  margin-bottom: 4px;
+}
