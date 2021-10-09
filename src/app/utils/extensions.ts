@@ -44,15 +44,33 @@ export async function addGameLogListener({
       }
     }
   }
-  plugin.getTextFile(
-    filename,
-    false, // not a UCS-2 file
-    function (_status: unknown, data: string) {
-      if (data) {
-        matchParts(data);
+
+  function listenToGameLogFile() {
+    plugin.getTextFile(
+      filename,
+      false, // not a UCS-2 file
+      function (_status: unknown, data: string) {
+        if (data) {
+          matchParts(data);
+        }
       }
-    }
-  );
+    );
+
+    plugin.listenOnFile(
+      fileIdentifier,
+      filename,
+      skipToEndOfFile,
+      function (fileId: string, status: string) {
+        if (fileId == fileIdentifier) {
+          if (status) {
+            console.log('[' + fileId + '] now streaming...');
+          } else {
+            console.error('something bad happened with: ' + fileId);
+          }
+        }
+      }
+    );
+  }
 
   handleFileListenerChanged = function (
     id: string,
@@ -61,6 +79,9 @@ export async function addGameLogListener({
   ) {
     if (!status) {
       console.error('received an error on file: ' + id + ': ' + line);
+      plugin.onFileListenerChanged.removeListener(handleFileListenerChanged);
+      plugin.onFileListenerChanged.addListener(handleFileListenerChanged);
+      listenToGameLogFile();
       return;
     }
 
@@ -70,20 +91,7 @@ export async function addGameLogListener({
   };
   plugin.onFileListenerChanged.addListener(handleFileListenerChanged);
 
-  plugin.listenOnFile(
-    fileIdentifier,
-    filename,
-    skipToEndOfFile,
-    function (fileId: string, status: string) {
-      if (fileId == fileIdentifier) {
-        if (status) {
-          console.log('[' + fileId + '] now streaming...');
-        } else {
-          console.error('something bad happened with: ' + fileId);
-        }
-      }
-    }
-  );
+  listenToGameLogFile();
 }
 
 export async function removeGameLogListener(): Promise<void> {
