@@ -8,6 +8,7 @@ import { getUsersCollection } from './users';
 import multer from 'multer';
 import sharp from 'sharp';
 import fs from 'fs/promises';
+import { sendToDiscord } from './discord';
 
 const screenshotsUpload = multer({ dest: process.env.SCREENSHOTS_PATH });
 
@@ -143,6 +144,7 @@ router.post('/markers', async (req, res, next) => {
       return;
     }
     res.status(200).json(marker);
+    sendToDiscord({ marker });
   } catch (error) {
     next(error);
   }
@@ -154,15 +156,15 @@ router.get('/markers/:markerId/comments', async (req, res) => {
     res.status(400).send('Invalid payload');
     return;
   }
-  const comment = await getCommentsCollection()
+  const comments = await getCommentsCollection()
     .find({ markerId: new ObjectId(markerId) })
     .sort({ createdAt: -1 })
     .toArray();
-  if (!comment) {
+  if (!comments) {
     res.status(404).end(`No comments found for marker ${markerId}`);
     return;
   }
-  res.status(200).json(comment);
+  res.status(200).json(comments);
 });
 
 router.post('/markers/:markerId/comments', async (req, res, next) => {
@@ -186,12 +188,21 @@ router.post('/markers/:markerId/comments', async (req, res, next) => {
       createdAt: new Date(),
     };
 
+    const marker = await getMarkersCollection().findOne({
+      _id: comment.markerId,
+    });
+    if (!marker) {
+      res.status(404).send("Marker doesn't exists");
+      return;
+    }
     const inserted = await getCommentsCollection().insertOne(comment);
     if (!inserted.acknowledged) {
       res.status(500).send('Error inserting comment');
       return;
     }
     res.status(200).json(comment);
+
+    sendToDiscord({ comment, marker });
   } catch (error) {
     next(error);
   }
@@ -206,6 +217,11 @@ router.post('/users', async (req, res, next) => {
       return;
     }
 
+    const existingUser = await getUsersCollection().findOne({ username });
+    if (existingUser) {
+      res.status(200).json(existingUser);
+      return;
+    }
     const result = await getUsersCollection().findOneAndUpdate(
       { username },
       {
@@ -217,7 +233,12 @@ router.post('/users', async (req, res, next) => {
       },
       { upsert: true, returnDocument: 'after' }
     );
-    res.status(200).json(result.value);
+    if (result.value) {
+      res.status(200).json(result.value);
+      sendToDiscord({ user: result.value });
+    } else {
+      throw new Error('Could not create user');
+    }
   } catch (error) {
     next(error);
   }
