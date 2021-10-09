@@ -34,7 +34,7 @@ export async function sendToDiscord({
   user?: User;
 }): Promise<void> {
   if (comment && marker) {
-    const position = marker
+    const position = marker.position
       ? marker.position.map((position) => String(position)).join(', ')
       : 'unknown';
     await postToDiscord(
@@ -54,7 +54,7 @@ export async function sendToDiscord({
       console.error(`Unknown type ${marker.type}`);
       return;
     }
-    const position = marker
+    const position = marker.position
       ? marker.position.map((position) => String(position)).join(', ')
       : 'unknown';
     await postToDiscord(
