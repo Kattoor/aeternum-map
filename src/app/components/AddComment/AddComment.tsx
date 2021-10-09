@@ -20,6 +20,9 @@ function AddComment({ markerId, onAdd }: AddCommentProps): JSX.Element {
     if (!user) {
       return;
     }
+    if (!message.trim()) {
+      return;
+    }
 
     await fetchJSON(`/api/markers/${markerId}/comments`, {
       method: 'POST',
