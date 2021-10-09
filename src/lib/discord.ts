@@ -34,24 +34,12 @@ export async function sendToDiscord({
   user?: User;
 }): Promise<void> {
   if (comment && marker) {
-    postToDiscord(`${comment.username} added a comment ✍`, [
-      {
-        title: 'Message',
-        description: comment.message,
-      },
-      {
-        title: 'Marker Type',
-        description: marker.type,
-      },
-      {
-        title: 'Marker Name',
-        description: marker.name || '',
-      },
-      {
-        title: 'Marker Position',
-        description: marker.position ? marker.position.join(', ') : '',
-      },
-    ]);
+    const position = marker
+      ? marker.position.map((position) => String(position)).join(', ')
+      : 'unknown';
+    await postToDiscord(
+      `✍ ${comment.username} added a comment for ${marker.type} at [${position}]: ${comment.message}`
+    );
     return;
   }
 
@@ -66,35 +54,16 @@ export async function sendToDiscord({
       console.error(`Unknown type ${marker.type}`);
       return;
     }
-    postToDiscord(`${mapFilter.title} was added 📌`, [
-      {
-        title: 'Position',
-        description: marker.position ? marker.position.join(', ') : '',
-      },
-      {
-        title: 'Type',
-        description: marker.type,
-      },
-      {
-        title: 'Name',
-        description: marker.name || '',
-      },
-      {
-        title: 'Description',
-        description: marker.description || '',
-      },
-      {
-        title: 'Screenshot',
-        description: marker.description || '',
-        image: marker.screenshotFilename
-          ? `${VITE_API_ENDPOINT}/screenshots/${marker.screenshotFilename}`
-          : '',
-      },
-    ]);
+    const position = marker
+      ? marker.position.map((position) => String(position)).join(', ')
+      : 'unknown';
+    await postToDiscord(
+      `📌 ${mapFilter.title} was added by ${marker.username} at [${position}]`
+    );
     return;
   }
   if (user) {
-    postToDiscord(`${user.username} is using Aeternum Map 🤘`);
+    postToDiscord(`🤘 ${user.username} is using Aeternum Map`);
     return;
   }
 }
