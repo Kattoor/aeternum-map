@@ -28,6 +28,7 @@
 
 ::-webkit-scrollbar {
   width: 5px;
+  background: var(--color-shade-three);
 }
 
 ::-webkit-scrollbar-track {
