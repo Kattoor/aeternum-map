@@ -49,11 +49,16 @@ function Ads({ active }: AdsProps): JSX.Element {
       if (currentWindow.id !== state.window_id) {
         return;
       }
-      if (state.window_state_ex === 'minimized') {
+      if (
+        state.window_state_ex === 'minimized' ||
+        state.window_state_ex === 'hidden'
+      ) {
         owAd?.removeAd();
       } else if (
-        state.window_previous_state_ex === 'minimized' &&
-        state.window_state_ex === 'normal'
+        (state.window_previous_state_ex === 'minimized' ||
+          state.window_previous_state_ex === 'hidden') &&
+        (state.window_state_ex === 'normal' ||
+          state.window_state_ex === 'maximized')
       ) {
         owAd?.refreshAd({});
       }
