@@ -35,7 +35,7 @@ export async function sendToDiscord({
 }): Promise<void> {
   if (comment && marker) {
     const position = marker.position
-      ? marker.position.map((position) => String(position)).join(', ')
+      ? marker.position.map((position) => position.value).join(', ')
       : 'unknown';
     await postToDiscord(
       `✍ ${comment.username} added a comment for ${marker.type} at [${position}]: ${comment.message}`
@@ -55,7 +55,7 @@ export async function sendToDiscord({
       return;
     }
     const position = marker.position
-      ? marker.position.map((position) => String(position)).join(', ')
+      ? marker.position.map((position) => position.value).join(', ')
       : 'unknown';
     await postToDiscord(
       `📌 ${mapFilter.title} was added by ${marker.username} at [${position}]`
