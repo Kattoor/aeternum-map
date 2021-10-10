@@ -39,16 +39,16 @@ export function PositionProvider({
     if (!tracking) {
       return;
     }
-    let handler = setTimeout(updatePosition, 5000);
+    let handler = setTimeout(updatePosition, 4000);
 
     async function updatePosition() {
       try {
         const position = await getPosition();
         setPosition(position);
+        handler = setTimeout(updatePosition, 4000);
       } catch (error) {
         console.error(error);
-      } finally {
-        handler = setTimeout(updatePosition, 5000);
+        handler = setTimeout(updatePosition, 1000);
       }
     }
 
