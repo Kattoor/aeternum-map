@@ -15,16 +15,67 @@ async function initWorker() {
 
 const initializedWorker = initWorker();
 
+function rgbToHsl(r: number, g: number, b: number) {
+  // Make r, g, and b fractions of 1
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  // Find greatest and smallest channel values
+  const cmin = Math.min(r, g, b);
+  const cmax = Math.max(r, g, b);
+  const delta = cmax - cmin;
+  let h = 0;
+  let s = 0;
+  let l = 0;
+
+  // Calculate hue
+  // No difference
+  if (delta == 0) h = 0;
+  // Red is max
+  else if (cmax == r) h = ((g - b) / delta) % 6;
+  // Green is max
+  else if (cmax == g) h = (b - r) / delta + 2;
+  // Blue is max
+  else h = (r - g) / delta + 4;
+
+  h = Math.round(h * 60);
+
+  // Make negative hues positive behind 360°
+  if (h < 0) h += 360;
+
+  // Calculate lightness
+  l = (cmax + cmin) / 2;
+
+  // Calculate saturation
+  s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+  // Multiply l and s by 100
+  s = +(s * 100).toFixed(1);
+  l = +(l * 100).toFixed(1);
+  return [h, s, l];
+}
+
+function calcDistance(v1: number[], v2: number[]) {
+  let i,
+    d = 0;
+
+  for (i = 0; i < v1.length; i++) {
+    d += (v1[i] - v2[i]) * (v1[i] - v2[i]);
+  }
+  return Math.sqrt(d);
+}
+const baseColor = [62, 40, 80];
+
 function thresholdFilter(pixels: Uint8ClampedArray) {
-  const level = 0.5;
-  const thresh = Math.floor(level * 255);
   for (let i = 0; i < pixels.length; i += 4) {
     const r = pixels[i];
     const g = pixels[i + 1];
     const b = pixels[i + 2];
-    const gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    const hsl = rgbToHsl(r, g, b);
+    const distance = calcDistance(baseColor, hsl);
     let val;
-    if (gray >= thresh) {
+    if (distance < 30) {
       val = 255;
     } else {
       val = 0;
@@ -65,13 +116,18 @@ export async function getPosition(): Promise<[number, number]> {
   }
   const url = await takeScreenshot({
     crop: {
-      x: gameInfo.width - 400,
-      y: 19,
-      width: 400,
-      height: 16,
+      x: gameInfo.width - 280,
+      y: 20,
+      width: 275,
+      height: 14,
+    },
+    rescale: {
+      width: 550,
+      height: 32,
     },
   });
-  const dataURL = await preprocessorImage(url, 400, 16);
+
+  const dataURL = await preprocessorImage(url, 550, 32);
   await initializedWorker;
 
   const {
