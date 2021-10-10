@@ -2,6 +2,7 @@ import type { OwAd } from '@overwolf/types/owads';
 import { useEffect, useRef, useState } from 'react';
 import { getCurrentWindow } from '../../utils/windows';
 import classes from './Ads.module.css';
+import { NEW_WORLD_CLASS_ID } from '../../utils/games';
 
 type AdsProps = {
   active: boolean;
@@ -42,7 +43,7 @@ function Ads({ active }: AdsProps): JSX.Element {
     if (!owAd || !active) {
       return;
     }
-    async function onWindowStateChanged(
+    async function handleWindowStateChanged(
       state: overwolf.windows.WindowStateChangedEvent
     ) {
       const currentWindow = await getCurrentWindow();
@@ -53,21 +54,41 @@ function Ads({ active }: AdsProps): JSX.Element {
         state.window_state_ex === 'minimized' ||
         state.window_state_ex === 'hidden'
       ) {
-        owAd?.removeAd();
+        owAd!.removeAd();
       } else if (
         (state.window_previous_state_ex === 'minimized' ||
           state.window_previous_state_ex === 'hidden') &&
         (state.window_state_ex === 'normal' ||
           state.window_state_ex === 'maximized')
       ) {
-        owAd?.refreshAd({});
+        owAd!.refreshAd({});
       }
     }
-    owAd?.refreshAd({});
-    overwolf.windows.onStateChanged.addListener(onWindowStateChanged);
+    async function handleGameInfoUpdated(
+      res: overwolf.games.GameInfoUpdatedEvent
+    ) {
+      const currentWindow = await getCurrentWindow();
+      if (currentWindow.name !== 'overlay') {
+        return;
+      }
+      const { gameInfo, focusChanged } = res;
+      if (gameInfo && gameInfo.classId === NEW_WORLD_CLASS_ID && focusChanged) {
+        if (gameInfo.isInFocus) {
+          owAd!.refreshAd({});
+        } else {
+          owAd!.removeAd();
+        }
+      }
+    }
+
+    owAd.refreshAd({});
+    overwolf.windows.onStateChanged.addListener(handleWindowStateChanged);
+    overwolf.games.onGameInfoUpdated.addListener(handleGameInfoUpdated);
+
     return () => {
-      owAd?.removeAd();
-      overwolf.windows.onStateChanged.removeListener(onWindowStateChanged);
+      owAd!.removeAd();
+      overwolf.windows.onStateChanged.removeListener(handleWindowStateChanged);
+      overwolf.games.onGameInfoUpdated.removeListener(handleGameInfoUpdated);
     };
   }, [owAd, active]);
 
