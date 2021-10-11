@@ -56,26 +56,20 @@ function rgbToHsl(r: number, g: number, b: number) {
   return [h, s, l];
 }
 
-function calcDistance(v1: number[], v2: number[]) {
-  let i,
-    d = 0;
-
-  for (i = 0; i < v1.length; i++) {
-    d += (v1[i] - v2[i]) * (v1[i] - v2[i]);
-  }
-  return Math.sqrt(d);
-}
-const baseColor = [62, 40, 80];
-
 function thresholdFilter(pixels: Uint8ClampedArray) {
   for (let i = 0; i < pixels.length; i += 4) {
     const r = pixels[i];
     const g = pixels[i + 1];
     const b = pixels[i + 2];
     const hsl = rgbToHsl(r, g, b);
-    const distance = calcDistance(baseColor, hsl);
     let val;
-    if (distance < 30) {
+    const gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    if (
+      Math.abs(hsl[0] - 65) < 30 &&
+      hsl[1] < 60 &&
+      Math.abs(hsl[2] - 65) < 20 &&
+      gray > 127
+    ) {
       val = 255;
     } else {
       val = 0;
@@ -99,12 +93,180 @@ async function preprocessorImage(
       const context = canvas.getContext('2d')!;
       context.drawImage(image, 0, 0);
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      blurARGB(imageData.data, canvas, 1);
       thresholdFilter(imageData.data);
+      invertColors(imageData.data);
       context.putImageData(imageData, 0, 0);
       const dataURI = canvas.toDataURL('image/jpeg');
       resolve(dataURI);
     };
   });
+}
+// internal kernel stuff for the gaussian blur filter
+let blurRadius = 0;
+let blurKernelSize = 0;
+let blurKernel: Int32Array = new Int32Array();
+let blurMult: Array<any> = [];
+
+function buildBlurKernel(r: number) {
+  let radius = (r * 3.5) | 0;
+  radius = radius < 1 ? 1 : radius < 248 ? radius : 248;
+
+  if (blurRadius !== radius) {
+    blurRadius = radius;
+    blurKernelSize = (1 + blurRadius) << 1;
+    blurKernel = new Int32Array(blurKernelSize);
+    blurMult = new Array(blurKernelSize);
+    for (let l = 0; l < blurKernelSize; l++) {
+      blurMult[l] = new Int32Array(256);
+    }
+
+    let bki;
+    let bm, bmi;
+
+    for (let i = 1, radiusi = radius - 1; i < radius; i++) {
+      blurKernel[radius + i] = blurKernel[radiusi] = bki = radiusi * radiusi;
+      bm = blurMult[radius + i];
+      bmi = blurMult[radiusi--];
+      for (let j = 0; j < 256; j++) {
+        bm[j] = bmi[j] = bki * j;
+      }
+    }
+    const bk = (blurKernel[radius] = radius * radius);
+    bm = blurMult[radius];
+
+    for (let k = 0; k < 256; k++) {
+      bm[k] = bk * k;
+    }
+  }
+}
+
+function blurARGB(
+  pixels: Uint8ClampedArray,
+  canvas: HTMLCanvasElement,
+  radius: number
+) {
+  const width = canvas.width;
+  const height = canvas.height;
+  const numPackedPixels = width * height;
+  const argb = new Int32Array(numPackedPixels);
+  for (let j = 0; j < numPackedPixels; j++) {
+    argb[j] = getARGB(pixels, j);
+  }
+  let sum, cr, cg, cb, ca;
+  let read, ri, ym, ymi, bk0;
+  const a2 = new Int32Array(numPackedPixels);
+  const r2 = new Int32Array(numPackedPixels);
+  const g2 = new Int32Array(numPackedPixels);
+  const b2 = new Int32Array(numPackedPixels);
+  let yi = 0;
+  buildBlurKernel(radius);
+  let x, y, i;
+  let bm;
+  for (y = 0; y < height; y++) {
+    for (x = 0; x < width; x++) {
+      cb = cg = cr = ca = sum = 0;
+      read = x - blurRadius;
+      if (read < 0) {
+        bk0 = -read;
+        read = 0;
+      } else {
+        if (read >= width) {
+          break;
+        }
+        bk0 = 0;
+      }
+      for (i = bk0; i < blurKernelSize; i++) {
+        if (read >= width) {
+          break;
+        }
+        const c = argb[read + yi];
+        bm = blurMult[i];
+        ca += bm[(c & -16777216) >>> 24];
+        cr += bm[(c & 16711680) >> 16];
+        cg += bm[(c & 65280) >> 8];
+        cb += bm[c & 255];
+        sum += blurKernel[i];
+        read++;
+      }
+      ri = yi + x;
+      a2[ri] = ca / sum;
+      r2[ri] = cr / sum;
+      g2[ri] = cg / sum;
+      b2[ri] = cb / sum;
+    }
+    yi += width;
+  }
+  yi = 0;
+  ym = -blurRadius;
+  ymi = ym * width;
+  for (y = 0; y < height; y++) {
+    for (x = 0; x < width; x++) {
+      cb = cg = cr = ca = sum = 0;
+      if (ym < 0) {
+        bk0 = ri = -ym;
+        read = x;
+      } else {
+        if (ym >= height) {
+          break;
+        }
+        bk0 = 0;
+        ri = ym;
+        read = x + ymi;
+      }
+      for (i = bk0; i < blurKernelSize; i++) {
+        if (ri >= height) {
+          break;
+        }
+        bm = blurMult[i];
+        ca += bm[a2[read]];
+        cr += bm[r2[read]];
+        cg += bm[g2[read]];
+        cb += bm[b2[read]];
+        sum += blurKernel[i];
+        ri++;
+        read += width;
+      }
+      argb[x + yi] =
+        ((ca / sum) << 24) |
+        ((cr / sum) << 16) |
+        ((cg / sum) << 8) |
+        (cb / sum);
+    }
+    yi += width;
+    ymi += width;
+    ym++;
+  }
+  setPixels(pixels, argb);
+}
+
+function setPixels(pixels: Uint8ClampedArray, data: Int32Array) {
+  let offset = 0;
+  for (let i = 0, al = pixels.length; i < al; i++) {
+    offset = i * 4;
+    pixels[offset + 0] = (data[i] & 0x00ff0000) >>> 16;
+    pixels[offset + 1] = (data[i] & 0x0000ff00) >>> 8;
+    pixels[offset + 2] = data[i] & 0x000000ff;
+    pixels[offset + 3] = (data[i] & 0xff000000) >>> 24;
+  }
+}
+
+function getARGB(data: Uint8ClampedArray, i: number) {
+  const offset = i * 4;
+  return (
+    ((data[offset + 3] << 24) & 0xff000000) |
+    ((data[offset] << 16) & 0x00ff0000) |
+    ((data[offset + 1] << 8) & 0x0000ff00) |
+    (data[offset + 2] & 0x000000ff)
+  );
+}
+
+function invertColors(pixels: Uint8ClampedArray) {
+  for (let i = 0; i < pixels.length; i += 4) {
+    pixels[i] = pixels[i] ^ 255; // Invert Red
+    pixels[i + 1] = pixels[i + 1] ^ 255; // Invert Green
+    pixels[i + 2] = pixels[i + 2] ^ 255; // Invert Blue
+  }
 }
 
 export async function getPosition(): Promise<[number, number]> {
@@ -118,17 +280,17 @@ export async function getPosition(): Promise<[number, number]> {
   const url = await takeScreenshot({
     crop: {
       x: gameInfo.width - 280 - highResOffsetX,
-      y: 20,
+      y: 19,
       width: 275,
-      height: 14,
+      height: 15,
     },
     rescale: {
       width: 550,
-      height: 32,
+      height: 30,
     },
   });
 
-  const dataURL = await preprocessorImage(url, 550, 32);
+  const dataURL = await preprocessorImage(url, 550, 30);
   await initializedWorker;
 
   const {

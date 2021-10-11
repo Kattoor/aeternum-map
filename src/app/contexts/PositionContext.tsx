@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { createContext, useEffect, useState, useContext } from 'react';
 import { getPosition } from '../utils/ocr';
 import { usePersistentState } from '../utils/storage';
+import { NEW_WORLD_CLASS_ID, useRunningGameInfo } from '../utils/games';
 
 type PositionContextProps = {
   position: [number, number] | null;
@@ -34,28 +35,40 @@ export function PositionProvider({
     'following',
     false
   );
+  const gameInfo = useRunningGameInfo({
+    gameChanged: false,
+    focusChanged: true,
+  });
 
   useEffect(() => {
-    if (!tracking) {
+    if (
+      !tracking ||
+      !gameInfo ||
+      gameInfo.classId !== NEW_WORLD_CLASS_ID ||
+      !gameInfo.isInFocus
+    ) {
       return;
     }
     let handler = setTimeout(updatePosition, 0);
-
+    let active = true;
     async function updatePosition() {
       try {
         const position = await getPosition();
         setPosition(position);
-        handler = setTimeout(updatePosition, 0);
       } catch (error) {
         console.error(error);
-        handler = setTimeout(updatePosition, 0);
+      } finally {
+        if (active) {
+          handler = setTimeout(updatePosition, 0);
+        }
       }
     }
 
     return () => {
+      active = false;
       clearTimeout(handler);
     };
-  }, [tracking]);
+  }, [tracking, gameInfo]);
 
   function toggleTracking() {
     setTracking(!tracking);

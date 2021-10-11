@@ -10,9 +10,13 @@ export function isNewWorldRunning(): Promise<boolean> {
   });
 }
 
-export function useRunningGameInfo():
-  | overwolf.games.RunningGameInfo
-  | undefined {
+export function useRunningGameInfo({
+  gameChanged,
+  focusChanged,
+}: {
+  gameChanged: boolean;
+  focusChanged: boolean;
+}): overwolf.games.RunningGameInfo | undefined {
   const [runningGameInfo, setRunningGameInfo] = useState<
     overwolf.games.RunningGameInfo | undefined
   >(undefined);
@@ -21,7 +25,10 @@ export function useRunningGameInfo():
     function handleGameInfoUpdated(
       event: overwolf.games.GameInfoUpdatedEvent
     ): void {
-      if (event.gameChanged) {
+      if (gameChanged && event.gameChanged) {
+        setRunningGameInfo(event.gameInfo);
+      }
+      if (focusChanged && event.focusChanged) {
         setRunningGameInfo(event.gameInfo);
       }
     }
@@ -41,7 +48,10 @@ export function useRunningGameInfo():
 }
 
 export function useIsNewWorldRunning(): boolean {
-  const runningGameInfo = useRunningGameInfo();
+  const runningGameInfo = useRunningGameInfo({
+    gameChanged: true,
+    focusChanged: false,
+  });
   return runningGameInfo
     ? runningGameInfo.classId === NEW_WORLD_CLASS_ID
     : false;
