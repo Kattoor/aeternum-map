@@ -36,8 +36,8 @@
           "height": 720
         },
         "min_size": {
-          "width": 1212,
-          "height": 699
+          "width": 676,
+          "height": 500
         },
         "allow_local_file_access": true,
         "popup_blocker": true,
@@ -60,8 +60,8 @@
           "height": 720
         },
         "min_size": {
-          "width": 1212,
-          "height": 699
+          "width": 676,
+          "height": 500
         },
         "allow_local_file_access": true,
         "popup_blocker": true,
