@@ -25,7 +25,22 @@ function usePlayerPosition({
     if (!marker || !position || !leafletMap) {
       return;
     }
+    const oldLatLng = marker.getLatLng();
     marker.setLatLng(position);
+    const playerImage = marker.getElement();
+    if (playerImage) {
+      const theta =
+        (Math.atan2(oldLatLng.lat - position[0], oldLatLng.lng - position[1]) *
+          180) /
+        Math.PI;
+
+      playerImage.style.transformOrigin = 'center';
+      playerImage.style.transform = `${playerImage.style.transform.replace(
+        /\srotate.+/g,
+        ''
+      )} rotate(${-theta - 90}deg)`;
+    }
+
     if (following) {
       leafletMap.setView([position[0], position[1]]);
     }
