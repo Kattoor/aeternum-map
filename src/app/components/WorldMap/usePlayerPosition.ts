@@ -8,7 +8,7 @@ function usePlayerPosition({
 }: {
   leafletMap: leaflet.Map | null;
 }): void {
-  const { position, following, tracking } = usePosition();
+  const { position, following } = usePosition();
   const [marker, setMarker] = useState<leaflet.Marker | null>(null);
 
   useEffect(() => {
@@ -17,6 +17,7 @@ function usePlayerPosition({
     }
     const icon = new LeafIcon({ iconUrl: '/player.webp' });
     const newMarker = leaflet.marker([0, 0], { icon, zIndexOffset: 9000 });
+    newMarker.addTo(leafletMap);
     setMarker(newMarker);
   }, [leafletMap, marker, position]);
 
@@ -29,17 +30,6 @@ function usePlayerPosition({
       leafletMap.setView([position[0], position[1]]);
     }
   }, [marker, leafletMap, position, following]);
-
-  useEffect(() => {
-    if (!marker || !leafletMap) {
-      return;
-    }
-    if (tracking) {
-      marker.addTo(leafletMap);
-    } else {
-      marker.removeFrom(leafletMap);
-    }
-  }, [marker, tracking, leafletMap]);
 }
 
 export default usePlayerPosition;
