@@ -85,7 +85,7 @@
       "show_hide_app": {
         "title": "Show/Hide App",
         "action-type": "custom",
-        "default": "Ctrl+Up"
+        "default": "F4"
       }
     },
     "protocol_override_domains": {
