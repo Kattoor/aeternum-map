@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 import { createContext, useEffect, useState, useContext } from 'react';
-import { getPosition } from '../utils/ocr';
 import { usePersistentState } from '../utils/storage';
-import { NEW_WORLD_CLASS_ID, useRunningGameInfo } from '../utils/games';
+import { getGameInfo, useIsNewWorldRunning } from '../utils/games';
 
 type PositionContextProps = {
   position: [number, number] | null;
@@ -35,31 +34,26 @@ export function PositionProvider({
     'following',
     false
   );
-  const gameInfo = useRunningGameInfo({
-    gameChanged: false,
-    focusChanged: true,
-  });
+  const newWorldIsRunning = useIsNewWorldRunning();
 
   useEffect(() => {
-    if (
-      !tracking ||
-      !gameInfo ||
-      gameInfo.classId !== NEW_WORLD_CLASS_ID ||
-      !gameInfo.isInFocus
-    ) {
+    if (!tracking || !newWorldIsRunning) {
       return;
     }
-    let handler = setTimeout(updatePosition, 0);
+    let handler = setTimeout(updatePosition, 500);
     let active = true;
     async function updatePosition() {
       try {
-        const position = await getPosition();
+        const gameInfo = await getGameInfo();
+        const locationJSON = gameInfo?.game_info?.location;
+        const location = JSON.parse(locationJSON);
+        const position: [number, number] = [location.y, location.x];
         setPosition(position);
       } catch (error) {
         console.error(error);
       } finally {
         if (active) {
-          handler = setTimeout(updatePosition, 0);
+          handler = setTimeout(updatePosition, 500);
         }
       }
     }
@@ -68,7 +62,7 @@ export function PositionProvider({
       active = false;
       clearTimeout(handler);
     };
-  }, [tracking, gameInfo]);
+  }, [tracking, newWorldIsRunning]);
 
   function toggleTracking() {
     setTracking(!tracking);

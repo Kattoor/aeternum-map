@@ -58,7 +58,6 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-twitter-widgets": "^1.10.0",
-    "sharp": "^0.29.0",
-    "tesseract.js": "^2.1.5"
+    "sharp": "^0.29.0"
   }
 }
