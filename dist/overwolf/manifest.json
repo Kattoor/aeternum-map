@@ -28,7 +28,7 @@
         "debug_url": "http://localhost:3000",
         "desktop_only": true,
         "native_window": true,
-        "resizable": true,
+        "resizable": false,
         "transparent": true,
         "override_on_update": true,
         "size": {
@@ -52,7 +52,7 @@
         "in_game_only": true,
         "focus_game_takeover": "ReleaseOnHidden",
         "focus_game_takeover_release_hotkey": "show_hide_app",
-        "resizable": true,
+        "resizable": false,
         "transparent": true,
         "override_on_update": true,
         "size": {
