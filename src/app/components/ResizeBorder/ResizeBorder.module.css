@@ -1,0 +1,71 @@
+.topBorder {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  cursor: n-resize;
+}
+
+.topLeftBorder {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 8px;
+  width: 8px;
+  cursor: nw-resize;
+}
+
+.topRightBorder {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 8px;
+  width: 8px;
+  cursor: ne-resize;
+}
+
+.bottomLeftBorder {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  width: 8px;
+  cursor: sw-resize;
+}
+
+.bottomRightBorder {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: 8px;
+  width: 8px;
+  cursor: se-resize;
+}
+
+.rightBorder {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 5px;
+  cursor: e-resize;
+}
+
+.bottomBorder {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  cursor: s-resize;
+}
+
+.leftBorder {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 5px;
+  cursor: w-resize;
+}
