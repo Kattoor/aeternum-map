@@ -14,7 +14,7 @@
     "noImplicitReturns": true,
     "jsx": "react-jsx",
     "allowJs": false,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "skipLibCheck": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true

@@ -166,3 +166,10 @@ export async function centerWindow(
     );
   });
 }
+
+export async function dragResize(
+  edge: overwolf.windows.enums.WindowDragEdge
+): Promise<void> {
+  const currentWindow = await getCurrentWindow();
+  overwolf.windows.dragResize(currentWindow.id, edge);
+}
