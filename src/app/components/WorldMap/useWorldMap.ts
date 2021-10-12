@@ -41,8 +41,14 @@ const WorldTiles = leaflet.TileLayer.extend({
 
 type UseWorldMapProps = {
   selectMode: boolean;
+  hideControls?: boolean;
+  initialZoom?: number;
 };
-function useWorldMap({ selectMode }: UseWorldMapProps): {
+function useWorldMap({
+  hideControls,
+  selectMode,
+  initialZoom,
+}: UseWorldMapProps): {
   elementRef: React.MutableRefObject<HTMLDivElement | null>;
   leafletMap: leaflet.Map | null;
 } {
@@ -63,6 +69,7 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
       crs: worldCRS,
       maxZoom: 6,
       minZoom: 0,
+      zoom: initialZoom,
       attributionControl: false,
       zoomControl: false,
       maxBounds: leaflet.latLngBounds([-10000, -7000], [20000, 25000]),
@@ -76,6 +83,9 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
       map.setView([+lat, +lng], +zoom);
     } else {
       map.fitBounds(bounds);
+      if (initialZoom) {
+        map.setZoom(initialZoom);
+      }
       const center = map.getCenter();
       search({
         x: center.lng.toString(),
@@ -83,27 +93,28 @@ function useWorldMap({ selectMode }: UseWorldMapProps): {
         zoom: map.getZoom().toString(),
       });
     }
-    leaflet.control.zoom({ position: 'topright' }).addTo(map);
+    if (!hideControls) {
+      leaflet.control.zoom({ position: 'topright' }).addTo(map);
+      const divElement = leaflet.DomUtil.create('div', 'leaflet-position');
+      const handleMouseMove = (event: leaflet.LeafletMouseEvent) => {
+        divElement.innerHTML = `<span>[${event.latlng.lng.toFixed(
+          2
+        )}, ${event.latlng.lat.toFixed(2)}]</span>`;
+      };
 
-    const divElement = leaflet.DomUtil.create('div', 'leaflet-position');
-    function handleMouseMove(event: leaflet.LeafletMouseEvent) {
-      divElement.innerHTML = `<span>[${event.latlng.lng.toFixed(
-        2
-      )}, ${event.latlng.lat.toFixed(2)}]</span>`;
+      const CoordinatesControl = leaflet.Control.extend({
+        onAdd(map: leaflet.Map) {
+          map.on('mousemove', handleMouseMove);
+          return divElement;
+        },
+        onRemove(map: leaflet.Map) {
+          map.off('mousemove', handleMouseMove);
+        },
+      });
+
+      const coordinates = new CoordinatesControl({ position: 'bottomright' });
+      coordinates.addTo(map);
     }
-
-    const CoordinatesControl = leaflet.Control.extend({
-      onAdd(map: leaflet.Map) {
-        map.on('mousemove', handleMouseMove);
-        return divElement;
-      },
-      onRemove(map: leaflet.Map) {
-        map.off('mousemove', handleMouseMove);
-      },
-    });
-
-    const coordinates = new CoordinatesControl({ position: 'bottomright' });
-    coordinates.addTo(map);
 
     const worldTiles = new WorldTiles();
     worldTiles.addTo(map);

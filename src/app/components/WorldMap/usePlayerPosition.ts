@@ -5,8 +5,10 @@ import { LeafIcon } from './useLayerGroups';
 
 function usePlayerPosition({
   leafletMap,
+  alwaysFollowing,
 }: {
   leafletMap: leaflet.Map | null;
+  alwaysFollowing?: boolean;
 }): void {
   const { position, following } = usePosition();
   const [marker, setMarker] = useState<leaflet.Marker | null>(null);
@@ -21,15 +23,16 @@ function usePlayerPosition({
     setMarker(newMarker);
   }, [leafletMap, marker, position]);
 
+  const isFollowing = alwaysFollowing || following;
   useEffect(() => {
     if (!marker || !position || !leafletMap) {
       return;
     }
     marker.setLatLng(position);
-    if (following) {
+    if (isFollowing) {
       leafletMap.setView([position[0], position[1]]);
     }
-  }, [marker, leafletMap, position, following]);
+  }, [marker, leafletMap, position, isFollowing]);
 }
 
 export default usePlayerPosition;

@@ -1,0 +1,8 @@
+.container {
+  position: relative;
+  height: 100vh;
+  max-height: 100vh;
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0.8;
+}

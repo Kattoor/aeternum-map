@@ -4,6 +4,7 @@ export const WINDOWS = {
   DESKTOP: 'desktop',
   OVERLAY: 'overlay',
   BACKGROUND: 'background',
+  MINIMAP: 'minimap',
 };
 
 export function getCurrentWindow(): Promise<overwolf.windows.WindowInfo> {

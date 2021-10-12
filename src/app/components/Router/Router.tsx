@@ -15,14 +15,20 @@ const RouterContext = createContext<RouterContextType>({
 
 type RouterProviderProps = {
   children: ReactNode;
+  readonly?: boolean;
 };
-export function RouterProvider({ children }: RouterProviderProps): JSX.Element {
+export function RouterProvider({
+  children,
+  readonly,
+}: RouterProviderProps): JSX.Element {
   const [url, setURL] = useState<URL>(
     () => new URL(localStorage.getItem('url') || location.href)
   );
 
   useEffect(() => {
-    localStorage.setItem('url', url.toString());
+    if (!readonly) {
+      localStorage.setItem('url', url.toString());
+    }
     history.replaceState({}, '', url);
   }, [url]);
 
