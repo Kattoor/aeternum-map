@@ -16,7 +16,7 @@ function getDistance(
 }
 
 function NearBy(): JSX.Element {
-  const { position, toggleTracking } = usePosition();
+  const { position } = usePosition();
   const { markers } = useMarkers();
 
   const markersByDistance = useMemo(
@@ -58,7 +58,6 @@ function NearBy(): JSX.Element {
         ) : (
           <>
             <p>Please run game with position log to use this feature.</p>
-            <button onClick={toggleTracking}>Test now</button>
           </>
         )}
       </div>

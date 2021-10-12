@@ -5,16 +5,12 @@ import { getGameInfo, useIsNewWorldRunning } from '../utils/games';
 
 type PositionContextProps = {
   position: [number, number] | null;
-  tracking: boolean;
   following: boolean;
-  toggleTracking: () => void;
   toggleFollowing: () => void;
 };
 const PositionContext = createContext<PositionContextProps>({
   position: null,
-  tracking: false,
   following: true,
-  toggleTracking: () => undefined,
   toggleFollowing: () => undefined,
 });
 
@@ -26,7 +22,6 @@ export function PositionProvider({
   children,
 }: PositionProviderProps): JSX.Element {
   const [position, setPosition] = useState<[number, number] | null>(null);
-  const [tracking, setTracking] = usePersistentState<boolean>('tracking', true);
   const [following, setFollowing] = usePersistentState<boolean>(
     'following',
     true
@@ -34,7 +29,7 @@ export function PositionProvider({
   const newWorldIsRunning = useIsNewWorldRunning();
 
   useEffect(() => {
-    if (!tracking || !newWorldIsRunning) {
+    if (!newWorldIsRunning) {
       return;
     }
     let handler = setTimeout(updatePosition, 500);
@@ -61,19 +56,13 @@ export function PositionProvider({
       active = false;
       clearTimeout(handler);
     };
-  }, [tracking, newWorldIsRunning]);
-
-  function toggleTracking() {
-    setTracking(!tracking);
-  }
+  }, [newWorldIsRunning]);
 
   function toggleFollowing() {
     setFollowing(!following);
   }
   return (
-    <PositionContext.Provider
-      value={{ position, tracking, following, toggleTracking, toggleFollowing }}
-    >
+    <PositionContext.Provider value={{ position, following, toggleFollowing }}>
       {children}
     </PositionContext.Provider>
   );
