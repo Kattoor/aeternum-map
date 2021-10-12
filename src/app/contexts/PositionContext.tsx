@@ -26,13 +26,10 @@ export function PositionProvider({
   children,
 }: PositionProviderProps): JSX.Element {
   const [position, setPosition] = useState<[number, number] | null>(null);
-  const [tracking, setTracking] = usePersistentState<boolean>(
-    'tracking',
-    false
-  );
+  const [tracking, setTracking] = usePersistentState<boolean>('tracking', true);
   const [following, setFollowing] = usePersistentState<boolean>(
     'following',
-    false
+    true
   );
   const newWorldIsRunning = useIsNewWorldRunning();
 
